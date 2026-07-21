@@ -1,0 +1,1 @@
+export const BASE_API_URL = String(import.meta.env.REACT_APP_API_URL);

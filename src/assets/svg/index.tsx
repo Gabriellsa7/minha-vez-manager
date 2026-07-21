@@ -1,0 +1,1 @@
+export { default as BoltIcon } from './bolt-icon.svg';
