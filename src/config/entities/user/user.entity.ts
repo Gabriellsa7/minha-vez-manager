@@ -1,0 +1,16 @@
+export interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  role?: EUserRole;
+  active?: boolean;
+  createdAt: Date;
+}
+
+export const UserRole = {
+  ADMIN: 'ADMIN',
+  USER: 'USER',
+  DOCTOR: 'DOCTOR',
+} as const;
+
+export type EUserRole = (typeof UserRole)[keyof typeof UserRole];
