@@ -17,9 +17,13 @@ const postLogin = async (
 ): Promise<PostLoginResponse> => {
   const path = '/auth/login';
 
-  const response = await apiClient.post<PostLoginResponse>(path, params);
+  try {
+    const response = await apiClient.post<PostLoginResponse>(path, params);
 
-  return response.data;
+    return response.data;
+  } catch {
+    throw new Error(path);
+  }
 };
 
 export const usePostLogin = (
