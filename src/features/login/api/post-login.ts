@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 
 import type { IAuthTokenResponse } from '../../../config/entities/auth/auth.entity';
+import { apiClient } from '../../../services/axios';
 
 export const POST_LOGIN_KEY = 'POST_LOGIN_KEY';
 
@@ -17,7 +17,7 @@ const postLogin = async (
 ): Promise<PostLoginResponse> => {
   const path = '/auth/login';
 
-  const response = await axios.post<PostLoginResponse>(path, params);
+  const response = await apiClient.post<PostLoginResponse>(path, params);
 
   return response.data;
 };

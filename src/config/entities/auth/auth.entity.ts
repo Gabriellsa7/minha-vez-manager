@@ -1,5 +1,4 @@
-import type { IUser } from '../user/user.entity';
-import type { IHealthProfessional } from '../health-profissional/health-professional.entity';
+import type { EUserRole } from '../user/user.entity';
 
 export interface ILoginRequest {
   email: string;
@@ -11,19 +10,37 @@ export interface IAuthToken {
   expiresAt: Date;
 }
 
+export const HealthProfessionalRole = {
+  USER: 'USER',
+  HEALTH_PROFESSIONAL: 'HEALTH_PROFESSIONAL',
+} as const;
+
+export type EPrincipalType =
+  (typeof HealthProfessionalRole)[keyof typeof HealthProfessionalRole];
+
+export interface IAuthPrincipal {
+  id: string;
+  name: string;
+  email: string;
+  role?: EUserRole;
+}
+
 export interface IAuthTokenResponse {
   accessToken: string;
   refreshToken: string;
   expiresIn: string;
-  user?: IUser;
-  healthProfessional?: IHealthProfessional | null;
+
+  principalType: EPrincipalType;
+
+  principal: IAuthPrincipal;
 }
 
 export interface IAuthPayload {
-  sub: string; // user id
+  sub: string;
   email: string;
   name: string;
-  role: string;
+  principalType: EPrincipalType;
+  role?: EUserRole;
   iat?: number;
   exp?: number;
   iss?: string;
