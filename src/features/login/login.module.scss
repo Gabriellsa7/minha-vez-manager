@@ -23,16 +23,23 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 44px;
-        height: 44px;
+        width: 52px;
+        height: 52px;
         border-radius: 8px;
         background-color: #ece8fc;
       }
 
-      h3 {
-        font-size: 18px;
-        font-weight: 600;
-        color: #242424;
+      .titleArea {
+        h3 {
+          font-size: 32px;
+          font-weight: 600;
+          color: #242424;
+        }
+
+        span {
+          font-size: 16px;
+          font-weight: 500;
+        }
       }
     }
 
@@ -60,7 +67,7 @@
       }
 
       .input {
-        height: 50px;
+        height: 40px;
         width: 100%;
         padding: 0 24px;
 

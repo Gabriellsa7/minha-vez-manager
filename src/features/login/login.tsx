@@ -71,7 +71,7 @@ function Login() {
           <span className={styles.icon}>
             <HealthIcon />
           </span>
-          <div>
+          <div className={styles.titleArea}>
             <h3>Central da Saúde</h3>
             <span>Entre com suas credenciais para acessar o painel</span>
           </div>
