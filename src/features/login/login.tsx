@@ -9,6 +9,9 @@ import { handleApiError } from '../../config/utils/handle-api-error';
 import { UserRole } from '../../config/entities/user/user.entity';
 import { HealthProfessionalRole } from '../../config/entities/auth/auth.entity';
 import { apiClient } from '../../services/axios';
+import styles from './login.module.scss';
+import { HealthIcon } from '../../assets/svg';
+import loginHero from '../../assets/img/login-hero.png';
 
 function Login() {
   const navigate = useNavigate();
@@ -62,27 +65,57 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="email">E-mail</label>
-
-        <input id="email" type="email" {...register('email')} />
-
-        {errors.email && <span>{errors.email.message}</span>}
+    <div className={styles.container}>
+      <div className={styles.mainContent}>
+        <div className={styles.healthCenter}>
+          <span className={styles.icon}>
+            <HealthIcon />
+          </span>
+          <div>
+            <h3>Central da Saúde</h3>
+            <span>Entre com suas credenciais para acessar o painel</span>
+          </div>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          <div className={styles.loginArea}>
+            <div className={styles.field}>
+              <label htmlFor="email">E-mail</label>
+              <input
+                id="email"
+                type="email"
+                {...register('email')}
+                className={styles.input}
+              />
+              {errors.email && (
+                <span className={styles.error}>{errors.email.message}</span>
+              )}
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="password">Senha</label>
+              <input
+                id="password"
+                type="password"
+                {...register('password')}
+                className={styles.input}
+              />
+              {errors.password && (
+                <span className={styles.error}>{errors.password.message}</span>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={isPending}
+              className={styles.loginButton}
+            >
+              {isPending ? 'Entrando...' : 'Entrar'}
+            </button>
+          </div>
+        </form>
       </div>
-
-      <div>
-        <label htmlFor="password">Senha</label>
-
-        <input id="password" type="password" {...register('password')} />
-
-        {errors.password && <span>{errors.password.message}</span>}
+      <div className={styles.heroImage}>
+        <img className={styles.img} src={loginHero} alt="Gestão de Saúde" />
       </div>
-
-      <button type="submit" disabled={isPending}>
-        {isPending ? 'Entrando...' : 'Entrar'}
-      </button>
-    </form>
+    </div>
   );
 }
 
