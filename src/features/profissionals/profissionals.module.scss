@@ -1,5 +1,11 @@
 .container {
   display: flex;
-  gap: 12px;
   height: 100vh;
+}
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+.mainContent {
+  width: 100%;
 }
