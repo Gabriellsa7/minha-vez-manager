@@ -1,0 +1,42 @@
+.card {
+  width: 300px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 16px;
+  border: 1px solid #edf2f7;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  transition: 0.25s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  }
+}
+
+.image {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.content {
+  margin-top: 18px;
+
+  h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1f2937;
+  }
+}
+
+.address {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 15px;
+}
