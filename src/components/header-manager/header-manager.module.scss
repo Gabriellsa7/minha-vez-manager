@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+
+  background: #fff;
+
+  border-bottom: 1px solid #eef2f5;
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.04),
+    0 6px 24px rgba(0, 0, 0, 0.05);
+
+  .titleContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .title {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #6e797c;
+      opacity: 80%;
+    }
+  }
+
+  .buttonSection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: linear-gradient(to right, #006673, #008091);
+      color: #ffffff;
+
+      button {
+        color: #ffffff;
+      }
+    }
+  }
+}
