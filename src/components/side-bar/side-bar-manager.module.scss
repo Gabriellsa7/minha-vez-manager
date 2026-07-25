@@ -1,0 +1,64 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 24px;
+  background-color: #f3f4f5;
+
+  .cardContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .titleContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+
+    span {
+      color: #007a78;
+      font-weight: 600;
+    }
+  }
+
+  .navCard {
+    width: 100%;
+  }
+
+  .item,
+  .activeItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    padding: 12px 16px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+
+    transition: all 0.2s ease;
+  }
+
+  .item {
+    color: #6b7280;
+    background: transparent;
+
+    &:hover {
+      background: #ffffff;
+    }
+  }
+
+  .activeItem {
+    background: #ffffff;
+    color: #007a78;
+    font-weight: 600;
+  }
+}
