@@ -36,7 +36,10 @@ function HealthUnitManager() {
           </div>
         </div>
       </div>
-      <HealthUnitModal onClose={() => setOpenModal(false)} open={openModal} />
+      <HealthUnitModal
+        onClose={() => setOpenModal(false)}
+        open={openModal}
+      />
     </>
   );
 }
