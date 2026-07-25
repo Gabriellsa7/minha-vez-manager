@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+
+  height: 100vh;
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+
+    .healthUnitSection {
+      padding: 26px;
+    }
+  }
+}
