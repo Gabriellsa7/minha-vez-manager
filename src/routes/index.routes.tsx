@@ -15,6 +15,7 @@ import { UserRole } from '../config/entities/user/user.entity';
 import { HealthProfessionalManager } from '../features/health-professional-manager/health-professional-manager';
 import { PrincipalTypeOutlet } from './utils/principal-type-outlet';
 import { HealthProfessionalRole } from '../config/entities/auth/auth.entity';
+import { Professionals } from '../features/profissionals/profissionals';
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
                   {
                     path: '/',
                     element: <HealthUnitManager />,
+                  },
+                  {
+                    path: '/profissionals',
+                    element: <Professionals />,
                   },
                 ],
               },
