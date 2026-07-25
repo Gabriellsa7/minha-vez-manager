@@ -22,10 +22,12 @@ function HeaderManager({
       </div>
       <div className={style.buttonSection}>
         <Bell size={22} color="#007a78" />
-        <div className={style.button}>
+
+        <button onClick={onButtonClick}>
+          {' '}
           <Plus size={20} color="#FFFFFF" />
-          <button onClick={onButtonClick}>{buttonText}</button>
-        </div>
+          {buttonText}
+        </button>
       </div>
     </div>
   );

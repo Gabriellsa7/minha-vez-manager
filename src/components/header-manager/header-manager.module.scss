@@ -34,7 +34,7 @@
     align-items: center;
     gap: 12px;
 
-    .button {
+    button {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -42,10 +42,7 @@
       border-radius: 999px;
       background: linear-gradient(to right, #006673, #008091);
       color: #ffffff;
-
-      button {
-        color: #ffffff;
-      }
+      color: #ffffff;
     }
   }
 }
