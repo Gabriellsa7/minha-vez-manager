@@ -2,8 +2,8 @@ import { CirclePlus } from 'lucide-react';
 import type { SidebarItem } from '../../config/constants/side-bar-manager/side-bar-manager';
 import style from './side-bar-manager.module.scss';
 import { NavLink } from 'react-router-dom';
-import { Profile } from '../../features/profile/profile';
 import type { IUser } from '../../config/entities/user/user.entity';
+import { Profile } from '../profile/profile';
 
 interface SideBarProps {
   items: SidebarItem[];
