@@ -5,10 +5,16 @@ import { useCurrentUser } from '../../config/api/get-current-user';
 import { SIDEBAR_MANAGER_ITEMS } from '../healt-unit-manager/constants';
 import { HealthProfessionalModal } from './components/health-professional-modal/health-professional-modal';
 import style from './profissionals.module.scss';
+import { useHealthProfessionalsByUserId } from '../../config/api/get-health-professionals-by-user-id';
+import { HealthProfessionalCard } from './components/health-professional-card/health-professional-card';
 
 function Professionals() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: user } = useCurrentUser();
+
+  const { data: healthProfessionals } = useHealthProfessionalsByUserId(
+    user?._id
+  );
 
   return (
     <>
@@ -25,9 +31,17 @@ function Professionals() {
             buttonText="Novo profissional"
             onButtonClick={() => setIsModalOpen(true)}
           />
+          <div className={style.professionalsSection}>
+            {healthProfessionals?.map((professionals) => (
+              <HealthProfessionalCard healthProfessional={professionals} />
+            ))}
+          </div>
         </div>
       </div>
-      <HealthProfessionalModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <HealthProfessionalModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 }

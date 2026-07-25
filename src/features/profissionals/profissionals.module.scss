@@ -9,3 +9,10 @@
 .mainContent {
   width: 100%;
 }
+
+.professionalsSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+  padding: 26px;
+}
