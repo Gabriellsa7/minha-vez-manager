@@ -3,6 +3,7 @@ import style from './profile.module.scss';
 import { clearAccessToken, getUserInitials } from '../../config/utils';
 import { useNavigate } from 'react-router-dom';
 import type { IUser } from '../../config/entities/user/user.entity';
+import { useHealthProfessionalById } from '../../config/api/get-health-professional-by-id';
 
 interface ProfileProps {
   user?: IUser;
@@ -18,7 +19,14 @@ function Profile({ user }: ProfileProps) {
 
   const userInitials = user ? getUserInitials(user.name) : '';
 
-  const userRole = user?.role === 'ADMIN' ? 'Administrador' : '';
+  const { data: professional } = useHealthProfessionalById(user?._id);
+
+  const userRole =
+    user?.role === 'ADMIN'
+      ? 'Administrador'
+      : user?.principalType === 'HEALTH_PROFESSIONAL'
+        ? professional?.specialty
+        : '';
 
   return (
     <div className={style.container}>
@@ -29,6 +37,7 @@ function Profile({ user }: ProfileProps) {
         </div>
         <div className={style.userInfo}>
           <span>{user?.name}</span>
+
           <span>{userRole}</span>
         </div>
       </div>
