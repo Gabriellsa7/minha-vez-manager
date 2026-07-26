@@ -9,7 +9,7 @@ function NotFound() {
         <span className={styles.icon}>
           <BoltIcon />
         </span>
-        <span className={styles.brandName}>Central de Pedidos</span>
+        <span className={styles.brandName}>Central de Gerenciamento</span>
       </div>
 
       <div className={styles.content}>
@@ -18,7 +18,7 @@ function NotFound() {
         <p className={styles.description}>
           A página que você tentou acessar não existe ou foi movida.
         </p>
-        <Link to="/" className={styles.homeLink}>
+        <Link to="/login" className={styles.homeLink}>
           Ir para o início
         </Link>
       </div>

@@ -12,7 +12,7 @@ function Error() {
         <span className={styles.icon}>
           <BoltIcon />
         </span>
-        <span className={styles.brandName}>Central de Pedidos</span>
+        <span className={styles.brandName}>Central de Gerenciamento</span>
       </div>
 
       <div className={styles.content}>
