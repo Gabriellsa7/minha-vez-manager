@@ -1,11 +1,13 @@
-import { Bell, Plus } from 'lucide-react';
+import { Bell, ChevronDown, Plus } from 'lucide-react';
 import style from './header-manager.module.scss';
+import type { IUser } from '../../config/entities/user/user.entity';
 
 interface HeaderManagerProps {
   title: string;
   subtitle: string;
-  buttonText: string;
+  buttonText?: string;
   onButtonClick: () => void;
+  user?: IUser;
 }
 
 function HeaderManager({
@@ -13,7 +15,10 @@ function HeaderManager({
   onButtonClick,
   subtitle,
   title,
+  user,
 }: HeaderManagerProps) {
+  const isProfessional = user?.principalType === 'HEALTH_PROFESSIONAL';
+
   return (
     <div className={style.container}>
       <div className={style.titleContainer}>
@@ -23,11 +28,17 @@ function HeaderManager({
       <div className={style.buttonSection}>
         <Bell size={22} color="#007a78" />
 
-        <button onClick={onButtonClick}>
-          {' '}
-          <Plus size={20} color="#FFFFFF" />
-          {buttonText}
-        </button>
+        {isProfessional ? (
+          <button onClick={onButtonClick} className={style.professionalButton}>
+            {user.name}
+            <ChevronDown size={20} color="#6E797C" />
+          </button>
+        ) : (
+          <button onClick={onButtonClick} className={style.healthUnitButton}>
+            <Plus size={20} color="#FFFFFF" />
+            {buttonText}
+          </button>
+        )}
       </div>
     </div>
   );

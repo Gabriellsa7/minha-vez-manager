@@ -34,14 +34,23 @@
     align-items: center;
     gap: 12px;
 
-    button {
+    .professionalButton {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      background-color: #ffffff;
+      color: #191c1d;
+    }
+
+    .healthUnitButton {
       display: flex;
       align-items: center;
       gap: 8px;
       padding: 12px 22px;
       border-radius: 999px;
       background: linear-gradient(to right, #006673, #008091);
-      color: #ffffff;
       color: #ffffff;
     }
   }
