@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, Plus } from 'lucide-react';
+import { Bell, Plus } from 'lucide-react';
 import style from './header-manager.module.scss';
 import type { IUser } from '../../config/entities/user/user.entity';
 
@@ -29,10 +29,7 @@ function HeaderManager({
         <Bell size={22} color="#007a78" />
 
         {isProfessional ? (
-          <button onClick={onButtonClick} className={style.professionalButton}>
-            {user.name}
-            <ChevronDown size={20} color="#6E797C" />
-          </button>
+          ''
         ) : (
           <button onClick={onButtonClick} className={style.healthUnitButton}>
             <Plus size={20} color="#FFFFFF" />
