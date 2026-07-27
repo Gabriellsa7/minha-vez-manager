@@ -1,27 +1,24 @@
-import type { IQueueItem } from '../../../../config/entities/queue-item/queue-item.entity';
-import type { IQueue } from '../../../../config/entities/queue/queue.entity';
+import type { IQueueManagement } from '../../../../config/entities/queue-management/queue-management.entity';
 import style from './awating-queue-card.module.scss';
 
 interface AwaitingQueueCardProps {
-  queueItem?: IQueueItem[];
-  queue?: IQueue;
+  queueManagement?: IQueueManagement;
 }
 
-function AwaitingQueueCard({ queueItem, queue }: AwaitingQueueCardProps) {
+function AwaitingQueueCard({ queueManagement }: AwaitingQueueCardProps) {
   return (
     <div className={style.container}>
-      {queueItem &&
-        queueItem.map((queue) => (
-          <div>
-            <span>{queue.code}</span>
-          </div>
-        ))}
-      {queue && (
-        <div>
-          <span>{queue.status}</span>
+      <span>{queueManagement?.queue.status}</span>
+
+      {queueManagement?.items.map((item) => (
+        <div key={item.queueItem._id}>
+          <span>{item.queueItem.code}</span>
+          <span>{item.user.name}</span>
+          <span>{item.patient.priority}</span>
+          <span>{item.queueItem.position}</span>
+          <span>{item.queueItem.status}</span>
         </div>
-      )}
-      <span>AwaitingQueueCard</span>
+      ))}
     </div>
   );
 }
