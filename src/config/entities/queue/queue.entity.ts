@@ -3,11 +3,11 @@ export interface IQueue {
   professionalId: string;
   healthUnitId: string;
   status: EQueueStatus;
-  queueDate: Date;
-  openedAt?: Date | null;
-  closedAt?: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
+  queueDate: string;
+  openedAt?: string | null;
+  closedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const queueStatus = {
