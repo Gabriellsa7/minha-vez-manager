@@ -40,14 +40,13 @@ function HealthProfessionalManager() {
         <div className={style.queueContainer}>
           {queueManagement && (
             <>
-              <AwaitingQueueCard queueManagement={queueManagement} />
-
               <NowQueueCard
                 queue={queueManagement.queue}
                 currentItem={queueManagement.currentItem}
                 onFinish={handleFinish}
                 onAbsent={handleAbsent}
               />
+              <AwaitingQueueCard queueManagement={queueManagement} />
             </>
           )}
           <span>Health Professional Manager</span>
