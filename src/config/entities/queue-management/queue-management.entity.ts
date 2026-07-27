@@ -5,6 +5,7 @@ import type { IUser } from '../user/user.entity';
 
 export interface IQueueManagement {
   queue: IQueue;
+  currentItem: IQueueManagementItem | null;
   items: IQueueManagementItem[];
 }
 
