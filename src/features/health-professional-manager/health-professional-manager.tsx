@@ -6,12 +6,15 @@ import { SIDEBAR_PROFESSIONAL_MANAGER } from './constants';
 import style from './health-professional-manager.module.scss';
 import { useGetQueueItemByProfessionalId } from '../../config/api/get-queue-item-by-professional-id';
 import { AwaitingQueueCard } from './components/awating-queue-card/awating-queue-card';
+import { useGetQueueByProfessionalId } from '../../config/api/get-queue-by-professional-id';
 
 function HealthProfessionalManager() {
   const [onModalOpen, setModalOpen] = useState(false);
   const { data: user } = useCurrentUser();
 
   const { data: queueItem } = useGetQueueItemByProfessionalId(user?._id);
+
+  const { data: queue } = useGetQueueByProfessionalId(user?._id);
 
   if (!queueItem) return null;
 
@@ -31,7 +34,7 @@ function HealthProfessionalManager() {
           user={user}
         />
         <div className={style.queueContainer}>
-          <AwaitingQueueCard queueItem={queueItem} />
+          <AwaitingQueueCard queueItem={queueItem} queue={queue} />
           <span>Health Professional Manager</span>
         </div>
       </div>
