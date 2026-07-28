@@ -1,4 +1,167 @@
-.constainer {
+.container {
+  width: 100%;
+  background: #fff;
+  padding: 24px;
+  border-radius: 24px;
+}
+
+.header {
   display: flex;
-  height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+  }
+
+  span {
+    display: block;
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 15px;
+  }
+}
+
+.link {
+  border: none;
+  background: transparent;
+  color: #006673;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card {
+  min-height: 86px;
+  padding: 20px;
+  border-radius: 24px;
+
+  background: #f8fafb;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.patient {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  strong {
+    display: block;
+    font-size: 17px;
+    color: #1f2937;
+    margin-bottom: 6px;
+  }
+
+  span {
+    color: #6b7280;
+    font-size: 14px;
+  }
+}
+
+.avatar {
+  width: 46px;
+  height: 46px;
+
+  border-radius: 50%;
+
+  background: #dceff2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #006673;
+  font-weight: 700;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+
+  label {
+    display: block;
+
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #9ca3af;
+
+    margin-bottom: 5px;
+  }
+
+  span {
+    font-size: 15px;
+    color: #374151;
+    font-weight: 500;
+  }
+}
+
+.priority {
+  padding: 4px 10px;
+  border-radius: 20px;
+
+  font-size: 12px !important;
+  font-weight: 700 !important;
+
+  background: #e5e7eb;
+}
+
+.alta {
+  background: #fee2e2;
+  color: #dc2626 !important;
+}
+
+.idoso {
+  background: #dbeafe;
+  color: #0369a1 !important;
+}
+
+.gestante {
+  background: #cffafe;
+  color: #0e7490 !important;
+}
+
+.padrao {
+  background: #e5e7eb;
+  color: #6b7280 !important;
+}
+
+.callButton {
+  background: #006673;
+  color: white;
+
+  border: none;
+
+  padding: 12px 18px;
+
+  border-radius: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+  &:hover {
+    background: #00545e;
+  }
 }

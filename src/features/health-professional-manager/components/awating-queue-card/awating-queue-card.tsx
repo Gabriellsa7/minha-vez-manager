@@ -10,27 +10,80 @@ function AwaitingQueueCard({
   queueManagement,
   onCall,
 }: AwaitingQueueCardProps) {
-  const firstWaitingItem = queueManagement?.items[0];
+  const firstWaitingItem = queueManagement?.items.find(
+    (item) => item.queueItem.status === 'WAITING'
+  );
 
   const canCall = !queueManagement?.currentItem && firstWaitingItem;
+
   return (
     <div className={style.container}>
-      <span>{queueManagement?.queue.status}</span>
-      {queueManagement?.items.map((item) => (
-        <div key={item.queueItem._id}>
-          <span>{item.queueItem.code}</span>
-          <span>{item.user.name}</span>
-          <span>{item.patient.priority}</span>
-          <span>{item.queueItem.position}</span>
-          <span>{item.queueItem.status}</span>
-
-          {canCall && firstWaitingItem.queueItem._id === item.queueItem._id && (
-            <button onClick={() => onCall(item.queueItem._id)}>
-              Chamar paciente
-            </button>
-          )}
+      <div className={style.header}>
+        <div>
+          <h2>Fila de Espera</h2>
+          <span>
+            {queueManagement?.items.length ?? 0} pacientes aguardando
+            atendimento
+          </span>
         </div>
-      ))}
+
+        <button className={style.link}>Ver fila completa →</button>
+      </div>
+
+      <div className={style.list}>
+        {queueManagement?.items.map((item) => {
+          const initials = item.user.name
+            .split(' ')
+            .slice(0, 2)
+            .map((name) => name[0])
+            .join('');
+
+          const isFirst =
+            firstWaitingItem?.queueItem._id === item.queueItem._id;
+
+          return (
+            <div key={item.queueItem._id} className={style.card}>
+              <div className={style.patient}>
+                <div className={style.avatar}>{initials}</div>
+
+                <div>
+                  <strong>{item.user.name}</strong>
+                  <span>Senha: {item.queueItem.code}</span>
+                </div>
+              </div>
+
+              <div className={style.info}>
+                <div>
+                  <label>ESPERA</label>
+                  {/* Add this in backend and bring */}
+                  <span>12 min</span>
+                </div>
+
+                <div>
+                  <label>PRIORIDADE</label>
+
+                  <span
+                    className={`${style.priority} ${
+                      style[item.patient.priority.toLowerCase()]
+                    }`}
+                  >
+                    {item.patient.priority}
+                  </span>
+                </div>
+
+                {canCall && isFirst && (
+                  <button
+                    className={style.callButton}
+                    onClick={() => onCall(item.queueItem._id)}
+                  >
+                    Chamar paciente
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
