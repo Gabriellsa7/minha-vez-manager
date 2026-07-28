@@ -94,6 +94,8 @@ function HealthProfessionalManager() {
   };
 
   console.log(onModalOpen);
+
+  //TODO: ADD reload to not need f5
   return (
     <div className={style.container}>
       <SideBar
