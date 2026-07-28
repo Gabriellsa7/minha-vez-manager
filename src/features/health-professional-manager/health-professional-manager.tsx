@@ -107,7 +107,7 @@ function HealthProfessionalManager() {
 
               <AwaitingQueueCard queueManagement={queueManagement} />
             </>
-          ) : availableQueue ? (
+          ) : availableQueue && !availableQueue.closedAt ? (
             <OpenQueueCard
               queueDate={availableQueue.queueDate}
               onOpen={() => handleOpenQueue(availableQueue._id)}
