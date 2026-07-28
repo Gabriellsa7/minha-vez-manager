@@ -10,10 +10,12 @@ function AwaitingQueueCard({
   queueManagement,
   onCall,
 }: AwaitingQueueCardProps) {
+  const firstWaitingItem = queueManagement?.items[0];
+
+  const canCall = !queueManagement?.currentItem && firstWaitingItem;
   return (
     <div className={style.container}>
       <span>{queueManagement?.queue.status}</span>
-
       {queueManagement?.items.map((item) => (
         <div key={item.queueItem._id}>
           <span>{item.queueItem.code}</span>
@@ -21,9 +23,12 @@ function AwaitingQueueCard({
           <span>{item.patient.priority}</span>
           <span>{item.queueItem.position}</span>
           <span>{item.queueItem.status}</span>
-          <button onClick={() => onCall(item.queueItem._id)}>
-            Chamar paciente
-          </button>
+
+          {canCall && firstWaitingItem.queueItem._id === item.queueItem._id && (
+            <button onClick={() => onCall(item.queueItem._id)}>
+              Chamar paciente
+            </button>
+          )}
         </div>
       ))}
     </div>
