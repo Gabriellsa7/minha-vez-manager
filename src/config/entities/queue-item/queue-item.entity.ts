@@ -23,6 +23,7 @@ export const QueueItemStatus = {
   WAITING: 'WAITING',
   IN_SERVICE: 'IN_SERVICE',
   FINISHED: 'FINISHED',
+  ABSENT: 'ABSENT',
 } as const;
 
 export type EQueueItemPriority =

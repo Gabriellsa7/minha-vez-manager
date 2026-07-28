@@ -17,6 +17,7 @@ import { OpenQueueCard } from './components/open-queue-card/open-queue-card';
 import { useGetQueuesByProfessionalId } from './api/get-queues-by-professional-id';
 import { useFinishQueueItem } from './api/finish-queue-item';
 import { useMarkQueueItemAsAbsent } from './api/mark-queue-item-as-absent';
+import { useCallQueueItem } from './api/call-queue-item';
 
 function HealthProfessionalManager() {
   const [onModalOpen, setModalOpen] = useState(false);
@@ -66,6 +67,14 @@ function HealthProfessionalManager() {
 
   const { mutateAsync: openQueue } = useOpenQueue();
 
+  const { mutateAsync: callQueueItem } = useCallQueueItem({
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [GET_QUEUE_MANAGEMENT],
+      });
+    },
+  });
+
   const handleOpenQueue = async (queueId: string) => {
     try {
       await openQueue(queueId);
@@ -78,6 +87,10 @@ function HealthProfessionalManager() {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleCall = async (id: string) => {
+    await callQueueItem(id);
   };
 
   console.log(onModalOpen);
@@ -98,14 +111,18 @@ function HealthProfessionalManager() {
         <div className={style.queueContainer}>
           {queueManagement ? (
             <>
-              <NowQueueCard
-                queue={queueManagement.queue}
-                currentItem={queueManagement.currentItem}
-                onFinish={handleFinish}
-                onAbsent={handleAbsent}
+              {queueManagement.currentItem && (
+                <NowQueueCard
+                  queue={queueManagement.queue}
+                  currentItem={queueManagement.currentItem}
+                  onFinish={handleFinish}
+                  onAbsent={handleAbsent}
+                />
+              )}
+              <AwaitingQueueCard
+                onCall={handleCall}
+                queueManagement={queueManagement}
               />
-
-              <AwaitingQueueCard queueManagement={queueManagement} />
             </>
           ) : availableQueue && !availableQueue.closedAt ? (
             <OpenQueueCard
