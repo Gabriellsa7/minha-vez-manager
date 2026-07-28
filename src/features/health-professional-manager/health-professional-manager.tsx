@@ -12,9 +12,11 @@ import {
 import { NowQueueCard } from './components/now-queue-card/now-queue-card';
 import { useOpenQueue } from '../../config/api/open-queue';
 import { queryClient } from '../../services/react-query';
-import { GET_QUEUE_BY_PROFESSIONAL_ID } from '../../config/api/get-queue-by-professional-id';
 import { OpenQueueCard } from './components/open-queue-card/open-queue-card';
-import { useGetQueuesByProfessionalId } from './api/get-queues-by-professional-id';
+import {
+  GET_QUEUES_BY_PROFESSIONAL_ID,
+  useGetQueuesByProfessionalId,
+} from './api/get-queues-by-professional-id';
 import { useFinishQueueItem } from './api/finish-queue-item';
 import { useMarkQueueItemAsAbsent } from './api/mark-queue-item-as-absent';
 import { useCallQueueItem } from './api/call-queue-item';
@@ -26,20 +28,48 @@ function HealthProfessionalManager() {
   const { data: queueManagement } = useGetQueueManagement(user?._id);
 
   const { mutateAsync: finishQueueItem } = useFinishQueueItem({
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [GET_QUEUE_MANAGEMENT],
-      });
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [GET_QUEUE_MANAGEMENT, user?._id],
+        }),
+
+        queryClient.invalidateQueries({
+          queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID, user?._id],
+        }),
+      ]);
     },
   });
 
   const { mutateAsync: markQueueItemAsAbsent } = useMarkQueueItemAsAbsent({
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [GET_QUEUE_MANAGEMENT],
-      });
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [GET_QUEUE_MANAGEMENT, user?._id],
+        }),
+
+        queryClient.invalidateQueries({
+          queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID, user?._id],
+        }),
+      ]);
     },
   });
+
+  const { mutateAsync: callQueueItem } = useCallQueueItem({
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [GET_QUEUE_MANAGEMENT, user?._id],
+        }),
+
+        queryClient.invalidateQueries({
+          queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID, user?._id],
+        }),
+      ]);
+    },
+  });
+
+  const { mutateAsync: openQueue } = useOpenQueue();
 
   const handleFinish = async () => {
     if (!queueManagement?.currentItem) return;
@@ -65,16 +95,6 @@ function HealthProfessionalManager() {
 
   const availableQueue = queues?.find((queue) => queue.status === 'CLOSED');
 
-  const { mutateAsync: openQueue } = useOpenQueue();
-
-  const { mutateAsync: callQueueItem } = useCallQueueItem({
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [GET_QUEUE_MANAGEMENT],
-      });
-    },
-  });
-
   const handleOpenQueue = async (queueId: string) => {
     try {
       await openQueue(queueId);
@@ -82,7 +102,7 @@ function HealthProfessionalManager() {
         queryKey: [GET_QUEUE_MANAGEMENT],
       });
       queryClient.invalidateQueries({
-        queryKey: [GET_QUEUE_BY_PROFESSIONAL_ID],
+        queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID],
       });
     } catch (error) {
       console.error(error);
