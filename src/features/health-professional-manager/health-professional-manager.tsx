@@ -15,6 +15,8 @@ import { queryClient } from '../../services/react-query';
 import { GET_QUEUE_BY_PROFESSIONAL_ID } from '../../config/api/get-queue-by-professional-id';
 import { OpenQueueCard } from './components/open-queue-card/open-queue-card';
 import { useGetQueuesByProfessionalId } from './api/get-queues-by-professional-id';
+import { useFinishQueueItem } from './api/finish-queue-item';
+import { useMarkQueueItemAsAbsent } from './api/mark-queue-item-as-absent';
 
 function HealthProfessionalManager() {
   const [onModalOpen, setModalOpen] = useState(false);
@@ -22,12 +24,40 @@ function HealthProfessionalManager() {
 
   const { data: queueManagement } = useGetQueueManagement(user?._id);
 
-  const handleFinish = () => {
-    console.log('Finish attendance');
+  const { mutateAsync: finishQueueItem } = useFinishQueueItem({
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [GET_QUEUE_MANAGEMENT],
+      });
+    },
+  });
+
+  const { mutateAsync: markQueueItemAsAbsent } = useMarkQueueItemAsAbsent({
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [GET_QUEUE_MANAGEMENT],
+      });
+    },
+  });
+
+  const handleFinish = async () => {
+    if (!queueManagement?.currentItem) return;
+
+    try {
+      await finishQueueItem(queueManagement.currentItem.queueItem._id);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleAbsent = () => {
-    console.log('Patient absent');
+  const handleAbsent = async () => {
+    if (!queueManagement?.currentItem) return;
+
+    try {
+      await markQueueItemAsAbsent(queueManagement.currentItem.queueItem._id);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const { data: queues } = useGetQueuesByProfessionalId(user?._id);
