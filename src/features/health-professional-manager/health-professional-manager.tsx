@@ -20,12 +20,15 @@ import {
 import { useFinishQueueItem } from './api/finish-queue-item';
 import { useMarkQueueItemAsAbsent } from './api/mark-queue-item-as-absent';
 import { useCallQueueItem } from './api/call-queue-item';
+import { useGetAppointmentsByProfessionalId } from './api/get-appointments-by-professional-id';
 
 function HealthProfessionalManager() {
   const [onModalOpen, setModalOpen] = useState(false);
   const { data: user } = useCurrentUser();
 
   const { data: queueManagement } = useGetQueueManagement(user?._id);
+
+  const { data: appointment } = useGetAppointmentsByProfessionalId(user?._id);
 
   const { mutateAsync: finishQueueItem } = useFinishQueueItem({
     onSuccess: async () => {
@@ -147,8 +150,8 @@ function HealthProfessionalManager() {
             </>
           ) : availableQueue && !availableQueue.closedAt ? (
             <OpenQueueCard
-              queueDate={availableQueue.queueDate}
               onOpen={() => handleOpenQueue(availableQueue._id)}
+              appointment={appointment}
             />
           ) : (
             <p>Nenhuma fila disponível</p>
