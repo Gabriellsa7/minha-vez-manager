@@ -11,6 +11,19 @@ export const healthProfessionalModalSchema = z
     confirmPassword: z.string(),
     specialty: requiredText('Informe a especialidade.'),
     professionalLicense: requiredText('Informe o registro profissional.'),
+    schedule: z.object({
+      appointmentDuration: z.number().min(10, 'A duração mínima é 10 minutos.'),
+
+      morning: z.object({
+        start: requiredText('Informe o horário inicial da manhã.'),
+        end: requiredText('Informe o horário final da manhã.'),
+      }),
+
+      afternoon: z.object({
+        start: requiredText('Informe o horário inicial da tarde.'),
+        end: requiredText('Informe o horário final da tarde.'),
+      }),
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ['confirmPassword'],

@@ -7,7 +7,20 @@ export interface IHealthProfessional {
   email: string;
   password: string;
   professionalLicense: string;
+  schedule: IHealthProfessionalSchedule;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface IHealthProfessionalSchedule {
+  appointmentDuration: number;
+  morning?: {
+    start: string;
+    end: string;
+  };
+  afternoon?: {
+    start: string;
+    end: string;
+  };
 }

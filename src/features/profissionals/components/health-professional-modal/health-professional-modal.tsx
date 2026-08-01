@@ -26,6 +26,19 @@ const defaultValues: HealthProfessionalModalFormData = {
   confirmPassword: '',
   specialty: '',
   professionalLicense: '',
+  schedule: {
+    appointmentDuration: 30,
+
+    morning: {
+      start: '08:00',
+      end: '12:00',
+    },
+
+    afternoon: {
+      start: '13:00',
+      end: '17:00',
+    },
+  },
 };
 
 const normalizeEmail = (value: string) =>
@@ -79,6 +92,7 @@ function HealthProfessionalModal({
         password: data.password,
         specialty: data.specialty,
         professionalLicense: data.professionalLicense,
+        schedule: data.schedule,
       });
       toast.success('Profissional cadastrado com sucesso.');
       closeModal();
@@ -134,12 +148,33 @@ function HealthProfessionalModal({
             <input {...register('name')} autoFocus />
           </Field>
           <div className={style.twoColumns}>
+            <Field
+              label="Duração da consulta"
+              error={errors.schedule?.appointmentDuration?.message}
+            >
+              <select
+                {...register('schedule.appointmentDuration', {
+                  valueAsNumber: true,
+                })}
+              >
+                <option value={10}>10 minutos</option>
+                <option value={15}>15 minutos</option>
+                <option value={20}>20 minutos</option>
+                <option value={30}>30 minutos</option>
+                <option value={45}>45 minutos</option>
+                <option value={60}>60 minutos</option>
+              </select>
+            </Field>
+          </div>
+
+          <div className={style.twoColumns}>
             <Field label="Especialidade" error={errors.specialty?.message}>
               <input
                 {...register('specialty')}
                 placeholder="Ex.: Cardiologia"
               />
             </Field>
+
             <Field
               label="Registro profissional"
               error={errors.professionalLicense?.message}
@@ -148,6 +183,36 @@ function HealthProfessionalModal({
                 {...register('professionalLicense')}
                 placeholder="Ex.: CRM/SP 123456"
               />
+            </Field>
+          </div>
+
+          <h3>Turno da manhã</h3>
+
+          <div className={style.twoColumns}>
+            <Field
+              label="Início"
+              error={errors.schedule?.morning?.start?.message}
+            >
+              <input type="time" {...register('schedule.morning.start')} />
+            </Field>
+
+            <Field label="Fim" error={errors.schedule?.morning?.end?.message}>
+              <input type="time" {...register('schedule.morning.end')} />
+            </Field>
+          </div>
+
+          <h3>Turno da tarde</h3>
+
+          <div className={style.twoColumns}>
+            <Field
+              label="Início"
+              error={errors.schedule?.afternoon?.start?.message}
+            >
+              <input type="time" {...register('schedule.afternoon.start')} />
+            </Field>
+
+            <Field label="Fim" error={errors.schedule?.afternoon?.end?.message}>
+              <input type="time" {...register('schedule.afternoon.end')} />
             </Field>
           </div>
           <Field label="E-mail" error={errors.email?.message}>
