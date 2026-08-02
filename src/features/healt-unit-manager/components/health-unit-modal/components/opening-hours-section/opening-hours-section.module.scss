@@ -1,0 +1,87 @@
+.openingHours {
+  display: grid;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h3 {
+    margin: 0;
+    color: #4b5d60;
+    font-size: 11px;
+    font-weight: 700;
+  }
+}
+
+.openingHourRow {
+  display: grid;
+  grid-template-columns: 130px auto 1fr 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #e2eaea;
+  border-radius: 12px;
+  background: #fbfdfd;
+}
+
+.day {
+  color: #526568;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #526568;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+
+  input {
+    cursor: pointer;
+  }
+}
+
+.openingHourRow input[type='time'] {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #dce5e5;
+  border-radius: 15px;
+  outline: none;
+  background: #fff;
+  color: #26383b;
+  font: inherit;
+  font-size: 13px;
+  padding: 10px 13px;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.openingHourRow input[type='time']:focus {
+  border-color: #08777a;
+  box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
+}
+
+.openingHourRow input[type='time']:disabled {
+  background: #f5f7f7;
+  color: #98a4a6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .openingHourRow {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .checkbox {
+    justify-self: start;
+  }
+}
