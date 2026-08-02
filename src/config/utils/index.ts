@@ -128,3 +128,26 @@ export const formatDate = (date?: string | Date) => {
 
   return `${formattedDate}`;
 };
+
+export const formatPhone = (value: string) => {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+
+  if (digits.length <= 2) return digits ? `(${digits}` : '';
+  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  if (digits.length <= 10) {
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+  }
+
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+};
+
+export const normalizeEmail = (value: string) =>
+  value.replace(/\s/g, '').toLowerCase();
+
+export const formatZipCode = (value: string) => {
+  const digits = value.replace(/\D/g, '').slice(0, 8);
+
+  return digits.length > 5
+    ? `${digits.slice(0, 5)}-${digits.slice(5)}`
+    : digits;
+};
