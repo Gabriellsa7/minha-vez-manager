@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Plus, Trash2, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
 import style from './health-unit-modal.module.scss';
@@ -14,6 +14,11 @@ import { GET_HEALTH_UNITS_BY_USER_ID_KEY } from '../../../../config/api/get-heal
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import { useCurrentUser } from '../../../../config/api/get-current-user';
 import { WeekDay } from '../../../../config/entities/health-unit/health-unit.entity';
+import { formatPhone, normalizeEmail } from '../../../../config/utils';
+import { Field } from '../../../../components/field/field';
+import { AddressSection } from './components/address-section/address-section';
+import { ServicesSection } from './components/services-section/services-section';
+import { OpeningHoursSection } from './components/opening-hours-section/opening-hours-section';
 
 interface CreateHealthUnitModalProps {
   open: boolean;
@@ -45,39 +50,6 @@ const defaultValues: HealthUnitModalFormData = {
     { day: WeekDay.SATURDAY, open: '', close: '', isClosed: true },
     { day: WeekDay.SUNDAY, open: '', close: '', isClosed: true },
   ],
-};
-
-const weekDayLabel: Record<WeekDay, string> = {
-  MONDAY: 'Segunda-feira',
-  TUESDAY: 'Terça-feira',
-  WEDNESDAY: 'Quarta-feira',
-  THURSDAY: 'Quinta-feira',
-  FRIDAY: 'Sexta-feira',
-  SATURDAY: 'Sábado',
-  SUNDAY: 'Domingo',
-};
-
-const formatPhone = (value: string) => {
-  const digits = value.replace(/\D/g, '').slice(0, 11);
-
-  if (digits.length <= 2) return digits ? `(${digits}` : '';
-  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-  if (digits.length <= 10) {
-    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
-  }
-
-  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
-};
-
-const normalizeEmail = (value: string) =>
-  value.replace(/\s/g, '').toLowerCase();
-
-const formatZipCode = (value: string) => {
-  const digits = value.replace(/\D/g, '').slice(0, 8);
-
-  return digits.length > 5
-    ? `${digits.slice(0, 5)}-${digits.slice(5)}`
-    : digits;
 };
 
 function HealthUnitModal({ onClose, open }: CreateHealthUnitModalProps) {
@@ -205,55 +177,7 @@ function HealthUnitModal({ onClose, open }: CreateHealthUnitModalProps) {
             </Field>
           </div>
 
-          <fieldset className={style.fieldset}>
-            <legend>Endereço</legend>
-            <div className={style.addressRow}>
-              <Field label="Rua" error={errors.address?.street?.message}>
-                <input {...register('address.street')} />
-              </Field>
-              <Field label="Número" error={errors.address?.number?.message}>
-                <input {...register('address.number')} />
-              </Field>
-            </div>
-            <Field
-              label="Complemento"
-              error={errors.address?.complement?.message}
-            >
-              <input {...register('address.complement')} />
-            </Field>
-            <div className={style.twoColumns}>
-              <Field
-                label="Bairro"
-                error={errors.address?.neighborhood?.message}
-              >
-                <input {...register('address.neighborhood')} />
-              </Field>
-              <Field label="CEP" error={errors.address?.zipCode?.message}>
-                <input
-                  {...register('address.zipCode', {
-                    onChange: (event) => {
-                      event.target.value = formatZipCode(event.target.value);
-                    },
-                  })}
-                  inputMode="numeric"
-                  maxLength={9}
-                  placeholder="00000-000"
-                />
-              </Field>
-            </div>
-            <div className={style.twoColumns}>
-              <Field label="Cidade" error={errors.address?.city?.message}>
-                <input {...register('address.city')} />
-              </Field>
-              <Field label="Estado" error={errors.address?.state?.message}>
-                <input
-                  {...register('address.state')}
-                  maxLength={2}
-                  placeholder="UF"
-                />
-              </Field>
-            </div>
-          </fieldset>
+          <AddressSection register={register} errors={errors} />
 
           <Field
             label="Descrição (opcional)"
@@ -265,111 +189,18 @@ function HealthUnitModal({ onClose, open }: CreateHealthUnitModalProps) {
             <input {...register('img')} type="url" placeholder="https://..." />
           </Field>
 
-          <section className={style.services}>
-            <div className={style.servicesHeader}>
-              <div>
-                <span>Serviços</span>
-                {errors.services?.message && (
-                  <small>{errors.services.message}</small>
-                )}
-              </div>
-              <button
-                type="button"
-                className={style.addService}
-                onClick={() =>
-                  append({ name: '', description: '', duration: 30, price: 0 })
-                }
-              >
-                <Plus size={16} /> Adicionar
-              </button>
-            </div>
-            {fields.map((field, index) => (
-              <div className={style.serviceCard} key={field.id}>
-                <div className={style.serviceTitle}>
-                  Serviço {index + 1}
-                  {fields.length > 1 && (
-                    <button
-                      type="button"
-                      aria-label={`Remover serviço ${index + 1}`}
-                      onClick={() => remove(index)}
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  )}
-                </div>
-                <Field
-                  label="Nome"
-                  error={errors.services?.[index]?.name?.message}
-                >
-                  <input {...register(`services.${index}.name`)} />
-                </Field>
-                <Field
-                  label="Descrição (opcional)"
-                  error={errors.services?.[index]?.description?.message}
-                >
-                  <input {...register(`services.${index}.description`)} />
-                </Field>
-                <div className={style.twoColumns}>
-                  <Field
-                    label="Duração (min.)"
-                    error={errors.services?.[index]?.duration?.message}
-                  >
-                    <input
-                      type="number"
-                      min="1"
-                      {...register(`services.${index}.duration`, {
-                        valueAsNumber: true,
-                      })}
-                    />
-                  </Field>
-                  <Field
-                    label="Preço (R$)"
-                    error={errors.services?.[index]?.price?.message}
-                  >
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      {...register(`services.${index}.price`, {
-                        valueAsNumber: true,
-                      })}
-                    />
-                  </Field>
-                </div>
-              </div>
-            ))}
-          </section>
-          <section className={style.openingHours}>
-            <div className={style.sectionHeader}>
-              <h3>Horário de funcionamento</h3>
-            </div>
+          <ServicesSection
+            register={register}
+            errors={errors}
+            fields={fields}
+            append={append}
+            remove={remove}
+          />
 
-            {defaultValues.openingHours.map((_, index) => (
-              <div key={index} className={style.openingHourRow}>
-                <span className={style.day}>
-                  {weekDayLabel[defaultValues.openingHours[index].day]}
-                </span>
-
-                <label className={style.checkbox}>
-                  <input
-                    type="checkbox"
-                    {...register(`openingHours.${index}.isClosed`)}
-                  />
-                  Fechado
-                </label>
-
-                <input
-                  type="time"
-                  {...register(`openingHours.${index}.open`)}
-                />
-
-                <input
-                  type="time"
-                  {...register(`openingHours.${index}.close`)}
-                />
-              </div>
-            ))}
-          </section>
+          <OpeningHoursSection
+            register={register}
+            defaultValues={defaultValues}
+          />
 
           <div className={style.actions}>
             <button
@@ -390,24 +221,6 @@ function HealthUnitModal({ onClose, open }: CreateHealthUnitModalProps) {
         </form>
       </div>
     </div>
-  );
-}
-
-function Field({
-  label,
-  error,
-  children,
-}: {
-  label: string;
-  error?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className={style.field}>
-      <span>{label}</span>
-      {children}
-      {error && <small className={style.error}>{error}</small>}
-    </label>
   );
 }
 
