@@ -6,6 +6,7 @@ export interface IHealthUnit {
   phone: string;
   description?: string;
   services: IService[];
+  openingHours: IHealthUnitOpeningHours[];
   email: string;
   img?: string;
   createdAt?: Date;
@@ -31,3 +32,22 @@ export interface IHealthUnitAddress {
   state: string;
   zipCode: string;
 }
+
+export interface IHealthUnitOpeningHours {
+  day: WeekDay;
+  open?: string;
+  close?: string;
+  isClosed: boolean;
+}
+
+export const WeekDay = {
+  MONDAY: 'MONDAY',
+  TUESDAY: 'TUESDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  THURSDAY: 'THURSDAY',
+  FRIDAY: 'FRIDAY',
+  SATURDAY: 'SATURDAY',
+  SUNDAY: 'SUNDAY',
+} as const;
+
+export type WeekDay = (typeof WeekDay)[keyof typeof WeekDay];

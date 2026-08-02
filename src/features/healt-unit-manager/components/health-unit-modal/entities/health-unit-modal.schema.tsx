@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { WeekDay } from '../../../../../config/entities/health-unit/health-unit.entity';
 
 const requiredText = (message: string) => z.string().trim().min(1, message);
 
@@ -24,6 +25,16 @@ export const healthUnitModalSchema = z.object({
     state: requiredText('Informe o estado.'),
     zipCode: z.string().regex(/^\d{5}-\d{3}$/, 'Informe um CEP válido.'),
   }),
+  openingHours: z
+    .array(
+      z.object({
+        day: z.custom<WeekDay>(),
+        open: z.string(),
+        close: z.string(),
+        isClosed: z.boolean(),
+      })
+    )
+    .length(7, 'Informe os horários para todos os dias da semana.'),
   services: z
     .array(
       z.object({

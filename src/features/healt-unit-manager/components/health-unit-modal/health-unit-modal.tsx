@@ -13,6 +13,7 @@ import { usePostHealthUnit } from './api/post-health-unit';
 import { GET_HEALTH_UNITS_BY_USER_ID_KEY } from '../../../../config/api/get-health-units-by-user-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import { useCurrentUser } from '../../../../config/api/get-current-user';
+import { WeekDay } from '../../../../config/entities/health-unit/health-unit.entity';
 
 interface CreateHealthUnitModalProps {
   open: boolean;
@@ -35,6 +36,25 @@ const defaultValues: HealthUnitModalFormData = {
     zipCode: '',
   },
   services: [{ name: '', description: '', duration: 30, price: 0 }],
+  openingHours: [
+    { day: WeekDay.MONDAY, open: '08:00', close: '18:00', isClosed: false },
+    { day: WeekDay.TUESDAY, open: '08:00', close: '18:00', isClosed: false },
+    { day: WeekDay.WEDNESDAY, open: '08:00', close: '18:00', isClosed: false },
+    { day: WeekDay.THURSDAY, open: '08:00', close: '18:00', isClosed: false },
+    { day: WeekDay.FRIDAY, open: '08:00', close: '18:00', isClosed: false },
+    { day: WeekDay.SATURDAY, open: '', close: '', isClosed: true },
+    { day: WeekDay.SUNDAY, open: '', close: '', isClosed: true },
+  ],
+};
+
+const weekDayLabel: Record<WeekDay, string> = {
+  MONDAY: 'Segunda-feira',
+  TUESDAY: 'Terça-feira',
+  WEDNESDAY: 'Quarta-feira',
+  THURSDAY: 'Quinta-feira',
+  FRIDAY: 'Sexta-feira',
+  SATURDAY: 'Sábado',
+  SUNDAY: 'Domingo',
 };
 
 const formatPhone = (value: string) => {
@@ -49,7 +69,8 @@ const formatPhone = (value: string) => {
   return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
 };
 
-const normalizeEmail = (value: string) => value.replace(/\s/g, '').toLowerCase();
+const normalizeEmail = (value: string) =>
+  value.replace(/\s/g, '').toLowerCase();
 
 const formatZipCode = (value: string) => {
   const digits = value.replace(/\D/g, '').slice(0, 8);
@@ -59,10 +80,7 @@ const formatZipCode = (value: string) => {
     : digits;
 };
 
-function HealthUnitModal({
-  onClose,
-  open,
-}: CreateHealthUnitModalProps) {
+function HealthUnitModal({ onClose, open }: CreateHealthUnitModalProps) {
   const queryClient = useQueryClient();
   const { data: currentUser } = useCurrentUser({ enabled: open });
   const userId = currentUser?._id;
@@ -318,6 +336,37 @@ function HealthUnitModal({
                     />
                   </Field>
                 </div>
+              </div>
+            ))}
+          </section>
+          <section className={style.openingHours}>
+            <div className={style.sectionHeader}>
+              <h3>Horário de funcionamento</h3>
+            </div>
+
+            {defaultValues.openingHours.map((_, index) => (
+              <div key={index} className={style.openingHourRow}>
+                <span className={style.day}>
+                  {weekDayLabel[defaultValues.openingHours[index].day]}
+                </span>
+
+                <label className={style.checkbox}>
+                  <input
+                    type="checkbox"
+                    {...register(`openingHours.${index}.isClosed`)}
+                  />
+                  Fechado
+                </label>
+
+                <input
+                  type="time"
+                  {...register(`openingHours.${index}.open`)}
+                />
+
+                <input
+                  type="time"
+                  {...register(`openingHours.${index}.close`)}
+                />
               </div>
             ))}
           </section>
