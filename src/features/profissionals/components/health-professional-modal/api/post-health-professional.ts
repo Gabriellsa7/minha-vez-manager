@@ -10,6 +10,7 @@ export interface CreateHealthProfessionalParams {
   healthUnitId: string;
   name: string;
   email: string;
+  room: string;
   password: string;
   specialty: string;
   professionalLicense: string;

@@ -5,6 +5,7 @@ export interface IHealthProfessional {
   specialty: string;
   name: string;
   email: string;
+  room: string;
   password: string;
   professionalLicense: string;
   schedule: IHealthProfessionalSchedule;

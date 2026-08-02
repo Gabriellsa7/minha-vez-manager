@@ -1,5 +1,6 @@
 import type { IQueueManagementItem } from '../../../../config/entities/queue-management/queue-management.entity';
 import type { IQueue } from '../../../../config/entities/queue/queue.entity';
+import { formatTime } from '../../../../config/utils';
 import style from './now-queue-card.module.scss';
 
 interface INowQueueCardProps {
@@ -27,9 +28,8 @@ function NowQueueCard({
         <p className={style.details}>
           <span>Senha:</span>
           <strong>{currentItem.queueItem.code}</strong>
-
           <span>•</span>
-
+          <span>{formatTime(currentItem.queueItem.calledAt) || null}</span>
           {/* <span>Sala {queue.room}</span> */}
         </p>
 

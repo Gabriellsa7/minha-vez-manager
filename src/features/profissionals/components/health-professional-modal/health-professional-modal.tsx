@@ -24,6 +24,7 @@ const defaultValues: HealthProfessionalModalFormData = {
   email: '',
   password: '',
   confirmPassword: '',
+  room: '',
   specialty: '',
   professionalLicense: '',
   schedule: {
@@ -89,6 +90,7 @@ function HealthProfessionalModal({
         healthUnitId: data.healthUnitId,
         name: data.name,
         email: data.email,
+        room: data.room,
         password: data.password,
         specialty: data.specialty,
         professionalLicense: data.professionalLicense,
@@ -174,7 +176,9 @@ function HealthProfessionalModal({
                 placeholder="Ex.: Cardiologia"
               />
             </Field>
-
+            <Field label="Sala" error={errors.room?.message}>
+              <input {...register('room')} placeholder="Ex.: Sala 101" />
+            </Field>
             <Field
               label="Registro profissional"
               error={errors.professionalLicense?.message}
