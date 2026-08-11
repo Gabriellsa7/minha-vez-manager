@@ -55,8 +55,11 @@ function AwaitingQueueCard({
               <div className={style.info}>
                 <div>
                   <label>ESPERA</label>
-                  {/* Add this in backend and bring */}
-                  <span>12 min</span>
+                  <span>
+                    {typeof item.queueItem.estimatedWaitMinutes === 'number'
+                      ? `${item.queueItem.estimatedWaitMinutes} min`
+                      : '--'}
+                  </span>
                 </div>
 
                 <div>
