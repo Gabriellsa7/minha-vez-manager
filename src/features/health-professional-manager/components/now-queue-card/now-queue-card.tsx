@@ -8,6 +8,7 @@ interface INowQueueCardProps {
   currentItem: IQueueManagementItem | null;
   onFinish?: () => void;
   onAbsent?: () => void;
+  onMarkReturn?: () => void;
 }
 
 function NowQueueCard({
@@ -15,15 +16,24 @@ function NowQueueCard({
   currentItem,
   onFinish,
   onAbsent,
+  onMarkReturn,
 }: INowQueueCardProps) {
   if (!currentItem) return null;
+
+  const hasReturnHandled = currentItem.isReturn || currentItem.returnScheduled;
+  const canFinish = hasReturnHandled;
 
   return (
     <div className={style.container}>
       <div className={style.info}>
         <span className={style.label}>CHAMANDO AGORA</span>
 
-        <h2 className={style.name}>{currentItem.user.name}</h2>
+        <h2 className={style.name}>
+          {currentItem.user.name}
+          {currentItem.isReturn && (
+            <span className={style.returnTag}>Retorno</span>
+          )}
+        </h2>
 
         <p className={style.details}>
           <span>Senha:</span>
@@ -34,13 +44,33 @@ function NowQueueCard({
         </p>
 
         <div className={style.actions}>
-          <button className={style.finishButton} onClick={onFinish}>
+          <button
+            className={style.finishButton}
+            onClick={onFinish}
+            disabled={!canFinish}
+            title={
+              canFinish
+                ? undefined
+                : 'Marque o retorno do paciente antes de concluir o atendimento.'
+            }
+          >
             Concluir
           </button>
           <button className={style.absentButton} onClick={onAbsent}>
             Ausente
           </button>
+          {!hasReturnHandled && (
+            <button className={style.returnButton} onClick={onMarkReturn}>
+              Marcar Retorno
+            </button>
+          )}
         </div>
+
+        {!canFinish && (
+          <p className={style.finishHint}>
+            Marque o retorno do paciente antes de concluir o atendimento.
+          </p>
+        )}
       </div>
 
       <div className={style.imageContainer}>

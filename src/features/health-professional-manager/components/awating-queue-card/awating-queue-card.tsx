@@ -44,7 +44,12 @@ function AwaitingQueueCard({
                 <div className={style.avatar}>{initials}</div>
 
                 <div>
-                  <strong>{item.user.name}</strong>
+                  <strong>
+                    {item.user.name}
+                    {item.isReturn && (
+                      <span className={style.returnTag}>Retorno</span>
+                    )}
+                  </strong>
                   <span>Senha: {item.queueItem.code}</span>
                 </div>
               </div>

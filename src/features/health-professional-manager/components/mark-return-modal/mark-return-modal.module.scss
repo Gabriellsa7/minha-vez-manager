@@ -1,0 +1,286 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+  background: rgba(30, 43, 44, 0.48);
+
+  z-index: 999;
+}
+
+.modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 48px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #fff;
+
+  border: 1px solid #dce5e5;
+  border-radius: 18px;
+
+  padding: 24px 20px 16px;
+
+  box-shadow: 0 20px 48px rgba(22, 37, 38, 0.18);
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 4px 18px;
+
+  h2 {
+    margin: 0;
+    color: #26383b;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  span {
+    display: block;
+    margin-top: 4px;
+    color: #6b7280;
+    font-size: 13px;
+  }
+}
+
+.closeButton {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #778486;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background: #eef4f3;
+  color: #315e60;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sectionLabel {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #26383b;
+}
+
+.calendarCard {
+  border: 1px solid #e8edf1;
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+
+  span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #26383b;
+  }
+}
+
+.calendarNav {
+  display: flex;
+  gap: 8px;
+
+  button {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #08777a;
+    cursor: pointer;
+  }
+
+  button:disabled {
+    color: #cbd5e1;
+    cursor: not-allowed;
+  }
+}
+
+.weekDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+
+  span {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #94a3b8;
+  }
+}
+
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 4px;
+}
+
+.day {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 13px;
+  color: #26383b;
+  cursor: pointer;
+}
+
+.day:hover:not(:disabled) {
+  background: #eef4f3;
+}
+
+.daySelected {
+  background: #08777a !important;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+.dayDisabled {
+  color: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.timesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.emptyState {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  border: 1px solid #dce5e5;
+  border-radius: 999px;
+  padding: 8px 14px;
+
+  background: #fff;
+  color: #26383b;
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.time:hover:not(:disabled) {
+  border-color: #08777a;
+}
+
+.timeSelected {
+  border-color: #08777a !important;
+  background: #08777a !important;
+  color: #fff !important;
+}
+
+.timeDisabled {
+  background: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.timeHint {
+  font-size: 11px;
+  font-weight: 500;
+  color: inherit;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+
+  border-top: 1px solid #edf0f0;
+  margin-top: 20px;
+  padding: 16px 4px 0;
+}
+
+.cancelButton,
+.submitButton {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cancelButton {
+  background: #eef3f3;
+  color: #4d6063;
+}
+
+.submitButton {
+  background: #08777a;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(8, 119, 122, 0.2);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #066669;
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+@media (max-width: 480px) {
+  .overlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .modal {
+    max-height: calc(100vh - 24px);
+    border-radius: 14px;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+}

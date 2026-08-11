@@ -151,3 +151,56 @@ export const formatZipCode = (value: string) => {
     ? `${digits.slice(0, 5)}-${digits.slice(5)}`
     : digits;
 };
+
+export const getDateKey = (date: Date) => {
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+export const getDateTimeFromDateAndTime = (date: string, time: string) => {
+  const [year, month, day] = date.split('-').map(Number);
+  const [hour, minute] = time.split(':').map(Number);
+
+  return new Date(year, month - 1, day, hour, minute);
+};
+
+export const isSameMonth = (firstDate: Date, secondDate: Date) =>
+  firstDate.getFullYear() === secondDate.getFullYear() &&
+  firstDate.getMonth() === secondDate.getMonth();
+
+export const startOfDay = (date: Date) =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+export function generateTimes(
+  start: string,
+  end: string,
+  duration: number
+): string[] {
+  if (!start || !end || !duration) return [];
+
+  const times: string[] = [];
+
+  const [startHour, startMinute] = start.split(':').map(Number);
+  const [endHour, endMinute] = end.split(':').map(Number);
+
+  let current = startHour * 60 + startMinute;
+  const finish = endHour * 60 + endMinute;
+
+  while (current + duration <= finish) {
+    const hour = Math.floor(current / 60);
+    const minute = current % 60;
+
+    times.push(
+      `${hour.toString().padStart(2, '0')}:${minute
+        .toString()
+        .padStart(2, '0')}`
+    );
+
+    current += duration;
+  }
+
+  return times;
+}

@@ -11,13 +11,9 @@ const finishQueueItem = async (
 ): Promise<FinishQueueItemResponse> => {
   const path = `/queue-items/${queueItemId}/finish`;
 
-  try {
-    const response = await apiClient.patch<FinishQueueItemResponse>(path);
+  const response = await apiClient.patch<FinishQueueItemResponse>(path);
 
-    return response.data;
-  } catch {
-    throw new Error(path);
-  }
+  return response.data;
 };
 
 export const useFinishQueueItem = (

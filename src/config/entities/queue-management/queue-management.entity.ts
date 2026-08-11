@@ -14,4 +14,6 @@ export interface IQueueManagementItem {
   queueItem: IQueueItem;
   patient: IPatient;
   user: IUser;
+  isReturn: boolean;
+  returnScheduled: boolean;
 }

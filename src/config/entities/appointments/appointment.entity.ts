@@ -9,6 +9,7 @@ export interface IAppointment {
   notes?: string;
   checkInAt?: Date | null;
   finishedAt?: Date | null;
+  isReturn: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

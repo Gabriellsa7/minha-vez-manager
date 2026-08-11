@@ -30,9 +30,23 @@
 
 .name {
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   font-size: 46px;
   font-weight: 700;
   color: #111;
+}
+
+.returnTag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .details {
@@ -62,7 +76,8 @@
 }
 
 .finishButton,
-.absentButton {
+.absentButton,
+.returnButton {
   border: none;
   border-radius: 8px;
   padding: 14px 28px;
@@ -78,6 +93,22 @@
   &:hover {
     opacity: 0.9;
   }
+
+  &:disabled {
+    background: #cbd5e1;
+    color: #64748b;
+    cursor: not-allowed;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.finishHint {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: #b45309;
 }
 
 .absentButton {
@@ -86,6 +117,16 @@
 
   &:hover {
     background: #dfe3e7;
+  }
+}
+
+.returnButton {
+  background: transparent;
+  color: #0b7b88;
+  border: 1px solid #0b7b88;
+
+  &:hover {
+    background: #eef9f8;
   }
 }
 

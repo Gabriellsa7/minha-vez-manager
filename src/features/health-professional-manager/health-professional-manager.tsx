@@ -22,6 +22,9 @@ import {
 import { useFinishQueueItem } from './api/finish-queue-item';
 import { useMarkQueueItemAsAbsent } from './api/mark-queue-item-as-absent';
 import { useCallQueueItem } from './api/call-queue-item';
+import { useHealthProfessionalById } from '../../config/api/get-health-professional-by-id';
+import { MarkReturnModal } from './components/mark-return-modal/mark-return-modal';
+import { handleApiError } from '../../config/utils/handle-api-error';
 
 function isSameDay(dateA: string, dateB: Date): boolean {
   const a = new Date(dateA);
@@ -51,7 +54,9 @@ function hasShiftStarted(shift: string, now: Date): boolean {
 
 function HealthProfessionalManager() {
   const [onModalOpen, setModalOpen] = useState(false);
+  const [isMarkReturnModalOpen, setMarkReturnModalOpen] = useState(false);
   const { data: user } = useCurrentUser();
+  const { data: professional } = useHealthProfessionalById(user?._id);
 
   const { data: queueManagement } = useGetQueueManagement(user?._id);
   const { data: queues } = useGetQueuesByProfessionalId(user?._id);
@@ -97,7 +102,7 @@ function HealthProfessionalManager() {
     try {
       await finishQueueItem(queueManagement.currentItem.queueItem._id);
     } catch (error) {
-      console.error(error);
+      handleApiError(error);
     }
   };
 
@@ -113,6 +118,11 @@ function HealthProfessionalManager() {
 
   const handleCall = async (id: string) => {
     await callQueueItem(id);
+  };
+
+  const handleMarkReturn = () => {
+    if (!queueManagement?.currentItem) return;
+    setMarkReturnModalOpen(true);
   };
 
   const handleOpenQueue = async (queueId: string) => {
@@ -188,6 +198,7 @@ function HealthProfessionalManager() {
                           currentItem={queueManagement.currentItem}
                           onFinish={handleFinish}
                           onAbsent={handleAbsent}
+                          onMarkReturn={handleMarkReturn}
                         />
                       )}
                       <AwaitingQueueCard
@@ -204,6 +215,16 @@ function HealthProfessionalManager() {
           )}
         </div>
       </div>
+
+      {isMarkReturnModalOpen && queueManagement?.currentItem && (
+        <MarkReturnModal
+          onClose={() => setMarkReturnModalOpen(false)}
+          professional={professional}
+          patientId={queueManagement.currentItem.patient._id}
+          patientName={queueManagement.currentItem.user.name}
+          originQueueItemId={queueManagement.currentItem.queueItem._id}
+        />
+      )}
     </div>
   );
 }
