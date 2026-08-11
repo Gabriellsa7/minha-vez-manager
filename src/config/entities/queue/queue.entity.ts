@@ -3,6 +3,7 @@ export interface IQueue {
   professionalId: string;
   healthUnitId: string;
   status: EQueueStatus;
+  shift: EQueueShift;
   queueDate: string;
   openedAt?: string | null;
   closedAt?: string | null;
@@ -17,3 +18,10 @@ export const queueStatus = {
 } as const;
 
 export type EQueueStatus = (typeof queueStatus)[keyof typeof queueStatus];
+
+export const queueShift = {
+  MORNING: 'MORNING',
+  AFTERNOON: 'AFTERNOON',
+} as const;
+
+export type EQueueShift = (typeof queueShift)[keyof typeof queueShift];

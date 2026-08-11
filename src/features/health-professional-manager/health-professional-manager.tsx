@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { useCurrentUser } from '../../config/api/get-current-user';
+import { queueShift, queueStatus } from '../../config/entities/queue/queue.entity';
 import { SIDEBAR_PROFESSIONAL_MANAGER } from './constants';
 import style from './health-professional-manager.module.scss';
 import { AwaitingQueueCard } from './components/awating-queue-card/awating-queue-card';
@@ -11,8 +12,9 @@ import {
 } from './api/get-queue-management-by-professional-id';
 import { NowQueueCard } from './components/now-queue-card/now-queue-card';
 import { useOpenQueue } from '../../config/api/open-queue';
+import { useCloseQueue } from '../../config/api/close-queue';
 import { queryClient } from '../../services/react-query';
-import { OpenQueueCard } from './components/open-queue-card/open-queue-card';
+import { QueueListCard } from './components/queue-list-card/queue-list-card';
 import {
   GET_QUEUES_BY_PROFESSIONAL_ID,
   useGetQueuesByProfessionalId,
@@ -20,59 +22,74 @@ import {
 import { useFinishQueueItem } from './api/finish-queue-item';
 import { useMarkQueueItemAsAbsent } from './api/mark-queue-item-as-absent';
 import { useCallQueueItem } from './api/call-queue-item';
-import { useGetAppointmentsByProfessionalId } from './api/get-appointments-by-professional-id';
+
+function isSameDay(dateA: string, dateB: Date): boolean {
+  const a = new Date(dateA);
+  return (
+    a.getFullYear() === dateB.getFullYear() &&
+    a.getMonth() === dateB.getMonth() &&
+    a.getDate() === dateB.getDate()
+  );
+}
+
+const AFTERNOON_SHIFT_START_HOUR = 12;
+const AFTERNOON_SHIFT_START_MINUTE = 30;
+
+function hasShiftStarted(shift: string, now: Date): boolean {
+  if (shift === queueShift.MORNING) return true;
+
+  const afternoonStart = new Date(now);
+  afternoonStart.setHours(
+    AFTERNOON_SHIFT_START_HOUR,
+    AFTERNOON_SHIFT_START_MINUTE,
+    0,
+    0,
+  );
+
+  return now.getTime() >= afternoonStart.getTime();
+}
 
 function HealthProfessionalManager() {
   const [onModalOpen, setModalOpen] = useState(false);
   const { data: user } = useCurrentUser();
 
   const { data: queueManagement } = useGetQueueManagement(user?._id);
+  const { data: queues } = useGetQueuesByProfessionalId(user?._id);
 
-  const { data: appointment } = useGetAppointmentsByProfessionalId(user?._id);
+  const invalidateQueues = async () => {
+    await Promise.all([
+      queryClient.invalidateQueries({
+        queryKey: [GET_QUEUE_MANAGEMENT, user?._id],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID, user?._id],
+      }),
+    ]);
+  };
 
   const { mutateAsync: finishQueueItem } = useFinishQueueItem({
-    onSuccess: async () => {
-      await Promise.all([
-        queryClient.invalidateQueries({
-          queryKey: [GET_QUEUE_MANAGEMENT, user?._id],
-        }),
-
-        queryClient.invalidateQueries({
-          queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID, user?._id],
-        }),
-      ]);
-    },
+    onSuccess: invalidateQueues,
   });
 
   const { mutateAsync: markQueueItemAsAbsent } = useMarkQueueItemAsAbsent({
-    onSuccess: async () => {
-      await Promise.all([
-        queryClient.invalidateQueries({
-          queryKey: [GET_QUEUE_MANAGEMENT, user?._id],
-        }),
-
-        queryClient.invalidateQueries({
-          queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID, user?._id],
-        }),
-      ]);
-    },
+    onSuccess: invalidateQueues,
   });
 
   const { mutateAsync: callQueueItem } = useCallQueueItem({
-    onSuccess: async () => {
-      await Promise.all([
-        queryClient.invalidateQueries({
-          queryKey: [GET_QUEUE_MANAGEMENT, user?._id],
-        }),
-
-        queryClient.invalidateQueries({
-          queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID, user?._id],
-        }),
-      ]);
-    },
+    onSuccess: invalidateQueues,
   });
 
-  const { mutateAsync: openQueue } = useOpenQueue();
+  const {
+    mutateAsync: openQueue,
+    isPending: isOpeningQueue,
+    variables: openingQueueId,
+  } = useOpenQueue();
+
+  const {
+    mutateAsync: closeQueue,
+    isPending: isClosingQueue,
+    variables: closingQueueId,
+  } = useCloseQueue();
 
   const handleFinish = async () => {
     if (!queueManagement?.currentItem) return;
@@ -94,29 +111,39 @@ function HealthProfessionalManager() {
     }
   };
 
-  const { data: queues } = useGetQueuesByProfessionalId(user?._id);
-
-  const availableQueue = queues?.find((queue) => queue.status === 'CLOSED');
+  const handleCall = async (id: string) => {
+    await callQueueItem(id);
+  };
 
   const handleOpenQueue = async (queueId: string) => {
     try {
       await openQueue(queueId);
-      queryClient.invalidateQueries({
-        queryKey: [GET_QUEUE_MANAGEMENT],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID],
-      });
+      await invalidateQueues();
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleCall = async (id: string) => {
-    await callQueueItem(id);
+  const handleCloseQueue = async (queueId: string) => {
+    try {
+      await closeQueue(queueId);
+      await invalidateQueues();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   console.log(onModalOpen);
+
+  const today = new Date();
+  const hasOpenQueue = Boolean(queueManagement?.queue);
+
+  // A queue that has already been opened and closed completed its cycle for
+  // the day (every patient was served) — it belongs in the history, not in
+  // this "abrir fila" list, so it shouldn't be offered for reopening.
+  const activeQueues = queues?.filter(
+    (queue) => !(queue.status === queueStatus.CLOSED && queue.openedAt),
+  );
 
   return (
     <div className={style.container}>
@@ -133,26 +160,45 @@ function HealthProfessionalManager() {
           user={user}
         />
         <div className={style.queueContainer}>
-          {queueManagement ? (
-            <>
-              {queueManagement.currentItem && (
-                <NowQueueCard
-                  queue={queueManagement.queue}
-                  currentItem={queueManagement.currentItem}
-                  onFinish={handleFinish}
-                  onAbsent={handleAbsent}
-                />
-              )}
-              <AwaitingQueueCard
-                onCall={handleCall}
-                queueManagement={queueManagement}
-              />
-            </>
-          ) : availableQueue && !availableQueue.closedAt ? (
-            <OpenQueueCard
-              onOpen={() => handleOpenQueue(availableQueue._id)}
-              appointment={appointment}
-            />
+          {activeQueues?.length ? (
+            activeQueues.map((queue) => {
+              const isActive =
+                queue.status === queueStatus.OPEN ||
+                queue.status === queueStatus.IN_PROGRESS;
+
+              return (
+                <div key={queue._id} className={style.queueEntry}>
+                  <QueueListCard
+                    queue={queue}
+                    isToday={isSameDay(queue.queueDate, today)}
+                    hasShiftStarted={hasShiftStarted(queue.shift, today)}
+                    isActive={isActive}
+                    isBlocked={hasOpenQueue && !isActive}
+                    onOpen={handleOpenQueue}
+                    onClose={handleCloseQueue}
+                    isOpening={isOpeningQueue && openingQueueId === queue._id}
+                    isClosing={isClosingQueue && closingQueueId === queue._id}
+                  />
+
+                  {isActive && queueManagement && (
+                    <div className={style.queueDetails}>
+                      {queueManagement.currentItem && (
+                        <NowQueueCard
+                          queue={queueManagement.queue}
+                          currentItem={queueManagement.currentItem}
+                          onFinish={handleFinish}
+                          onAbsent={handleAbsent}
+                        />
+                      )}
+                      <AwaitingQueueCard
+                        onCall={handleCall}
+                        queueManagement={queueManagement}
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            })
           ) : (
             <p>Nenhuma fila disponível</p>
           )}

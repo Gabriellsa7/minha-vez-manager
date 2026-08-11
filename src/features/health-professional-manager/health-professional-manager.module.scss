@@ -10,7 +10,21 @@
     .queueContainer {
       display: flex;
       flex-direction: column;
+      gap: 16px;
       padding: 40px;
+    }
+
+    .queueEntry {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .queueDetails {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-left: 8px;
     }
   }
 }
