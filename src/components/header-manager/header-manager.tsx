@@ -28,9 +28,7 @@ function HeaderManager({
       <div className={style.buttonSection}>
         <Bell size={22} color="#007a78" />
 
-        {isProfessional ? (
-          ''
-        ) : (
+        {!isProfessional && buttonText && (
           <button onClick={onButtonClick} className={style.healthUnitButton}>
             <Plus size={20} color="#FFFFFF" />
             {buttonText}

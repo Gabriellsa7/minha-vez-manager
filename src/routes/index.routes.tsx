@@ -17,6 +17,8 @@ import { PrincipalTypeOutlet } from './utils/principal-type-outlet';
 import { HealthProfessionalRole } from '../config/entities/auth/auth.entity';
 import { Professionals } from '../features/profissionals/profissionals';
 import { ProfessionalProfile } from '../features/professional-profile/professional-profile';
+import { ExamRegistration } from '../features/exam-registration/exam-registration';
+import { HealthProfessionalExams } from '../features/health-professional-exams/health-professional-exams';
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +48,10 @@ export const router = createBrowserRouter([
                     path: '/profissionals',
                     element: <Professionals />,
                   },
+                  {
+                    path: '/exam-registration',
+                    element: <ExamRegistration />,
+                  },
                 ],
               },
               {
@@ -64,6 +70,10 @@ export const router = createBrowserRouter([
                   {
                     path: '/profile',
                     element: <ProfessionalProfile />,
+                  },
+                  {
+                    path: '/exams',
+                    element: <HealthProfessionalExams />,
                   },
                 ],
               },

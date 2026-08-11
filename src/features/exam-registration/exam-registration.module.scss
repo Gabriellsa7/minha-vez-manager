@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  height: 100vh;
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    overflow-y: auto;
+  }
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 26px;
+}
+
+.examListSection {
+  flex: 1;
+  min-width: 320px;
+}
+
+.examListSection h2 {
+  margin: 0 0 14px;
+  color: #26383b;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.examGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+.empty {
+  color: #94a3b8;
+  font-size: 14px;
+}

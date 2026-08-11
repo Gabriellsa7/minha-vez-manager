@@ -1,0 +1,134 @@
+.container {
+  width: 100%;
+  max-width: 640px;
+  background: #fff;
+  border: 1px solid #dce5e5;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.container h2 {
+  margin: 0 0 18px;
+  color: #26383b;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.cpfSearch {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.cpfSearch > *:first-child {
+  flex: 1;
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 9px;
+  background: #08777a;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.searchButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.patientFound {
+  color: #0f766e;
+  font-size: 13px;
+  margin: 4px 0 18px;
+}
+
+.patientNotFound {
+  color: #c44242;
+  font-size: 13px;
+  margin: 4px 0 18px;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.field input,
+.field textarea,
+.field select {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #dce5e5;
+  border-radius: 15px;
+  outline: none;
+  background: #fff;
+  color: #26383b;
+  font: inherit;
+  font-size: 13px;
+  padding: 10px 13px;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 74px;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: #08777a;
+  box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
+}
+
+.error {
+  color: #c44242;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.twoColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.submitButton {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  background: #08777a;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(8, 119, 122, 0.2);
+  justify-self: flex-end;
+}
+
+.submitButton:hover {
+  background: #066669;
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+@media (max-width: 520px) {
+  .twoColumns {
+    grid-template-columns: 1fr;
+  }
+}

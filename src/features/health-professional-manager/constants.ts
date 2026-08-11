@@ -1,5 +1,11 @@
 import type { SidebarItem } from '../../config/constants/side-bar-manager/side-bar-manager';
-import { Calendar, CircleUserRound, History, MonitorCog } from 'lucide-react';
+import {
+  Calendar,
+  CircleUserRound,
+  FileText,
+  History,
+  MonitorCog,
+} from 'lucide-react';
 
 export const SIDEBAR_PROFESSIONAL_MANAGER: SidebarItem[] = [
   {
@@ -16,6 +22,11 @@ export const SIDEBAR_PROFESSIONAL_MANAGER: SidebarItem[] = [
     title: 'Agendamento',
     icon: Calendar,
     path: '/schedule',
+  },
+  {
+    title: 'Exames',
+    icon: FileText,
+    path: '/exams',
   },
   {
     title: 'Perfil',
