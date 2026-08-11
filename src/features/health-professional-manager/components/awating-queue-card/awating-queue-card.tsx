@@ -10,11 +10,9 @@ function AwaitingQueueCard({
   queueManagement,
   onCall,
 }: AwaitingQueueCardProps) {
-  const firstWaitingItem = queueManagement?.items.find(
-    (item) => item.queueItem.status === 'WAITING'
-  );
+  const nextQueueItemId = queueManagement?.nextQueueItemId;
 
-  const canCall = !queueManagement?.currentItem && firstWaitingItem;
+  const canCall = !queueManagement?.currentItem && Boolean(nextQueueItemId);
 
   return (
     <div className={style.container}>
@@ -38,8 +36,7 @@ function AwaitingQueueCard({
             .map((name) => name[0])
             .join('');
 
-          const isFirst =
-            firstWaitingItem?.queueItem._id === item.queueItem._id;
+          const isNext = nextQueueItemId === item.queueItem._id;
 
           return (
             <div key={item.queueItem._id} className={style.card}>
@@ -74,7 +71,7 @@ function AwaitingQueueCard({
                   </span>
                 </div>
 
-                {canCall && isFirst && (
+                {canCall && isNext && (
                   <button
                     className={style.callButton}
                     onClick={() => onCall(item.queueItem._id)}

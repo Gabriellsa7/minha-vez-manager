@@ -7,6 +7,7 @@ export interface IQueueManagement {
   queue: IQueue;
   currentItem: IQueueManagementItem | null;
   items: IQueueManagementItem[];
+  nextQueueItemId: string | null;
 }
 
 export interface IQueueManagementItem {
