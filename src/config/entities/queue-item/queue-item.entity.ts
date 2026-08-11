@@ -11,6 +11,7 @@ export interface IQueueItem {
   finishedAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
+  estimatedWaitMinutes?: number | null;
 }
 
 export const QueueItemPriority = {
