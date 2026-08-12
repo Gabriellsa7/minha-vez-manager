@@ -1,0 +1,141 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+  background: rgba(30, 43, 44, 0.48);
+
+  z-index: 999;
+}
+
+.modal {
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 48px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #fff;
+
+  border: 1px solid #dce5e5;
+  border-radius: 18px;
+
+  padding: 24px 20px 20px;
+
+  box-shadow: 0 20px 48px rgba(22, 37, 38, 0.18);
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 4px 18px;
+
+  h2 {
+    margin: 0;
+    color: #26383b;
+    font-size: 18px;
+    font-weight: 700;
+  }
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.closeButton {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #778486;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background: #eef4f3;
+  color: #315e60;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #475569;
+  font-size: 14px;
+
+  svg {
+    flex-shrink: 0;
+    color: #08777a;
+  }
+}
+
+.divider {
+  height: 1px;
+  background: #edf0f0;
+  margin: 6px 0 4px;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  strong {
+    color: #1f2937;
+    font-size: 14px;
+  }
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+@media (max-width: 480px) {
+  .overlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .modal {
+    max-height: calc(100vh - 24px);
+    border-radius: 14px;
+  }
+
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+}

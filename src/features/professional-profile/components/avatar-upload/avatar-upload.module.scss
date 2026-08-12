@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatarButton {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 999px;
+  border: 3px solid #fff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  background: #eef4f3;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0;
+}
+
+.avatarButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 32px;
+  font-weight: 700;
+  color: #08777a;
+}
+
+.overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 0;
+  background: rgba(8, 30, 31, 0.55);
+  color: #fff;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.hint {
+  font-size: 12px;
+  color: #6b7280;
+}

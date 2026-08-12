@@ -19,6 +19,7 @@ import { Professionals } from '../features/profissionals/profissionals';
 import { ProfessionalProfile } from '../features/professional-profile/professional-profile';
 import { ExamRegistration } from '../features/exam-registration/exam-registration';
 import { HealthProfessionalExams } from '../features/health-professional-exams/health-professional-exams';
+import { HealthProfessionalHistory } from '../features/health-professional-history/health-professional-history';
 
 export const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
                   {
                     path: '/health-professional-manager',
                     element: <HealthProfessionalManager />,
+                  },
+                  {
+                    path: '/history',
+                    element: <HealthProfessionalHistory />,
                   },
                   {
                     path: '/profile',

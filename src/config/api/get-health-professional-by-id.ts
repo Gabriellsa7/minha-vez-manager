@@ -2,7 +2,7 @@ import { useQuery, type UseQueryOptions } from '@tanstack/react-query';
 import { apiClient } from '../../services/axios';
 import type { IHealthProfessional } from '../entities/health-profissional/health-professional.entity';
 
-const GET_HEALTH_PROFESSIONALS_BY_USER_ID =
+export const GET_HEALTH_PROFESSIONALS_BY_USER_ID =
   'GET_HEALTH_PROFESSIONALS_BY_USER_ID';
 
 export type GetHealthProfessionalById = IHealthProfessional;

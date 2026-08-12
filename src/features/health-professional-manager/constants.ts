@@ -1,6 +1,5 @@
 import type { SidebarItem } from '../../config/constants/side-bar-manager/side-bar-manager';
 import {
-  Calendar,
   CircleUserRound,
   FileText,
   History,
@@ -17,11 +16,6 @@ export const SIDEBAR_PROFESSIONAL_MANAGER: SidebarItem[] = [
     title: 'Histórico',
     icon: History,
     path: '/history',
-  },
-  {
-    title: 'Agendamento',
-    icon: Calendar,
-    path: '/schedule',
   },
   {
     title: 'Exames',

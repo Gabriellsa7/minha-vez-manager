@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  height: 100vh;
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    overflow-y: auto;
+  }
+}
+
+.historyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+  padding: 0 26px 26px;
+}
+
+.empty {
+  color: #94a3b8;
+  font-size: 14px;
+}

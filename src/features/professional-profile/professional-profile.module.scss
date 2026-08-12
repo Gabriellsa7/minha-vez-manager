@@ -1,4 +1,25 @@
 .container {
   display: flex;
   height: 100vh;
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    overflow-y: auto;
+  }
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 32px;
+  padding: 26px;
+
+  background: #fff;
+  margin: 26px;
+  border-radius: 20px;
+  border: 1px solid #edf2f7;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }

@@ -32,8 +32,11 @@ function Profile({ user }: ProfileProps) {
     <div className={style.container}>
       <div className={style.imgContainer}>
         <div className={style.profileImg}>
-          {/* user Profile image */}
-          <span> {userInitials}</span>
+          {professional?.avatar ? (
+            <img src={professional.avatar} alt={user?.name} />
+          ) : (
+            <span> {userInitials}</span>
+          )}
         </div>
         <div className={style.userInfo}>
           <span>{user?.name}</span>
