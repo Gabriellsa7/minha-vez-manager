@@ -24,7 +24,8 @@ import { SIDEBAR_MANAGER_ITEMS } from '../healt-unit-manager/constants';
 import { weekDayLabel } from '../healt-unit-manager/components/health-unit-modal/constants';
 import { WeekDay } from '../../config/entities/health-unit/health-unit.entity';
 import style from './exam-availability-manager.module.scss';
-import { RuleRow, WEEKDAY_ORDER, defaultRows } from './utils';
+import { WEEKDAY_ORDER, defaultRows } from './utils';
+import type { RuleRow } from './utils';
 
 function ExamAvailabilityManager() {
   const queryClient = useQueryClient();
