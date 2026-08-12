@@ -24,36 +24,7 @@ import { SIDEBAR_MANAGER_ITEMS } from '../healt-unit-manager/constants';
 import { weekDayLabel } from '../healt-unit-manager/components/health-unit-modal/constants';
 import { WeekDay } from '../../config/entities/health-unit/health-unit.entity';
 import style from './exam-availability-manager.module.scss';
-
-interface RuleRow {
-  weekday: WeekDay;
-  enabled: boolean;
-  startTime: string;
-  endTime: string;
-  slotDurationMinutes: number;
-  capacityPerSlot: number;
-}
-
-const WEEKDAY_ORDER: WeekDay[] = [
-  WeekDay.MONDAY,
-  WeekDay.TUESDAY,
-  WeekDay.WEDNESDAY,
-  WeekDay.THURSDAY,
-  WeekDay.FRIDAY,
-  WeekDay.SATURDAY,
-  WeekDay.SUNDAY,
-];
-
-function defaultRows(): RuleRow[] {
-  return WEEKDAY_ORDER.map((weekday) => ({
-    weekday,
-    enabled: false,
-    startTime: '08:00',
-    endTime: '12:00',
-    slotDurationMinutes: 15,
-    capacityPerSlot: 1,
-  }));
-}
+import { RuleRow, WEEKDAY_ORDER, defaultRows } from './utils';
 
 function ExamAvailabilityManager() {
   const queryClient = useQueryClient();
@@ -70,7 +41,7 @@ function ExamAvailabilityManager() {
   // rules can seed local editable state exactly once per unit without an
   // effect (see "Adjusting state when a prop changes" in the React docs).
   const [syncedHealthUnitId, setSyncedHealthUnitId] = useState<string | null>(
-    null,
+    null
   );
   const { mutateAsync: saveRules, isPending: isSaving } =
     usePutExamAvailabilityRules();
@@ -103,13 +74,15 @@ function ExamAvailabilityManager() {
               slotDurationMinutes: 15,
               capacityPerSlot: 1,
             };
-      }),
+      })
     );
   }
 
   const updateRow = (weekday: WeekDay, patch: Partial<RuleRow>) => {
     setRows((current) =>
-      current.map((row) => (row.weekday === weekday ? { ...row, ...patch } : row)),
+      current.map((row) =>
+        row.weekday === weekday ? { ...row, ...patch } : row
+      )
     );
   };
 
@@ -120,11 +93,15 @@ function ExamAvailabilityManager() {
 
     for (const row of enabledRows) {
       if (row.startTime >= row.endTime) {
-        toast.error(`${weekDayLabel[row.weekday]}: o horário de início deve ser antes do término.`);
+        toast.error(
+          `${weekDayLabel[row.weekday]}: o horário de início deve ser antes do término.`
+        );
         return;
       }
       if (row.slotDurationMinutes <= 0 || row.capacityPerSlot <= 0) {
-        toast.error(`${weekDayLabel[row.weekday]}: duração e capacidade devem ser maiores que zero.`);
+        toast.error(
+          `${weekDayLabel[row.weekday]}: duração e capacidade devem ser maiores que zero.`
+        );
         return;
       }
     }
