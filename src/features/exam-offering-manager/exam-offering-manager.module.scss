@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+
+  height: 100vh;
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+
+    .examOfferingSection {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: 26px;
+    }
+  }
+}
+
+.empty {
+  padding: 26px;
+  color: #94a3b8;
+  font-size: 14px;
+}

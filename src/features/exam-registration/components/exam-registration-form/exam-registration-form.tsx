@@ -9,6 +9,8 @@ import { useCurrentUser } from '../../../../config/api/get-current-user';
 import { useHealthUnitsByUserId } from '../../../../config/api/get-health-units-by-user-id';
 import { useGetPatientByCpf } from '../../../../config/api/get-patient-by-cpf';
 import { GET_EXAMS_BY_HEALTH_UNIT_ID_KEY } from '../../../../config/api/get-exams-by-health-unit-id';
+import { useGetExamBookingsByPatientId } from '../../../../config/api/get-exam-bookings-by-patient-id';
+import { examBookingStatus } from '../../../../config/entities/exam-booking/exam-booking.entity';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import { formatCpf } from '../../../../config/utils';
 import { usePostExam } from '../../api/post-exam';
@@ -53,6 +55,18 @@ function ExamRegistrationForm() {
     isError: patientNotFound,
     refetch: searchPatient,
   } = useGetPatientByCpf(cpfInput);
+
+  const [selectedBookingId, setSelectedBookingId] = useState('');
+
+  const { data: patientBookings } = useGetExamBookingsByPatientId(
+    patient?._id,
+    { enabled: Boolean(confirmedCpf && patient?._id) },
+  );
+
+  const linkableBookings = (patientBookings ?? []).filter(
+    (booking) =>
+      booking.status === examBookingStatus.COMPLETED && !booking.resultExamId,
+  );
 
   const { mutateAsync, isPending } = usePostExam();
 
@@ -99,6 +113,7 @@ function ExamRegistrationForm() {
     setCpfInput('');
     setConfirmedCpf(null);
     setSelectedFile(null);
+    setSelectedBookingId('');
   };
 
   const onSubmit = async (data: ExamRegistrationFormData) => {
@@ -125,6 +140,7 @@ function ExamRegistrationForm() {
         fileBase64,
         fileName: selectedFile.name,
         mimeType: selectedFile.type,
+        examBookingId: selectedBookingId || undefined,
       });
 
       await queryClient.invalidateQueries({
@@ -180,6 +196,25 @@ function ExamRegistrationForm() {
 
       {confirmedCpf && (
         <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
+          {linkableBookings.length > 0 && (
+            <Field label="Vincular a um agendamento (opcional)">
+              <select
+                value={selectedBookingId}
+                onChange={(event) => setSelectedBookingId(event.target.value)}
+              >
+                <option value="">Não vincular</option>
+                {linkableBookings.map((booking) => (
+                  <option key={booking._id} value={booking._id}>
+                    {booking.examOfferingName} —{' '}
+                    {new Date(booking.scheduledAt).toLocaleDateString('pt-BR', {
+                      timeZone: 'UTC',
+                    })}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          )}
+
           {healthUnits && healthUnits.length > 1 && (
             <Field
               label="Unidade de saúde"

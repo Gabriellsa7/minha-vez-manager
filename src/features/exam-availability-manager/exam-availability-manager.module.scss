@@ -1,0 +1,184 @@
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+  padding: 26px;
+  align-items: start;
+}
+
+.rulesSection,
+.blackoutSection {
+  background: #fff;
+  border: 1px solid #edf2f7;
+  border-radius: 20px;
+  padding: 20px;
+
+  h2 {
+    margin: 0 0 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #26383b;
+  }
+}
+
+.ruleRow {
+  display: grid;
+  grid-template-columns: 150px 1fr 1fr 130px 130px;
+  align-items: end;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #e2eaea;
+  border-radius: 12px;
+  background: #fbfdfd;
+  margin-bottom: 8px;
+
+  input[type='time'],
+  input[type='number'] {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #dce5e5;
+    border-radius: 12px;
+    outline: none;
+    background: #fff;
+    color: #26383b;
+    font: inherit;
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  input:disabled {
+    background: #f5f7f7;
+    color: #98a4a6;
+    cursor: not-allowed;
+  }
+}
+
+.ruleHeader {
+  background: transparent;
+  border: none;
+  padding: 0 12px;
+  margin-bottom: 4px;
+
+  span {
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fieldLabel {
+  color: #8a97a0;
+  font-size: 10px;
+  font-weight: 600;
+
+  // Column titles already explain each field via .ruleHeader above the
+  // list; repeating them per-row would be noisy, so they're kept for
+  // screen readers / narrow viewports where the header wraps oddly.
+  @media (min-width: 901px) {
+    display: none;
+  }
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #526568;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.saveButton {
+  margin-top: 8px;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  background: #08777a;
+  color: #fff;
+}
+.saveButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.blackoutForm {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #dce5e5;
+    border-radius: 12px;
+    outline: none;
+    font: inherit;
+    font-size: 13px;
+    padding: 9px 12px;
+  }
+}
+
+.blackoutList {
+  display: grid;
+  gap: 8px;
+}
+
+.blackoutItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid #edf2f7;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #4d6063;
+
+  button {
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: #b34545;
+    cursor: pointer;
+  }
+}
+
+.empty {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+  .ruleRow {
+    grid-template-columns: 1fr;
+  }
+  .ruleHeader {
+    display: none;
+  }
+}
