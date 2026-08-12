@@ -1,0 +1,22 @@
+.wrapper {
+  max-width: 320px;
+  margin: 0 26px 16px;
+
+  select {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #dce5e5;
+    border-radius: 15px;
+    outline: none;
+    background: #fff;
+    color: #26383b;
+    font: inherit;
+    font-size: 13px;
+    padding: 10px 13px;
+  }
+
+  select:focus {
+    border-color: #08777a;
+    box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
+  }
+}

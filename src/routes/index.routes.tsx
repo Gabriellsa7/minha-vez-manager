@@ -20,6 +20,9 @@ import { ProfessionalProfile } from '../features/professional-profile/profession
 import { ExamRegistration } from '../features/exam-registration/exam-registration';
 import { HealthProfessionalExams } from '../features/health-professional-exams/health-professional-exams';
 import { HealthProfessionalHistory } from '../features/health-professional-history/health-professional-history';
+import { ExamOfferingManager } from '../features/exam-offering-manager/exam-offering-manager';
+import { ExamAvailabilityManager } from '../features/exam-availability-manager/exam-availability-manager';
+import { ExamBookingsManager } from '../features/exam-bookings-manager/exam-bookings-manager';
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +55,18 @@ export const router = createBrowserRouter([
                   {
                     path: '/exam-registration',
                     element: <ExamRegistration />,
+                  },
+                  {
+                    path: '/exam-offerings',
+                    element: <ExamOfferingManager />,
+                  },
+                  {
+                    path: '/exam-availability',
+                    element: <ExamAvailabilityManager />,
+                  },
+                  {
+                    path: '/exam-bookings',
+                    element: <ExamBookingsManager />,
                   },
                 ],
               },

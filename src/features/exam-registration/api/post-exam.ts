@@ -12,6 +12,7 @@ export interface CreateExamParams {
   fileBase64: string;
   fileName: string;
   mimeType: string;
+  examBookingId?: string;
 }
 
 const postExam = async (params: CreateExamParams): Promise<IExam> => {
