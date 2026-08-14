@@ -1,0 +1,266 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+  background: rgba(30, 43, 44, 0.48);
+
+  z-index: 999;
+}
+
+.modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 48px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #fff;
+
+  border: 1px solid #dce5e5;
+  border-radius: 18px;
+
+  padding: 24px 20px 16px;
+
+  box-shadow: 0 20px 48px rgba(22, 37, 38, 0.18);
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px 18px;
+}
+
+.header h2 {
+  margin: 0;
+  color: #26383b;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.closeButton {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #778486;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  background: #eef4f3;
+  color: #315e60;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 0 4px;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  div:not(.profileImg) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  strong {
+    color: #26383b;
+    font-size: 15px;
+  }
+
+  span {
+    color: #64748b;
+    font-size: 13px;
+  }
+}
+
+.profileImg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background-color: #e1e3e4;
+  flex-shrink: 0;
+
+  span {
+    color: #007a78;
+    font-weight: 700;
+  }
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  span:not(.infoLabel) {
+    color: #26383b;
+    font-size: 14px;
+  }
+}
+
+.infoLabel {
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+  padding: 0 4px;
+
+  h3 {
+    margin: 4px 0 0;
+    color: #26383b;
+    font-size: 13px;
+    font-weight: 700;
+  }
+}
+
+.field input,
+.field select {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #dce5e5;
+  border-radius: 15px;
+  outline: none;
+  background: #fff;
+  color: #26383b;
+  font: inherit;
+  font-size: 13px;
+  padding: 10px 13px;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #08777a;
+  box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
+}
+
+.twoColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+
+  border-top: 1px solid #edf0f0;
+  margin-top: 20px;
+  padding: 16px 4px 0;
+}
+
+.cancelButton,
+.submitButton,
+.editButton,
+.deleteButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cancelButton {
+  background: #eef3f3;
+  color: #4d6063;
+}
+
+.submitButton,
+.editButton {
+  background: #08777a;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(8, 119, 122, 0.2);
+}
+
+.submitButton:hover:not(:disabled),
+.editButton:hover {
+  background: #066669;
+}
+
+.submitButton:disabled,
+.cancelButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.deleteButton {
+  background: #fdecec;
+  color: #c44242;
+  margin-right: auto;
+}
+
+.deleteButton:hover {
+  background: #fbdcdc;
+}
+
+@media (max-width: 520px) {
+  .overlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+  .modal {
+    max-height: calc(100vh - 24px);
+    border-radius: 14px;
+  }
+  .twoColumns,
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+  .actions {
+    flex-wrap: wrap;
+  }
+  .deleteButton {
+    margin-right: 0;
+    order: 2;
+  }
+  .editButton {
+    order: 1;
+  }
+}

@@ -5,7 +5,10 @@ import type { IHealthProfessional } from '../entities/health-profissional/health
 export interface UpdateHealthProfessionalParams {
   id: string;
   data: Partial<
-    Pick<IHealthProfessional, 'name' | 'specialty' | 'room' | 'schedule'>
+    Pick<
+      IHealthProfessional,
+      'name' | 'specialty' | 'room' | 'professionalLicense' | 'schedule'
+    >
   >;
 }
 

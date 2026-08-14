@@ -7,7 +7,8 @@
 }
 
 .field input,
-.field textarea {
+.field textarea,
+.field select {
   box-sizing: border-box;
   width: 100%;
   border: 1px solid #dce5e5;
@@ -29,7 +30,8 @@
 }
 
 .field input:focus,
-.field textarea:focus {
+.field textarea:focus,
+.field select:focus {
   border-color: #08777a;
   box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
 }

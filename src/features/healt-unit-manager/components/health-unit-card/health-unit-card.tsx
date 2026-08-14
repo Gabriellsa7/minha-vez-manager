@@ -5,11 +5,23 @@ import type { IHealthUnit } from '../../../../config/entities/health-unit/health
 
 interface HealthUnitCardProps {
   healthUnit: IHealthUnit;
+  onClick?: () => void;
 }
 
-export function HealthUnitCard({ healthUnit }: HealthUnitCardProps) {
+export function HealthUnitCard({ healthUnit, onClick }: HealthUnitCardProps) {
   return (
-    <div className={style.card}>
+    <div
+      className={style.card}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onClick?.();
+        }
+      }}
+    >
       <img
         src={healthUnit.img || Hospital}
         alt={healthUnit.name}

@@ -7,12 +7,19 @@ import style from './health-unit-manager.module.scss';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { HealthUnitModal } from './components/health-unit-modal/health-unit-modal';
 import { HealthUnitCard } from './components/health-unit-card/health-unit-card';
+import { HealthUnitDetailModal } from './components/health-unit-detail-modal/health-unit-detail-modal';
 
 function HealthUnitManager() {
   const [openModal, setOpenModal] = useState(false);
+  const [selectedHealthUnitId, setSelectedHealthUnitId] = useState<
+    string | null
+  >(null);
   const { data: user } = useCurrentUser();
 
   const { data: healthUnit } = useHealthUnitsByUserId(user?._id);
+  const selectedHealthUnit =
+    healthUnit?.find((health) => health._id === selectedHealthUnitId) ??
+    null;
 
   return (
     <>
@@ -31,7 +38,11 @@ function HealthUnitManager() {
           />
           <div className={style.healthUnitSection}>
             {healthUnit?.map((health) => (
-              <HealthUnitCard key={health._id} healthUnit={health} />
+              <HealthUnitCard
+                key={health._id}
+                healthUnit={health}
+                onClick={() => setSelectedHealthUnitId(health._id)}
+              />
             ))}
           </div>
         </div>
@@ -40,6 +51,13 @@ function HealthUnitManager() {
         onClose={() => setOpenModal(false)}
         open={openModal}
       />
+      {selectedHealthUnit && (
+        <HealthUnitDetailModal
+          key={selectedHealthUnit._id}
+          healthUnit={selectedHealthUnit}
+          onClose={() => setSelectedHealthUnitId(null)}
+        />
+      )}
     </>
   );
 }

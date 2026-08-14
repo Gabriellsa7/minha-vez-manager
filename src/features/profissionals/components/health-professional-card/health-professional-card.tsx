@@ -4,17 +4,30 @@ import style from './health-professional-card.module.scss';
 
 interface HealthProfessionalProps {
   healthProfessional: IHealthProfessional;
+  onClick?: () => void;
 }
 
 function HealthProfessionalCard({
   healthProfessional,
+  onClick,
 }: HealthProfessionalProps) {
   const userInitials = healthProfessional
     ? getUserInitials(healthProfessional.name)
     : '';
 
   return (
-    <div className={style.card}>
+    <div
+      className={style.card}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onClick?.();
+        }
+      }}
+    >
       <div className={style.profileImg}>
         {/* user Profile image */}
         <span> {userInitials}</span>
