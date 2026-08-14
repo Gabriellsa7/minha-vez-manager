@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { handleApiError } from '../../config/utils/handle-api-error';
 import { UserRole } from '../../config/entities/user/user.entity';
 import { HealthProfessionalRole } from '../../config/entities/auth/auth.entity';
+import { healthProfessionalType } from '../../config/entities/health-profissional/health-professional.entity';
 import { apiClient } from '../../services/axios';
 import styles from './login.module.scss';
 import { HealthIcon } from '../../assets/svg';
@@ -47,6 +48,14 @@ function Login() {
       if (
         response.principalType === HealthProfessionalRole.HEALTH_PROFESSIONAL
       ) {
+        if (
+          response.principal.healthProfessionalType ===
+          healthProfessionalType.EXAM_PROFESSIONAL
+        ) {
+          navigate('/exam-professional');
+          return;
+        }
+
         navigate('/health-professional-manager');
         return;
       }

@@ -1,4 +1,5 @@
 import type { EPrincipalType } from '../auth/auth.entity';
+import type { EHealthProfessionalType } from '../health-profissional/health-professional.entity';
 
 export interface IUser {
   _id: string;
@@ -6,6 +7,8 @@ export interface IUser {
   email: string;
   principalType: EPrincipalType;
   role?: EUserRole;
+  healthProfessionalType?: EHealthProfessionalType;
+  healthUnitId?: string;
   active?: boolean;
   createdAt?: Date;
 }

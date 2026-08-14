@@ -7,6 +7,8 @@ export const GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY =
 
 export interface GetExamBookingsByHealthUnitIdParams {
   date?: string;
+  startDate?: string;
+  endDate?: string;
   status?: string;
 }
 

@@ -23,6 +23,7 @@ function SideBar({ items, pageTitle, user }: SideBarProps) {
           <div key={path} className={style.navCard}>
             <NavLink
               to={path}
+              end
               className={({ isActive }) =>
                 isActive ? style.activeItem : style.item
               }

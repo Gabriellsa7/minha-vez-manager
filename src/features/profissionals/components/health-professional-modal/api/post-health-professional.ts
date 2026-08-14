@@ -1,6 +1,7 @@
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../../../../services/axios';
 import type {
+  EHealthProfessionalType,
   IHealthProfessional,
   IHealthProfessionalSchedule,
 } from '../../../../../config/entities/health-profissional/health-professional.entity';
@@ -14,6 +15,7 @@ export interface CreateHealthProfessionalParams {
   password: string;
   specialty: string;
   professionalLicense: string;
+  type: EHealthProfessionalType;
   schedule: IHealthProfessionalSchedule;
 }
 

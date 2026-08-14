@@ -99,9 +99,9 @@ function ExamAvailabilityManager() {
         );
         return;
       }
-      if (row.slotDurationMinutes <= 0 || row.capacityPerSlot <= 0) {
+      if (row.slotDurationMinutes <= 0) {
         toast.error(
-          `${weekDayLabel[row.weekday]}: duração e capacidade devem ser maiores que zero.`
+          `${weekDayLabel[row.weekday]}: a duração deve ser maior que zero.`
         );
         return;
       }
@@ -188,7 +188,6 @@ function ExamAvailabilityManager() {
               <span>Início</span>
               <span>Término</span>
               <span>Duração da vaga (min)</span>
-              <span>Vagas por horário</span>
             </div>
 
             {rows.map((row) => (
@@ -246,21 +245,6 @@ function ExamAvailabilityManager() {
                   />
                 </div>
 
-                <div className={style.fieldGroup}>
-                  <span className={style.fieldLabel}>Vagas por horário</span>
-                  <input
-                    type="number"
-                    min="1"
-                    disabled={!row.enabled}
-                    value={row.capacityPerSlot}
-                    title="Quantos pacientes podem ser agendados no mesmo horário"
-                    onChange={(event) =>
-                      updateRow(row.weekday, {
-                        capacityPerSlot: Number(event.target.value),
-                      })
-                    }
-                  />
-                </div>
               </div>
             ))}
             <button

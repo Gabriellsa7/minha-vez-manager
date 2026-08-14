@@ -1,3 +1,11 @@
+export const healthProfessionalType = {
+  GENERAL: 'GENERAL',
+  EXAM_PROFESSIONAL: 'EXAM_PROFESSIONAL',
+} as const;
+
+export type EHealthProfessionalType =
+  (typeof healthProfessionalType)[keyof typeof healthProfessionalType];
+
 export interface IHealthProfessional {
   _id: string;
   userId?: string;
@@ -8,6 +16,7 @@ export interface IHealthProfessional {
   room: string;
   password: string;
   professionalLicense: string;
+  type: EHealthProfessionalType;
   schedule: IHealthProfessionalSchedule;
   active: boolean;
   avatar?: string;

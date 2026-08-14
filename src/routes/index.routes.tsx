@@ -14,6 +14,7 @@ import { HealthUnitManager } from '../features/healt-unit-manager/health-unit-ma
 import { UserRole } from '../config/entities/user/user.entity';
 import { HealthProfessionalManager } from '../features/health-professional-manager/health-professional-manager';
 import { PrincipalTypeOutlet } from './utils/principal-type-outlet';
+import { HealthProfessionalTypeOutlet } from './utils/health-professional-type-outlet';
 import { HealthProfessionalRole } from '../config/entities/auth/auth.entity';
 import { Professionals } from '../features/profissionals/profissionals';
 import { ProfessionalProfile } from '../features/professional-profile/professional-profile';
@@ -23,6 +24,8 @@ import { HealthProfessionalHistory } from '../features/health-professional-histo
 import { ExamOfferingManager } from '../features/exam-offering-manager/exam-offering-manager';
 import { ExamAvailabilityManager } from '../features/exam-availability-manager/exam-availability-manager';
 import { ExamBookingsManager } from '../features/exam-bookings-manager/exam-bookings-manager';
+import { ExamProfessionalManager } from '../features/exam-professional-manager/exam-professional-manager';
+import { ExamProfessionalHistory } from '../features/exam-professional-history/exam-professional-history';
 
 export const router = createBrowserRouter([
   {
@@ -80,20 +83,46 @@ export const router = createBrowserRouter([
                 ),
                 children: [
                   {
-                    path: '/health-professional-manager',
-                    element: <HealthProfessionalManager />,
-                  },
-                  {
-                    path: '/history',
-                    element: <HealthProfessionalHistory />,
-                  },
-                  {
                     path: '/profile',
                     element: <ProfessionalProfile />,
                   },
                   {
-                    path: '/exams',
-                    element: <HealthProfessionalExams />,
+                    element: (
+                      <HealthProfessionalTypeOutlet
+                        onlyExamProfessional={false}
+                      />
+                    ),
+                    children: [
+                      {
+                        path: '/health-professional-manager',
+                        element: <HealthProfessionalManager />,
+                      },
+                      {
+                        path: '/history',
+                        element: <HealthProfessionalHistory />,
+                      },
+                      {
+                        path: '/exams',
+                        element: <HealthProfessionalExams />,
+                      },
+                    ],
+                  },
+                  {
+                    element: (
+                      <HealthProfessionalTypeOutlet
+                        onlyExamProfessional={true}
+                      />
+                    ),
+                    children: [
+                      {
+                        path: '/exam-professional',
+                        element: <ExamProfessionalManager />,
+                      },
+                      {
+                        path: '/exam-professional/history',
+                        element: <ExamProfessionalHistory />,
+                      },
+                    ],
                   },
                 ],
               },

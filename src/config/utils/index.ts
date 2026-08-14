@@ -102,7 +102,7 @@ export const formatDateTime = (date?: string | Date) => {
   return `${formattedDate} ${formattedTime}`;
 };
 
-export const formatTime = (date?: string | Date) => {
+export const formatTime = (date?: string | Date, timeZone?: string) => {
   if (!date) return '';
 
   const parsedDate = new Date(date);
@@ -110,12 +110,13 @@ export const formatTime = (date?: string | Date) => {
   const formattedTime = parsedDate.toLocaleTimeString('pt-BR', {
     hour: '2-digit',
     minute: '2-digit',
+    ...(timeZone ? { timeZone } : {}),
   });
 
   return `${formattedTime}`;
 };
 
-export const formatDate = (date?: string | Date) => {
+export const formatDate = (date?: string | Date, timeZone?: string) => {
   if (!date) return '';
 
   const parsedDate = new Date(date);
@@ -124,6 +125,7 @@ export const formatDate = (date?: string | Date) => {
     day: '2-digit',
     month: '2-digit',
     year: '2-digit',
+    ...(timeZone ? { timeZone } : {}),
   });
 
   return `${formattedDate}`;

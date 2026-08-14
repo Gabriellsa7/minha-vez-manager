@@ -1,0 +1,80 @@
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  overflow-y: auto;
+}
+
+.content {
+  padding: 26px;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  background: #fff;
+  border: 1px solid #edf2f7;
+  border-radius: 16px;
+}
+
+.rowInfo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+  color: #26383b;
+
+  strong {
+    font-size: 14px;
+  }
+}
+
+.status {
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+.SCHEDULED {
+  background: #e6f0fb;
+  color: #2563eb;
+}
+.CONFIRMED {
+  background: #e6f4f4;
+  color: #08777a;
+}
+.IN_PROGRESS {
+  background: #fef3c7;
+  color: #b45309;
+}
+.COMPLETED {
+  background: #e3f6ea;
+  color: #1c8a4b;
+}
+.CANCELED {
+  background: #f3e8e8;
+  color: #b34545;
+}
+.NO_SHOW {
+  background: #f1f0f0;
+  color: #6b7280;
+}
+
+.empty {
+  color: #94a3b8;
+  font-size: 13px;
+}

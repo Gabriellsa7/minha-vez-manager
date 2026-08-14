@@ -1,4 +1,5 @@
 import type { EUserRole } from '../user/user.entity';
+import type { EHealthProfessionalType } from '../health-profissional/health-professional.entity';
 
 export interface ILoginRequest {
   email: string;
@@ -23,6 +24,8 @@ export interface IAuthPrincipal {
   name: string;
   email: string;
   role?: EUserRole;
+  healthProfessionalType?: EHealthProfessionalType;
+  healthUnitId?: string;
 }
 
 export interface IAuthTokenResponse {

@@ -9,6 +9,8 @@ import {
 import { useUploadHealthProfessionalImage } from '../../config/api/upload-health-professional-image';
 import { handleApiError } from '../../config/utils/handle-api-error';
 import { SIDEBAR_PROFESSIONAL_MANAGER } from '../health-professional-manager/constants';
+import { SIDEBAR_EXAM_PROFESSIONAL_MANAGER } from '../exam-professional-manager/constants';
+import { healthProfessionalType } from '../../config/entities/health-profissional/health-professional.entity';
 import { AvatarUpload } from './components/avatar-upload/avatar-upload';
 import { ProfileForm } from './components/profile-form/profile-form';
 import style from './professional-profile.module.scss';
@@ -51,13 +53,14 @@ function ProfessionalProfile() {
     }
   };
 
+  const sidebarItems =
+    user?.healthProfessionalType === healthProfessionalType.EXAM_PROFESSIONAL
+      ? SIDEBAR_EXAM_PROFESSIONAL_MANAGER
+      : SIDEBAR_PROFESSIONAL_MANAGER;
+
   return (
     <div className={style.container}>
-      <SideBar
-        items={SIDEBAR_PROFESSIONAL_MANAGER}
-        pageTitle="Painel de Gestão"
-        user={user}
-      />
+      <SideBar items={sidebarItems} pageTitle="Painel de Gestão" user={user} />
       <div className={style.mainContent}>
         <HeaderManager
           title="Meu Perfil"

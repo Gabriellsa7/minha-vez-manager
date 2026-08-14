@@ -11,6 +11,7 @@ import {
   healthProfessionalModalSchema,
   type HealthProfessionalModalFormData,
 } from './entities/health-professional-modal.schema';
+import { healthProfessionalType } from '../../../../config/entities/health-profissional/health-professional.entity';
 import style from './health-professional-modal.module.scss';
 
 interface HealthProfessionalModalProps {
@@ -26,6 +27,7 @@ const defaultValues: HealthProfessionalModalFormData = {
   confirmPassword: '',
   room: '',
   specialty: '',
+  type: healthProfessionalType.GENERAL,
   professionalLicense: '',
   schedule: {
     appointmentDuration: 30,
@@ -93,6 +95,7 @@ function HealthProfessionalModal({
         room: data.room,
         password: data.password,
         specialty: data.specialty,
+        type: data.type,
         professionalLicense: data.professionalLicense,
         schedule: data.schedule,
       });
@@ -148,6 +151,16 @@ function HealthProfessionalModal({
           </Field>
           <Field label="Nome completo" error={errors.name?.message}>
             <input {...register('name')} autoFocus />
+          </Field>
+          <Field label="Classificação" error={errors.type?.message}>
+            <select {...register('type')}>
+              <option value={healthProfessionalType.GENERAL}>
+                Atendimento (consultas)
+              </option>
+              <option value={healthProfessionalType.EXAM_PROFESSIONAL}>
+                Profissional de exames
+              </option>
+            </select>
           </Field>
           <div className={style.twoColumns}>
             <Field

@@ -17,6 +17,8 @@ export interface IExamBooking {
   examOfferingId: string;
   examOfferingName: string;
   healthUnitName: string;
+  patientName: string;
+  patientCpf: string;
   scheduledAt: string;
   durationMinutes: number;
   priceSnapshot?: number;

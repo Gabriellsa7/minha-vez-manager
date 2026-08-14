@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { healthProfessionalType } from '../../../../../config/entities/health-profissional/health-professional.entity';
 
 const requiredText = (message: string) => z.string().trim().min(1, message);
 
@@ -9,6 +10,10 @@ export const healthProfessionalModalSchema = z
     email: z.email('Informe um e-mail válido.'),
     password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres.'),
     confirmPassword: z.string(),
+    type: z.enum([
+      healthProfessionalType.GENERAL,
+      healthProfessionalType.EXAM_PROFESSIONAL,
+    ]),
     specialty: requiredText('Informe a especialidade.'),
     professionalLicense: requiredText('Informe o registro profissional.'),
     room: requiredText('Informe a sala do profissional.').regex(

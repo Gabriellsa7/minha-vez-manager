@@ -2,23 +2,21 @@ import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { HeaderManager } from '../../components/header-manager/header-manager';
-import { HealthUnitSelect } from '../../components/health-unit-select/health-unit-select';
 import { useCurrentUser } from '../../config/api/get-current-user';
-import { useHealthUnitsByUserId } from '../../config/api/get-health-units-by-user-id';
 import {
   GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY,
   useGetExamBookingsByHealthUnitId,
 } from '../../config/api/get-exam-bookings-by-health-unit-id';
 import { usePatchExamBookingStatus } from '../../config/api/patch-exam-booking-status';
-import { usePatchExamBookingCancel } from '../../config/api/patch-exam-booking-cancel';
 import { handleApiError } from '../../config/utils/handle-api-error';
-import { SIDEBAR_MANAGER_ITEMS } from '../healt-unit-manager/constants';
+import { formatTime } from '../../config/utils';
 import {
   examBookingStatus,
   type ExamBookingStatus,
   type IExamBooking,
 } from '../../config/entities/exam-booking/exam-booking.entity';
-import style from './exam-bookings-manager.module.scss';
+import { SIDEBAR_EXAM_PROFESSIONAL_MANAGER } from './constants';
+import style from './exam-professional-manager.module.scss';
 
 const STATUS_LABEL: Record<ExamBookingStatus, string> = {
   SCHEDULED: 'Agendado',
@@ -29,45 +27,50 @@ const STATUS_LABEL: Record<ExamBookingStatus, string> = {
   NO_SHOW: 'Não compareceu',
 };
 
+const PENDING_STATUSES: ExamBookingStatus[] = [
+  examBookingStatus.SCHEDULED,
+  examBookingStatus.CONFIRMED,
+  examBookingStatus.IN_PROGRESS,
+];
+
 function todayDateInputValue(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-function ExamBookingsManager() {
+function ExamProfessionalManager() {
   const queryClient = useQueryClient();
   const { data: user } = useCurrentUser();
-  const { data: healthUnits } = useHealthUnitsByUserId(user?._id);
-  const [selectedHealthUnitId, setSelectedHealthUnitId] = useState<string>();
-  const healthUnitId = selectedHealthUnitId ?? healthUnits?.[0]?._id;
-
   const [date, setDate] = useState(todayDateInputValue());
 
-  const { data: bookings } = useGetExamBookingsByHealthUnitId(healthUnitId, {
-    date,
-  });
+  const { data: bookings } = useGetExamBookingsByHealthUnitId(
+    user?.healthUnitId,
+    { date }
+  );
 
   const { mutate: updateStatus } = usePatchExamBookingStatus();
-  const { mutate: cancelBooking } = usePatchExamBookingCancel();
 
   const invalidate = async () => {
     await queryClient.invalidateQueries({
-      queryKey: [GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY, healthUnitId],
+      queryKey: [
+        GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY,
+        user?.healthUnitId,
+      ],
     });
   };
 
   const handleStatusChange = (id: string, status: ExamBookingStatus) => {
     updateStatus(
       { id, status },
-      { onSuccess: invalidate, onError: handleApiError },
+      { onSuccess: invalidate, onError: handleApiError }
     );
   };
 
-  const handleCancel = (id: string) => {
-    cancelBooking(
-      { id },
-      { onSuccess: invalidate, onError: handleApiError },
+  const pendingBookings = (bookings ?? [])
+    .filter((booking) => PENDING_STATUSES.includes(booking.status))
+    .sort(
+      (a, b) =>
+        new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime()
     );
-  };
 
   const renderActions = (booking: IExamBooking) => {
     if (
@@ -82,22 +85,16 @@ function ExamBookingsManager() {
               handleStatusChange(booking._id, examBookingStatus.IN_PROGRESS)
             }
           >
-            Iniciar atendimento
+            Iniciar
           </button>
           <button
             type="button"
+            className={style.dangerButton}
             onClick={() =>
               handleStatusChange(booking._id, examBookingStatus.NO_SHOW)
             }
           >
             Não compareceu
-          </button>
-          <button
-            type="button"
-            className={style.dangerButton}
-            onClick={() => handleCancel(booking._id)}
-          >
-            Cancelar
           </button>
         </>
       );
@@ -122,21 +119,16 @@ function ExamBookingsManager() {
   return (
     <div className={style.container}>
       <SideBar
-        items={SIDEBAR_MANAGER_ITEMS}
-        pageTitle="Painel Manager"
+        items={SIDEBAR_EXAM_PROFESSIONAL_MANAGER}
+        pageTitle="Painel de Exames"
         user={user}
       />
       <div className={style.mainContent}>
         <HeaderManager
-          title="Agenda de Exames"
-          subtitle="Acompanhe e gerencie os exames agendados"
+          title="Exames do dia"
+          subtitle="Pacientes agendados para realizar exames"
           onButtonClick={() => {}}
           user={user}
-        />
-        <HealthUnitSelect
-          healthUnits={healthUnits}
-          value={healthUnitId}
-          onChange={setSelectedHealthUnitId}
         />
 
         <div className={style.content}>
@@ -152,30 +144,27 @@ function ExamBookingsManager() {
           </div>
 
           <div className={style.list}>
-            {bookings?.length ? (
-              bookings.map((booking) => (
+            {pendingBookings.length ? (
+              pendingBookings.map((booking) => (
                 <div key={booking._id} className={style.row}>
                   <div className={style.rowInfo}>
                     <strong>{booking.patientName}</strong>
+                    <span>{formatTime(booking.scheduledAt, 'UTC')}</span>
                     <span>{booking.examOfferingName}</span>
-                    <span>
-                      {new Date(booking.scheduledAt).toLocaleTimeString(
-                        'pt-BR',
-                        { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' },
-                      )}
-                    </span>
                     <span
                       className={`${style.status} ${style[booking.status]}`}
                     >
                       {STATUS_LABEL[booking.status]}
                     </span>
                   </div>
-                  <div className={style.rowActions}>{renderActions(booking)}</div>
+                  <div className={style.rowActions}>
+                    {renderActions(booking)}
+                  </div>
                 </div>
               ))
             ) : (
               <p className={style.empty}>
-                Nenhum exame agendado para esta data.
+                Nenhum exame pendente para esta data.
               </p>
             )}
           </div>
@@ -185,4 +174,4 @@ function ExamBookingsManager() {
   );
 }
 
-export { ExamBookingsManager };
+export { ExamProfessionalManager };
