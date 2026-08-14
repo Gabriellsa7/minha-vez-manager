@@ -11,7 +11,10 @@ export const healthProfessionalModalSchema = z
     confirmPassword: z.string(),
     specialty: requiredText('Informe a especialidade.'),
     professionalLicense: requiredText('Informe o registro profissional.'),
-    room: requiredText('Informe a sala do profissional.'),
+    room: requiredText('Informe a sala do profissional.').regex(
+      /^\d{1,4}$/,
+      'Informe um número de sala válido (até 9999).',
+    ),
     schedule: z.object({
       appointmentDuration: z.number().min(10, 'A duração mínima é 10 minutos.'),
 

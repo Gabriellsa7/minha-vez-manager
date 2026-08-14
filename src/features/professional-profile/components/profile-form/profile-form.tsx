@@ -68,7 +68,19 @@ function ProfileForm({ professional }: ProfileFormProps) {
         </Field>
 
         <Field label="Sala" error={errors.room?.message}>
-          <input {...register('room')} placeholder="Ex.: Sala 3" />
+          <input
+            {...register('room', {
+              onChange: (event) => {
+                event.target.value = event.target.value
+                  .replace(/\D/g, '')
+                  .slice(0, 4);
+              },
+            })}
+            inputMode="numeric"
+            pattern="[0-9]*"
+            maxLength={4}
+            placeholder="Ex.: 3"
+          />
         </Field>
       </div>
 
