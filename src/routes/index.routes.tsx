@@ -26,6 +26,7 @@ import { ExamAvailabilityManager } from '../features/exam-availability-manager/e
 import { ExamBookingsManager } from '../features/exam-bookings-manager/exam-bookings-manager';
 import { ExamProfessionalManager } from '../features/exam-professional-manager/exam-professional-manager';
 import { ExamProfessionalHistory } from '../features/exam-professional-history/exam-professional-history';
+import { ExamProfessionalUpload } from '../features/exam-professional-upload/exam-professional-upload';
 
 export const router = createBrowserRouter([
   {
@@ -117,6 +118,10 @@ export const router = createBrowserRouter([
                       {
                         path: '/exam-professional',
                         element: <ExamProfessionalManager />,
+                      },
+                      {
+                        path: '/exam-professional/upload-result',
+                        element: <ExamProfessionalUpload />,
                       },
                       {
                         path: '/exam-professional/history',
