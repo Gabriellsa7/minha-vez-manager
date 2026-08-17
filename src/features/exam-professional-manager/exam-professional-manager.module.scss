@@ -21,17 +21,10 @@
     display: inline-flex;
     flex-direction: column;
     gap: 4px;
+    width: 190px;
     font-size: 12px;
     font-weight: 700;
     color: #526568;
-  }
-
-  input {
-    border: 1px solid #dce5e5;
-    border-radius: 12px;
-    padding: 8px 12px;
-    font: inherit;
-    font-size: 13px;
   }
 }
 

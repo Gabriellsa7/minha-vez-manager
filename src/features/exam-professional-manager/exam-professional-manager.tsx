@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { HeaderManager } from '../../components/header-manager/header-manager';
+import { DatePicker } from '../../components/date-picker/date-picker';
 import { useCurrentUser } from '../../config/api/get-current-user';
 import {
   GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY,
@@ -135,11 +136,7 @@ function ExamProfessionalManager() {
           <div className={style.filters}>
             <label>
               Data
-              <input
-                type="date"
-                value={date}
-                onChange={(event) => setDate(event.target.value)}
-              />
+              <DatePicker value={date} onChange={setDate} />
             </label>
           </div>
 

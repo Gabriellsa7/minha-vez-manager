@@ -1,5 +1,6 @@
 import { Filter, X } from 'lucide-react';
 import { Field } from '../../../../components/field/field';
+import { DatePicker } from '../../../../components/date-picker/date-picker';
 import style from './history-filter.module.scss';
 
 interface HistoryFilterProps {
@@ -24,19 +25,11 @@ function HistoryFilter({
   return (
     <div className={style.container}>
       <Field label="De">
-        <input
-          type="date"
-          value={startDateInput}
-          onChange={(event) => onStartDateChange(event.target.value)}
-        />
+        <DatePicker value={startDateInput} onChange={onStartDateChange} />
       </Field>
 
       <Field label="Até">
-        <input
-          type="date"
-          value={endDateInput}
-          onChange={(event) => onEndDateChange(event.target.value)}
-        />
+        <DatePicker value={endDateInput} onChange={onEndDateChange} />
       </Field>
 
       <button
