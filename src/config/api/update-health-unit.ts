@@ -7,7 +7,13 @@ export interface UpdateHealthUnitParams {
   data: Partial<
     Pick<
       IHealthUnit,
-      'name' | 'phone' | 'email' | 'description' | 'img' | 'address'
+      | 'name'
+      | 'phone'
+      | 'email'
+      | 'description'
+      | 'img'
+      | 'address'
+      | 'openingHours'
     >
   >;
 }

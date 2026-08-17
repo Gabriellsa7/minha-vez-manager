@@ -11,6 +11,7 @@ import { AuthenticationOutlet } from './utils/authentication-outlet';
 import { AuthorizationOutlet } from './utils/authorization-outlet';
 
 import { HealthUnitManager } from '../features/healt-unit-manager/health-unit-manager';
+import { HealthUnitHoursManager } from '../features/health-unit-hours-manager/health-unit-hours-manager';
 import { UserRole } from '../config/entities/user/user.entity';
 import { HealthProfessionalManager } from '../features/health-professional-manager/health-professional-manager';
 import { PrincipalTypeOutlet } from './utils/principal-type-outlet';
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
                   {
                     path: '/',
                     element: <HealthUnitManager />,
+                  },
+                  {
+                    path: '/health-unit-hours',
+                    element: <HealthUnitHoursManager />,
                   },
                   {
                     path: '/profissionals',

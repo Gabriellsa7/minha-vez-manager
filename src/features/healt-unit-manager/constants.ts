@@ -1,5 +1,6 @@
 import {
   CalendarClock,
+  Clock,
   FileText,
   FlaskConical,
   Hospital,
@@ -13,6 +14,11 @@ export const SIDEBAR_MANAGER_ITEMS: SidebarItem[] = [
     title: 'Unidades de Saude',
     icon: Hospital,
     path: '/',
+  },
+  {
+    title: 'Horário de Funcionamento',
+    icon: Clock,
+    path: '/health-unit-hours',
   },
   {
     title: 'Profissionais',
