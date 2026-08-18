@@ -9,9 +9,18 @@ export interface IHealthUnit {
   openingHours: IHealthUnitOpeningHours[];
   email: string;
   img?: string;
+  unitType: EHealthUnitType;
   createdAt?: Date;
   updateAt?: Date;
 }
+
+export const EHealthUnitType = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+} as const;
+
+export type EHealthUnitType =
+  (typeof EHealthUnitType)[keyof typeof EHealthUnitType];
 
 export interface IService {
   _id: string;

@@ -1,6 +1,7 @@
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../../../../services/axios';
 import type {
+  EHealthUnitType,
   IHealthUnit,
   IService,
 } from '../../../../../config/entities/health-unit/health-unit.entity';
@@ -12,6 +13,7 @@ export interface CreateHealthUnitParams {
   email: string;
   description?: string;
   img?: string;
+  unitType: EHealthUnitType;
   address: {
     street: string;
     number: string;

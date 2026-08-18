@@ -1,10 +1,16 @@
 import { z } from 'zod';
-import type { WeekDay } from '../../../../../config/entities/health-unit/health-unit.entity';
+import {
+  EHealthUnitType,
+  type WeekDay,
+} from '../../../../../config/entities/health-unit/health-unit.entity';
 
 const requiredText = (message: string) => z.string().trim().min(1, message);
 
 export const healthUnitModalSchema = z.object({
   name: requiredText('Informe o nome da unidade.'),
+  unitType: z.enum(EHealthUnitType, {
+    message: 'Selecione o tipo da unidade.',
+  }),
   phone: z
     .string()
     .regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, 'Informe um telefone válido.'),

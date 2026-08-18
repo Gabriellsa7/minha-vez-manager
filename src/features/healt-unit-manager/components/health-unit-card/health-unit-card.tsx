@@ -1,7 +1,10 @@
 import style from './health-unit-card.module.scss';
 import Hospital from '../../../../assets/img/Hospital.png';
 import { MapPin } from 'lucide-react';
-import type { IHealthUnit } from '../../../../config/entities/health-unit/health-unit.entity';
+import {
+  EHealthUnitType,
+  type IHealthUnit,
+} from '../../../../config/entities/health-unit/health-unit.entity';
 
 interface HealthUnitCardProps {
   healthUnit: IHealthUnit;
@@ -30,6 +33,18 @@ export function HealthUnitCard({ healthUnit, onClick }: HealthUnitCardProps) {
 
       <div className={style.content}>
         <h3>{healthUnit.name}</h3>
+
+        <span
+          className={`${style.badge} ${
+            healthUnit.unitType === EHealthUnitType.PRIVATE
+              ? style.badgePrivate
+              : style.badgePublic
+          }`}
+        >
+          {healthUnit.unitType === EHealthUnitType.PRIVATE
+            ? 'Privada'
+            : 'Pública'}
+        </span>
 
         <div className={style.address}>
           <MapPin size={16} />

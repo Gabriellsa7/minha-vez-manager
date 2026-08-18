@@ -13,7 +13,10 @@ import { usePostHealthUnit } from './api/post-health-unit';
 import { GET_HEALTH_UNITS_BY_USER_ID_KEY } from '../../../../config/api/get-health-units-by-user-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import { useCurrentUser } from '../../../../config/api/get-current-user';
-import { WeekDay } from '../../../../config/entities/health-unit/health-unit.entity';
+import {
+  EHealthUnitType,
+  WeekDay,
+} from '../../../../config/entities/health-unit/health-unit.entity';
 import { formatPhone, normalizeEmail } from '../../../../config/utils';
 import { Field } from '../../../../components/field/field';
 import { AddressSection } from './components/address-section/address-section';
@@ -27,6 +30,7 @@ interface CreateHealthUnitModalProps {
 
 const defaultValues: HealthUnitModalFormData = {
   name: '',
+  unitType: '' as HealthUnitModalFormData['unitType'],
   phone: '',
   email: '',
   description: '',
@@ -149,6 +153,15 @@ function HealthUnitModal({ onClose, open }: CreateHealthUnitModalProps) {
         <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
           <Field label="Nome da unidade" error={errors.name?.message}>
             <input {...register('name')} autoFocus />
+          </Field>
+          <Field label="Tipo de unidade" error={errors.unitType?.message}>
+            <select {...register('unitType')} defaultValue="">
+              <option value="" disabled>
+                Selecione o tipo da unidade
+              </option>
+              <option value={EHealthUnitType.PUBLIC}>Pública</option>
+              <option value={EHealthUnitType.PRIVATE}>Privada</option>
+            </select>
           </Field>
           <div className={style.twoColumns}>
             <Field label="Telefone" error={errors.phone?.message}>
