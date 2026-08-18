@@ -5,4 +5,5 @@ export const PRIORITY_LABEL: Record<string, string> = {
   [patientPriority.ELDERLY]: 'Idoso',
   [patientPriority.PREGNANT]: 'Gestante',
   [patientPriority.DISABLED]: 'PCD',
+  [patientPriority.CHRONIC_CONDITION]: 'Doença crônica',
 };

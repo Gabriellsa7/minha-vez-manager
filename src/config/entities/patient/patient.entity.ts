@@ -14,6 +14,7 @@ export const patientPriority = {
   ELDERLY: 'ELDERLY',
   PREGNANT: 'PREGNANT',
   DISABLED: 'DISABLED',
+  CHRONIC_CONDITION: 'CHRONIC_CONDITION',
 } as const;
 
 export type EPatientPriority =
