@@ -1,3 +1,5 @@
+@use '../../../../vars' as *;
+
 .container {
   display: flex;
   align-items: flex-end;
@@ -28,25 +30,25 @@
 }
 
 .applyButton {
-  background: #08777a;
-  color: #fff;
+  background: $primary;
+  color: $white;
   box-shadow: 0 4px 10px rgba(8, 119, 122, 0.2);
 }
 
 .applyButton:hover:not(:disabled) {
-  background: #066669;
+  background: $primary-dark;
 }
 
 .applyButton:disabled {
-  background: #cbd5e1;
+  background: $slate-300;
   cursor: not-allowed;
 }
 
 .clearButton {
-  background: #eef3f3;
-  color: #4d6063;
+  background: $primary-250;
+  color: $gray-700;
 }
 
 .clearButton:hover {
-  background: #e2e9e9;
+  background: $gray-200;
 }

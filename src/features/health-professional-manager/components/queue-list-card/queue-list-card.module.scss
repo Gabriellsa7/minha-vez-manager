@@ -1,9 +1,11 @@
+@use '../../../../vars' as *;
+
 .container {
   width: 100%;
   padding: 20px 24px;
   border-radius: 16px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: $white;
+  border: 1px solid $gray-150;
 
   display: flex;
   align-items: center;
@@ -23,7 +25,7 @@
 .date {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: $slate-800;
   text-transform: capitalize;
 }
 
@@ -38,18 +40,18 @@
 
 .open,
 .in_progress {
-  background: #dcfce7;
-  color: #15803d;
+  background: $success-bg;
+  color: $success;
 }
 
 .closed {
-  background: #f3f4f6;
-  color: #6b7280;
+  background: $gray-150;
+  color: $gray-600;
 }
 
 .hint {
   font-size: 13px;
-  color: #9ca3af;
+  color: $gray-400;
 }
 
 .openButton,
@@ -65,27 +67,27 @@
 }
 
 .openButton {
-  background: #2563eb;
-  color: #fff;
+  background: $info;
+  color: $white;
 
   &:hover:not(:disabled) {
-    background: #1d4ed8;
+    background: $info-dark;
   }
 
   &:disabled {
-    background: #e5e7eb;
-    color: #9ca3af;
+    background: $gray-150;
+    color: $gray-400;
     cursor: not-allowed;
   }
 }
 
 .closeButton {
-  background: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
+  background: $danger-bg;
+  color: $danger-strong;
+  border: 1px solid $danger-bg;
 
   &:hover:not(:disabled) {
-    background: #fee2e2;
+    background: $danger-bg;
   }
 
   &:disabled {

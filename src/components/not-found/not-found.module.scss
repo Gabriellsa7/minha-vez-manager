@@ -1,3 +1,5 @@
+@use '../../vars' as *;
+
 .container {
   display: flex;
   flex-direction: column;
@@ -5,7 +7,7 @@
   justify-content: center;
   min-height: 100vh;
   padding: 24px;
-  background-color: #fff;
+  background-color: $white;
 }
 
 .brand {
@@ -31,7 +33,7 @@
 .brandName {
   font-size: 14px;
   font-weight: 600;
-  color: #242424;
+  color: $gray-950;
 }
 
 .content {
@@ -48,20 +50,20 @@
   font-size: 48px;
   font-weight: 700;
   line-height: 1;
-  color: #5333e5;
+  color: $purple;
 }
 
 .title {
   font-size: 20px;
   font-weight: 600;
-  color: #242424;
+  color: $gray-950;
 }
 
 .description {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
-  color: #707070;
+  color: $gray-500;
 }
 
 .homeLink {
@@ -74,12 +76,12 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 1.5;
-  color: #fff;
-  background-color: #a793fa;
+  color: $white;
+  background-color: $purple-mid;
   transition: background-color 0.2s ease-out;
 
   &:hover {
-    background-color: #c6bbf6;
+    background-color: $purple-light;
   }
 }
 

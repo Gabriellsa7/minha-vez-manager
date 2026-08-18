@@ -1,3 +1,5 @@
+@use '../../vars' as *;
+
 .container {
   display: flex;
   height: 100vh;
@@ -14,8 +16,8 @@
 }
 
 .rulesSection {
-  background: #fff;
-  border: 1px solid #edf2f7;
+  background: $white;
+  border: 1px solid $slate-050;
   border-radius: 20px;
   padding: 20px;
   max-width: 720px;
@@ -24,7 +26,7 @@
     margin: 0 0 14px;
     font-size: 15px;
     font-weight: 700;
-    color: #26383b;
+    color: $text-primary;
   }
 }
 
@@ -34,27 +36,27 @@
   align-items: end;
   gap: 10px;
   padding: 10px 12px;
-  border: 1px solid #e2eaea;
+  border: 1px solid $primary-250;
   border-radius: 12px;
-  background: #fbfdfd;
+  background: $primary-100;
   margin-bottom: 8px;
 
   input[type='time'] {
     box-sizing: border-box;
     width: 100%;
-    border: 1px solid #dce5e5;
+    border: 1px solid $gray-200;
     border-radius: 12px;
     outline: none;
-    background: #fff;
-    color: #26383b;
+    background: $white;
+    color: $text-primary;
     font: inherit;
     font-size: 12px;
     padding: 8px 10px;
   }
 
   input:disabled {
-    background: #f5f7f7;
-    color: #98a4a6;
+    background: $gray-200;
+    color: $gray-450;
     cursor: not-allowed;
   }
 }
@@ -66,7 +68,7 @@
   margin-bottom: 4px;
 
   span {
-    color: #94a3b8;
+    color: $slate-400;
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
@@ -81,7 +83,7 @@
 }
 
 .fieldLabel {
-  color: #8a97a0;
+  color: $gray-450;
   font-size: 10px;
   font-weight: 600;
 
@@ -97,7 +99,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #526568;
+  color: $gray-700;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
@@ -111,8 +113,8 @@
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
-  background: #08777a;
-  color: #fff;
+  background: $primary;
+  color: $white;
 }
 .saveButton:disabled {
   cursor: not-allowed;

@@ -1,3 +1,5 @@
+@use '../../../../vars' as *;
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -20,9 +22,9 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-  background: #fff;
+  background: $white;
 
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 18px;
 
   padding: 24px 16px 16px;
@@ -45,7 +47,7 @@
 }
 .header h2 {
   margin: 0;
-  color: #26383b;
+  color: $text-primary;
   font-size: 16px;
   font-weight: 700;
 }
@@ -57,12 +59,12 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #778486;
+  color: $gray-550;
   cursor: pointer;
 }
 .closeButton:hover {
-  background: #eef4f3;
-  color: #315e60;
+  background: $primary-100;
+  color: $text-secondary;
 }
 .form {
   display: grid;
@@ -73,11 +75,11 @@
 .form textarea {
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 15px;
   outline: none;
-  background: #fff;
-  color: #26383b;
+  background: $white;
+  color: $text-primary;
   font: inherit;
   font-size: 13px;
   padding: 10px 13px;
@@ -91,7 +93,7 @@
 }
 .form input:not([type='checkbox']):focus,
 .form textarea:focus {
-  border-color: #08777a;
+  border-color: $primary;
   box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
 }
 .twoColumns {
@@ -103,7 +105,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #526568;
+  color: $gray-700;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
@@ -119,7 +121,7 @@
   align-items: center;
   gap: 10px;
   justify-content: flex-end;
-  border-top: 1px solid #edf0f0;
+  border-top: 1px solid $gray-200;
   margin-top: 4px;
   padding: 16px 8px 0;
 }
@@ -133,16 +135,16 @@
   font-weight: 700;
 }
 .cancelButton {
-  background: #eef3f3;
-  color: #4d6063;
+  background: $primary-250;
+  color: $gray-700;
 }
 .submitButton {
-  background: #08777a;
-  color: #fff;
+  background: $primary;
+  color: $white;
   box-shadow: 0 4px 10px rgba(8, 119, 122, 0.2);
 }
 .submitButton:hover {
-  background: #066669;
+  background: $primary-dark;
 }
 .submitButton:disabled {
   cursor: not-allowed;

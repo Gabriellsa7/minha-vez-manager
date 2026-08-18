@@ -1,9 +1,11 @@
+@use '../../../../vars' as *;
+
 .container {
   width: 100%;
-  background: #fff;
+  background: $white;
   border-radius: 28px;
   padding: 28px 32px;
-  border: 1px solid #e8edf1;
+  border: 1px solid $slate-050;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
@@ -22,7 +24,7 @@
   display: inline-block;
   margin-bottom: 18px;
 
-  color: #0b7b88;
+  color: $primary;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -35,15 +37,15 @@
   gap: 14px;
   font-size: 46px;
   font-weight: 700;
-  color: #111;
+  color: $gray-950;
 }
 
 .returnTag {
   display: inline-block;
   padding: 6px 14px;
   border-radius: 999px;
-  background: #fef3c7;
-  color: #92400e;
+  background: $warning-bg;
+  color: $warning-dark;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -58,16 +60,16 @@
   margin-bottom: 32px;
 
   font-size: 18px;
-  color: #7b7b7b;
+  color: $gray-500;
 
   strong {
-    color: #0b7b88;
+    color: $primary;
     font-weight: 700;
   }
 }
 
 .separator {
-  color: #b8b8b8;
+  color: $gray-300;
 }
 
 .actions {
@@ -87,7 +89,7 @@
 }
 
 .finishButton {
-  background: #0b7b88;
+  background: $primary;
   color: white;
 
   &:hover {
@@ -95,8 +97,8 @@
   }
 
   &:disabled {
-    background: #cbd5e1;
-    color: #64748b;
+    background: $slate-300;
+    color: $slate-500;
     cursor: not-allowed;
 
     &:hover {
@@ -108,25 +110,25 @@
 .finishHint {
   margin: 12px 0 0;
   font-size: 13px;
-  color: #b45309;
+  color: $warning;
 }
 
 .absentButton {
-  background: #e7eaee;
-  color: #0b7b88;
+  background: $slate-050;
+  color: $primary;
 
   &:hover {
-    background: #dfe3e7;
+    background: $gray-150;
   }
 }
 
 .returnButton {
   background: transparent;
-  color: #0b7b88;
-  border: 1px solid #0b7b88;
+  color: $primary;
+  border: 1px solid $primary;
 
   &:hover {
-    background: #eef9f8;
+    background: $primary-200;
   }
 }
 
@@ -145,9 +147,9 @@
   padding: 8px 14px;
   border-radius: 999px;
 
-  background: #eef9f8;
+  background: $primary-200;
 
-  color: #0b7b88;
+  color: $primary;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -157,7 +159,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #0b7b88;
+  background: $primary;
 }
 
 .image {
@@ -165,7 +167,7 @@
   height: 220px;
   overflow: hidden;
   border-radius: 40px;
-  background: linear-gradient(180deg, #5e666c, #42484d);
+  background: linear-gradient(180deg, $gray-600, $gray-700);
 
   img {
     width: 100%;

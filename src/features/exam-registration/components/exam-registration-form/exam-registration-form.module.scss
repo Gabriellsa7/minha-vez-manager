@@ -1,8 +1,10 @@
+@use '../../../../vars' as *;
+
 .container {
   width: 100%;
   max-width: 640px;
-  background: #fff;
-  border: 1px solid #dce5e5;
+  background: $white;
+  border: 1px solid $gray-200;
   border-radius: 18px;
   padding: 24px;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
@@ -10,7 +12,7 @@
 
 .container h2 {
   margin: 0 0 18px;
-  color: #26383b;
+  color: $text-primary;
   font-size: 18px;
   font-weight: 700;
 }
@@ -34,8 +36,8 @@
   padding: 0 16px;
   border: 0;
   border-radius: 9px;
-  background: #08777a;
-  color: #fff;
+  background: $primary;
+  color: $white;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
@@ -47,13 +49,13 @@
 }
 
 .patientFound {
-  color: #0f766e;
+  color: $primary-dark;
   font-size: 13px;
   margin: 4px 0 18px;
 }
 
 .patientNotFound {
-  color: #c44242;
+  color: $danger;
   font-size: 13px;
   margin: 4px 0 18px;
 }
@@ -68,11 +70,11 @@
 .field select {
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 15px;
   outline: none;
-  background: #fff;
-  color: #26383b;
+  background: $white;
+  color: $text-primary;
   font: inherit;
   font-size: 13px;
   padding: 10px 13px;
@@ -89,12 +91,12 @@
 .field input:focus,
 .field textarea:focus,
 .field select:focus {
-  border-color: #08777a;
+  border-color: $primary;
   box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
 }
 
 .error {
-  color: #c44242;
+  color: $danger;
   font-size: 10px;
   font-weight: 500;
 }
@@ -112,14 +114,14 @@
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
-  background: #08777a;
-  color: #fff;
+  background: $primary;
+  color: $white;
   box-shadow: 0 4px 10px rgba(8, 119, 122, 0.2);
   justify-self: flex-end;
 }
 
 .submitButton:hover {
-  background: #066669;
+  background: $primary-dark;
 }
 
 .submitButton:disabled {

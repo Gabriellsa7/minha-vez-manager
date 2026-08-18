@@ -1,3 +1,5 @@
+@use '../../../../../../vars' as *;
+
 .servicesHeader,
 .serviceTitle,
 .actions {
@@ -10,12 +12,12 @@
 .servicesHeader > div {
   display: grid;
   gap: 2px;
-  color: #4b5d60;
+  color: $gray-700;
   font-size: 11px;
   font-weight: 700;
 }
 .servicesHeader small {
-  color: #c44242;
+  color: $danger;
   font-weight: 500;
 }
 .addService {
@@ -25,7 +27,7 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #08777a;
+  color: $primary;
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
@@ -33,18 +35,18 @@
 .serviceCard {
   display: grid;
   gap: 10px;
-  border: 1px solid #e2eaea;
+  border: 1px solid $primary-250;
   border-radius: 12px;
   padding: 12px;
-  background: #fbfdfd;
+  background: $primary-100;
 }
 .serviceTitle {
-  color: #526568;
+  color: $gray-700;
   font-size: 12px;
   font-weight: 700;
 }
 .serviceTitle button {
-  color: #be4d4d;
+  color: $danger;
 }
 .services {
   display: grid;
@@ -57,7 +59,7 @@
   place-items: center;
   border: 0;
   background: transparent;
-  color: #778486;
+  color: $gray-550;
   cursor: pointer;
 }
 
@@ -65,11 +67,11 @@
 .field textarea {
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 15px;
   outline: none;
-  background: #fff;
-  color: #26383b;
+  background: $white;
+  color: $text-primary;
   font: inherit;
   font-size: 13px;
   padding: 10px 13px;
@@ -83,14 +85,14 @@
 }
 .field input:focus,
 .field textarea:focus {
-  border-color: #08777a;
+  border-color: $primary;
   box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
 }
 .field input::placeholder {
-  color: #a1adad;
+  color: $gray-450;
 }
 .error {
-  color: #c44242;
+  color: $danger;
   font-size: 10px;
   font-weight: 500;
 }

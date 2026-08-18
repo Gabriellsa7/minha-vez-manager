@@ -1,9 +1,11 @@
+@use '../../../../vars' as *;
+
 .card {
   width: 280px;
-  background: #fff;
+  background: $white;
   border-radius: 20px;
   padding: 16px;
-  border: 1px solid #edf2f7;
+  border: 1px solid $slate-050;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
 
@@ -17,7 +19,7 @@
     margin: 0;
     font-size: 16px;
     font-weight: 700;
-    color: #1f2937;
+    color: $slate-800;
   }
 }
 
@@ -25,8 +27,8 @@
   display: grid;
   place-items: center;
   border: 0;
-  background: #eef4f3;
-  color: #08777a;
+  background: $primary-100;
+  color: $primary;
   border-radius: 8px;
   width: 28px;
   height: 28px;
@@ -39,8 +41,8 @@
   margin-top: 6px;
   font-size: 11px;
   font-weight: 600;
-  color: #08777a;
-  background: #e6f4f4;
+  color: $primary;
+  background: $primary-200;
   border-radius: 999px;
   padding: 2px 10px;
 }
@@ -51,7 +53,7 @@
   gap: 10px;
   margin-top: 10px;
   font-size: 12px;
-  color: #64748b;
+  color: $slate-500;
 
   span {
     display: inline-flex;
@@ -65,7 +67,7 @@
   margin-top: 8px;
   font-size: 14px;
   font-weight: 700;
-  color: #1f2937;
+  color: $slate-800;
 }
 
 .status {
@@ -77,10 +79,10 @@
   padding: 3px 10px;
 }
 .active {
-  background: #e3f6ea;
-  color: #1c8a4b;
+  background: $success-bg;
+  color: $success;
 }
 .inactive {
-  background: #f3e8e8;
-  color: #b34545;
+  background: $danger-bg-muted;
+  color: $danger;
 }

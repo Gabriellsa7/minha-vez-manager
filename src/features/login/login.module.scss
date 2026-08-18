@@ -1,6 +1,8 @@
+@use '../../vars' as *;
+
 .container {
   display: flex;
-  background-color: #f3f4f5;
+  background-color: $gray-150;
   height: 100%;
   width: 100%;
 
@@ -26,14 +28,14 @@
         width: 52px;
         height: 52px;
         border-radius: 8px;
-        background-color: #ece8fc;
+        background-color: $purple-bg;
       }
 
       .titleArea {
         h3 {
           font-size: 32px;
           font-weight: 600;
-          color: #242424;
+          color: $gray-950;
         }
 
         span {
@@ -62,7 +64,7 @@
         label {
           font-size: 15px;
           font-weight: 600;
-          color: #384248;
+          color: $gray-800;
         }
       }
 
@@ -71,31 +73,31 @@
         width: 100%;
         padding: 0 24px;
 
-        border: 1px solid #dfe5e7;
+        border: 1px solid $gray-200;
         border-radius: 999px;
 
-        background: #fff;
+        background: $white;
 
         font-size: 18px;
-        color: #384248;
+        color: $gray-800;
 
         outline: none;
 
         transition: 0.2s;
 
         &::placeholder {
-          color: #98a2a8;
+          color: $gray-450;
         }
 
         &:focus {
-          border-color: #1f7a83;
+          border-color: $primary;
           box-shadow: 0 0 0 3px rgba(31, 122, 131, 0.12);
         }
       }
 
       .error {
         font-size: 13px;
-        color: #d32f2f;
+        color: $danger-strong;
       }
 
       .loginButton {
@@ -106,8 +108,8 @@
         border: none;
         border-radius: 999px;
 
-        background: #1f7a83;
-        color: #fff;
+        background: $primary;
+        color: $white;
 
         font-size: 16px;
         font-weight: 600;
@@ -116,7 +118,7 @@
         transition: 0.2s;
 
         &:hover {
-          background: #196971;
+          background: $primary-dark;
         }
 
         &:disabled {

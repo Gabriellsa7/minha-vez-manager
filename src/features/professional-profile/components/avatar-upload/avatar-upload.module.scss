@@ -1,3 +1,5 @@
+@use '../../../../vars' as *;
+
 .container {
   display: flex;
   flex-direction: column;
@@ -10,9 +12,9 @@
   width: 110px;
   height: 110px;
   border-radius: 999px;
-  border: 3px solid #fff;
+  border: 3px solid $white;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-  background: #eef4f3;
+  background: $primary-100;
   cursor: pointer;
   overflow: hidden;
   padding: 0;
@@ -37,7 +39,7 @@
   height: 100%;
   font-size: 32px;
   font-weight: 700;
-  color: #08777a;
+  color: $primary;
 }
 
 .overlay {
@@ -48,7 +50,7 @@
   justify-content: center;
   padding: 6px 0;
   background: rgba(8, 30, 31, 0.55);
-  color: #fff;
+  color: $white;
 }
 
 .hiddenInput {
@@ -57,5 +59,5 @@
 
 .hint {
   font-size: 12px;
-  color: #6b7280;
+  color: $gray-600;
 }

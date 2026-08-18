@@ -1,3 +1,5 @@
+@use '../../vars' as *;
+
 .container {
   display: flex;
   height: 100vh;
@@ -24,7 +26,7 @@
 
 .examListSection h2 {
   margin: 0 0 14px;
-  color: #26383b;
+  color: $text-primary;
   font-size: 18px;
   font-weight: 700;
 }
@@ -36,6 +38,6 @@
 }
 
 .empty {
-  color: #94a3b8;
+  color: $slate-400;
   font-size: 14px;
 }

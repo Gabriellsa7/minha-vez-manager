@@ -1,12 +1,14 @@
+@use '../../vars' as *;
+
 .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 32px;
 
-  background: #fff;
+  background: $white;
 
-  border-bottom: 1px solid #eef2f5;
+  border-bottom: 1px solid $slate-050;
 
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.04),
@@ -24,7 +26,7 @@
 
     .subtitle {
       font-size: 14px;
-      color: #6e797c;
+      color: $gray-550;
       opacity: 80%;
     }
   }
@@ -40,8 +42,8 @@
       gap: 8px;
       padding: 12px 22px;
       border-radius: 999px;
-      background-color: #ffffff;
-      color: #191c1d;
+      background-color: $white;
+      color: $gray-900;
     }
 
     .healthUnitButton {
@@ -50,8 +52,8 @@
       gap: 8px;
       padding: 12px 22px;
       border-radius: 999px;
-      background: linear-gradient(to right, #006673, #008091);
-      color: #ffffff;
+      background: linear-gradient(to right, $primary-darker, $primary);
+      color: $white;
     }
   }
 }

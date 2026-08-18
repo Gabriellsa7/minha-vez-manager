@@ -1,3 +1,5 @@
+@use '../../vars' as *;
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -21,8 +23,8 @@
   align-items: center;
   text-align: center;
 
-  background: #fff;
-  border: 1px solid #dce5e5;
+  background: $white;
+  border: 1px solid $gray-200;
   border-radius: 18px;
   padding: 28px 24px 20px;
 
@@ -36,20 +38,20 @@
   height: 48px;
   margin-bottom: 14px;
   border-radius: 50%;
-  background: #fdecec;
-  color: #c44242;
+  background: $danger-bg;
+  color: $danger;
 }
 
 .modal h2 {
   margin: 0 0 8px;
-  color: #26383b;
+  color: $text-primary;
   font-size: 16px;
   font-weight: 700;
 }
 
 .modal p {
   margin: 0;
-  color: #64748b;
+  color: $slate-500;
   font-size: 13px;
   line-height: 1.5;
 }
@@ -75,8 +77,8 @@
 }
 
 .cancelButton {
-  background: #eef3f3;
-  color: #4d6063;
+  background: $primary-250;
+  color: $gray-700;
 }
 
 .cancelButton:disabled,
@@ -86,13 +88,13 @@
 }
 
 .confirmButton {
-  background: #c44242;
-  color: #fff;
+  background: $danger;
+  color: $white;
   box-shadow: 0 4px 10px rgba(196, 66, 66, 0.25);
 }
 
 .confirmButton:hover:not(:disabled) {
-  background: #ab3737;
+  background: $danger-dark;
 }
 
 @media (max-width: 480px) {

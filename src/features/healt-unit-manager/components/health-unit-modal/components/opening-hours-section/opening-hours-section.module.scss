@@ -1,3 +1,5 @@
+@use '../../../../../../vars' as *;
+
 .openingHours {
   display: grid;
   gap: 10px;
@@ -11,7 +13,7 @@
 
   h3 {
     margin: 0;
-    color: #4b5d60;
+    color: $gray-700;
     font-size: 11px;
     font-weight: 700;
   }
@@ -23,13 +25,13 @@
   align-items: center;
   gap: 12px;
   padding: 12px;
-  border: 1px solid #e2eaea;
+  border: 1px solid $primary-250;
   border-radius: 12px;
-  background: #fbfdfd;
+  background: $primary-100;
 }
 
 .day {
-  color: #526568;
+  color: $gray-700;
   font-size: 12px;
   font-weight: 700;
 }
@@ -38,7 +40,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #526568;
+  color: $gray-700;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
@@ -51,11 +53,11 @@
 .openingHourRow input[type='time'] {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 15px;
   outline: none;
-  background: #fff;
-  color: #26383b;
+  background: $white;
+  color: $text-primary;
   font: inherit;
   font-size: 13px;
   padding: 10px 13px;
@@ -65,13 +67,13 @@
 }
 
 .openingHourRow input[type='time']:focus {
-  border-color: #08777a;
+  border-color: $primary;
   box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
 }
 
 .openingHourRow input[type='time']:disabled {
-  background: #f5f7f7;
-  color: #98a4a6;
+  background: $gray-200;
+  color: $gray-450;
   cursor: not-allowed;
 }
 

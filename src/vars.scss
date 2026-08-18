@@ -1,0 +1,72 @@
+// Paleta de cores do projeto.
+// Use `@use '<caminho-relativo-para-src>/vars' as *;` no topo de cada .module.scss
+// e utilize as variáveis diretamente, ex: `background-color: $primary;`.
+
+// Marca (primary)
+$primary-050: #f8fafb;
+$primary-100: #eef4f3;
+$primary-150: #e0f2fe;
+$primary-200: #e6f4f4;
+$primary-250: #eef3f3;
+$primary-300: #cffafe;
+$primary-400: #b7cccc;
+$primary: #08777a;
+$primary-dark: #066669;
+$primary-darker: #006673;
+
+// Texto
+$text-primary: #26383b;
+$text-secondary: #315e60;
+$white: #ffffff;
+
+// Neutros (gray)
+$gray-100: #f1f0f0;
+$gray-150: #e5e7eb;
+$gray-200: #dce5e5;
+$gray-300: #b8b8b8;
+$gray-400: #9ca3af;
+$gray-450: #a1adad;
+$gray-500: #707070;
+$gray-550: #778486;
+$gray-600: #6b7280;
+$gray-700: #4d6063;
+$gray-800: #384248;
+$gray-900: #191c1d;
+$gray-950: #242424;
+
+// Neutros azulados (slate)
+$slate-050: #edf2f7;
+$slate-300: #cbd5e1;
+$slate-400: #94a3b8;
+$slate-500: #64748b;
+$slate-600: #475569;
+$slate-700: #374151;
+$slate-800: #1f2937;
+
+// Perigo (danger)
+$danger-bg: #fdecec;
+$danger-bg-muted: #f3e8e8;
+$danger: #c44242;
+$danger-strong: #dc2626;
+$danger-dark: #ab3737;
+
+// Aviso (warning)
+$warning-bg: #fef3c7;
+$warning: #b45309;
+$warning-dark: #92400e;
+
+// Sucesso (success)
+$success-bg: #e3f6ea;
+$success: #1c8a4b;
+
+// Informação (info)
+$info-bg: #e6f0fb;
+$info: #2563eb;
+$info-dark: #1d4ed8;
+$info-darker: #0369a1;
+
+// Destaque (purple)
+$purple-bg: #ece8fc;
+$purple-light: #c6bbf6;
+$purple-mid: #a793fa;
+$purple: #5333e5;

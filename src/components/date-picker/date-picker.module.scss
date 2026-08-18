@@ -1,3 +1,5 @@
+@use '../../vars' as *;
+
 .container {
   position: relative;
 }
@@ -10,13 +12,13 @@
   min-width: 150px;
   padding: 10px 12px;
 
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 10px;
-  background: #fff;
+  background: $white;
 
   font: inherit;
   font-size: 13px;
-  color: #26383b;
+  color: $text-primary;
   text-align: left;
 
   cursor: pointer;
@@ -24,18 +26,18 @@
 
   svg {
     flex-shrink: 0;
-    color: #08777a;
+    color: $primary;
   }
 }
 
 .trigger:hover:not(:disabled) {
-  border-color: #b7cccc;
+  border-color: $primary-400;
 }
 
 .trigger:focus-visible,
 .trigger[aria-expanded='true'] {
   outline: none;
-  border-color: #08777a;
+  border-color: $primary;
 }
 
 .trigger:disabled {
@@ -44,7 +46,7 @@
 }
 
 .placeholder {
-  color: #94a3b8;
+  color: $slate-400;
 }
 
 .popover {
@@ -53,8 +55,8 @@
   left: 0;
   z-index: 20;
 
-  background: #fff;
-  border: 1px solid #e8edf1;
+  background: $white;
+  border: 1px solid $slate-050;
   border-radius: 18px;
   padding: 14px;
 
@@ -67,9 +69,9 @@
 }
 
 .calendar {
-  --rdp-accent-color: #08777a;
-  --rdp-accent-background-color: #eef4f3;
-  --rdp-today-color: #08777a;
+  --rdp-accent-color: $primary;
+  --rdp-accent-background-color: $primary-100;
+  --rdp-today-color: $primary;
 
   --rdp-day-width: 36px;
   --rdp-day-height: 36px;
@@ -87,39 +89,39 @@
   --rdp-disabled-opacity: 0.4;
 
   font-family: inherit;
-  color: #26383b;
+  color: $text-primary;
 
   :global(.rdp-month_caption) {
     font-size: 14px;
     font-weight: 600;
-    color: #26383b;
+    color: $text-primary;
   }
 
   :global(.rdp-weekday) {
     font-size: 11px;
     font-weight: 600;
-    color: #94a3b8;
+    color: $slate-400;
     text-transform: uppercase;
   }
 
   :global(.rdp-button_previous),
   :global(.rdp-button_next) {
     border-radius: 50%;
-    background: #f1f5f9;
-    color: #08777a;
+    background: $slate-050;
+    color: $primary;
   }
 
   :global(.rdp-button_previous:hover:not(:disabled)),
   :global(.rdp-button_next:hover:not(:disabled)) {
-    background: #eef4f3;
+    background: $primary-100;
   }
 
   :global(.rdp-chevron) {
-    fill: #08777a;
+    fill: $primary;
   }
 
   :global(.rdp-day_button:hover:not(:disabled)) {
-    background: #eef4f3;
+    background: $primary-100;
   }
 
   :global(.rdp-selected) {
@@ -127,8 +129,8 @@
   }
 
   :global(.rdp-selected) :global(.rdp-day_button) {
-    background: #08777a;
-    color: #fff;
+    background: $primary;
+    color: $white;
     font-size: 13px;
     font-weight: 700;
   }

@@ -1,3 +1,5 @@
+@use '../../../../vars' as *;
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -20,9 +22,9 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-  background: #fff;
+  background: $white;
 
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 18px;
 
   padding: 24px 20px 16px;
@@ -45,7 +47,7 @@
 
   h2 {
     margin: 0;
-    color: #26383b;
+    color: $text-primary;
     font-size: 18px;
     font-weight: 700;
   }
@@ -53,7 +55,7 @@
   span {
     display: block;
     margin-top: 4px;
-    color: #6b7280;
+    color: $gray-600;
     font-size: 13px;
   }
 }
@@ -66,13 +68,13 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #778486;
+  color: $gray-550;
   cursor: pointer;
 }
 
 .closeButton:hover {
-  background: #eef4f3;
-  color: #315e60;
+  background: $primary-100;
+  color: $text-secondary;
 }
 
 .body {
@@ -86,11 +88,11 @@
   margin-bottom: 10px;
   font-size: 13px;
   font-weight: 600;
-  color: #26383b;
+  color: $text-primary;
 }
 
 .calendarCard {
-  border: 1px solid #e8edf1;
+  border: 1px solid $slate-050;
   border-radius: 18px;
   padding: 16px;
 }
@@ -104,7 +106,7 @@
   span {
     font-size: 14px;
     font-weight: 600;
-    color: #26383b;
+    color: $text-primary;
   }
 }
 
@@ -119,13 +121,13 @@
     height: 30px;
     border: 0;
     border-radius: 50%;
-    background: #f1f5f9;
-    color: #08777a;
+    background: $slate-050;
+    color: $primary;
     cursor: pointer;
   }
 
   button:disabled {
-    color: #cbd5e1;
+    color: $slate-300;
     cursor: not-allowed;
   }
 }
@@ -139,7 +141,7 @@
     text-align: center;
     font-size: 11px;
     font-weight: 600;
-    color: #94a3b8;
+    color: $slate-400;
   }
 }
 
@@ -157,22 +159,22 @@
   border-radius: 50%;
   background: transparent;
   font-size: 13px;
-  color: #26383b;
+  color: $text-primary;
   cursor: pointer;
 }
 
 .day:hover:not(:disabled) {
-  background: #eef4f3;
+  background: $primary-100;
 }
 
 .daySelected {
-  background: #08777a !important;
-  color: #fff !important;
+  background: $primary !important;
+  color: $white !important;
   font-weight: 700;
 }
 
 .dayDisabled {
-  color: #cbd5e1;
+  color: $slate-300;
   cursor: not-allowed;
 }
 
@@ -185,7 +187,7 @@
 .emptyState {
   margin: 0;
   font-size: 13px;
-  color: #6b7280;
+  color: $gray-600;
 }
 
 .time {
@@ -193,30 +195,30 @@
   align-items: center;
   gap: 6px;
 
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 999px;
   padding: 8px 14px;
 
-  background: #fff;
-  color: #26383b;
+  background: $white;
+  color: $text-primary;
   font-size: 13px;
 
   cursor: pointer;
 }
 
 .time:hover:not(:disabled) {
-  border-color: #08777a;
+  border-color: $primary;
 }
 
 .timeSelected {
-  border-color: #08777a !important;
-  background: #08777a !important;
-  color: #fff !important;
+  border-color: $primary !important;
+  background: $primary !important;
+  color: $white !important;
 }
 
 .timeDisabled {
-  background: #f1f5f9;
-  color: #94a3b8;
+  background: $slate-050;
+  color: $slate-400;
   cursor: not-allowed;
   opacity: 0.75;
 }
@@ -233,7 +235,7 @@
   justify-content: flex-end;
   gap: 10px;
 
-  border-top: 1px solid #edf0f0;
+  border-top: 1px solid $gray-200;
   margin-top: 20px;
   padding: 16px 4px 0;
 }
@@ -249,18 +251,18 @@
 }
 
 .cancelButton {
-  background: #eef3f3;
-  color: #4d6063;
+  background: $primary-250;
+  color: $gray-700;
 }
 
 .submitButton {
-  background: #08777a;
-  color: #fff;
+  background: $primary;
+  color: $white;
   box-shadow: 0 4px 10px rgba(8, 119, 122, 0.2);
 }
 
 .submitButton:hover:not(:disabled) {
-  background: #066669;
+  background: $primary-dark;
 }
 
 .submitButton:disabled {

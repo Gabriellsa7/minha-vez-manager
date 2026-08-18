@@ -1,6 +1,8 @@
+@use '../../../../vars' as *;
+
 .container {
   width: 100%;
-  background: #fff;
+  background: $white;
   padding: 24px;
   border-radius: 24px;
 }
@@ -15,13 +17,13 @@
     margin: 0;
     font-size: 24px;
     font-weight: 700;
-    color: #1f2937;
+    color: $slate-800;
   }
 
   span {
     display: block;
     margin-top: 6px;
-    color: #6b7280;
+    color: $gray-600;
     font-size: 15px;
   }
 }
@@ -29,7 +31,7 @@
 .link {
   border: none;
   background: transparent;
-  color: #006673;
+  color: $primary-darker;
   font-weight: 600;
   cursor: pointer;
   font-size: 15px;
@@ -46,7 +48,7 @@
   padding: 20px;
   border-radius: 24px;
 
-  background: #f8fafb;
+  background: $primary-050;
 
   display: flex;
   justify-content: space-between;
@@ -69,12 +71,12 @@
     align-items: center;
     gap: 8px;
     font-size: 17px;
-    color: #1f2937;
+    color: $slate-800;
     margin-bottom: 6px;
   }
 
   span {
-    color: #6b7280;
+    color: $gray-600;
     font-size: 14px;
   }
 }
@@ -83,8 +85,8 @@
   display: inline-block;
   padding: 2px 10px;
   border-radius: 999px;
-  background: #fef3c7;
-  color: #92400e;
+  background: $warning-bg;
+  color: $warning-dark;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.3px;
@@ -96,13 +98,13 @@
 
   border-radius: 50%;
 
-  background: #dceff2;
+  background: $primary-200;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  color: #006673;
+  color: $primary-darker;
   font-weight: 700;
 }
 
@@ -116,14 +118,14 @@
 
     font-size: 11px;
     letter-spacing: 1px;
-    color: #9ca3af;
+    color: $gray-400;
 
     margin-bottom: 5px;
   }
 
   span {
     font-size: 15px;
-    color: #374151;
+    color: $slate-700;
     font-weight: 500;
   }
 }
@@ -135,31 +137,31 @@
   font-size: 12px !important;
   font-weight: 700 !important;
 
-  background: #e5e7eb;
+  background: $gray-150;
 }
 
 .alta {
-  background: #fee2e2;
-  color: #dc2626 !important;
+  background: $danger-bg;
+  color: $danger-strong !important;
 }
 
 .idoso {
-  background: #dbeafe;
-  color: #0369a1 !important;
+  background: $info-bg;
+  color: $info-darker !important;
 }
 
 .gestante {
-  background: #cffafe;
-  color: #0e7490 !important;
+  background: $primary-300;
+  color: $primary !important;
 }
 
 .padrao {
-  background: #e5e7eb;
-  color: #6b7280 !important;
+  background: $gray-150;
+  color: $gray-600 !important;
 }
 
 .callButton {
-  background: #006673;
+  background: $primary-darker;
   color: white;
 
   border: none;
@@ -175,6 +177,6 @@
   transition: 0.2s;
 
   &:hover {
-    background: #00545e;
+    background: $primary-darker;
   }
 }

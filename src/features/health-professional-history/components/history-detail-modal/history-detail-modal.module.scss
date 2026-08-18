@@ -1,3 +1,5 @@
+@use '../../../../vars' as *;
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -20,9 +22,9 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-  background: #fff;
+  background: $white;
 
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 18px;
 
   padding: 24px 20px 20px;
@@ -45,7 +47,7 @@
 
   h2 {
     margin: 0;
-    color: #26383b;
+    color: $text-primary;
     font-size: 18px;
     font-weight: 700;
   }
@@ -53,7 +55,7 @@
 
 .subtitle {
   margin: 4px 0 0;
-  color: #6b7280;
+  color: $gray-600;
   font-size: 13px;
 }
 
@@ -65,13 +67,13 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #778486;
+  color: $gray-550;
   cursor: pointer;
 }
 
 .closeButton:hover {
-  background: #eef4f3;
-  color: #315e60;
+  background: $primary-100;
+  color: $text-secondary;
 }
 
 .body {
@@ -84,18 +86,18 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #475569;
+  color: $slate-600;
   font-size: 14px;
 
   svg {
     flex-shrink: 0;
-    color: #08777a;
+    color: $primary;
   }
 }
 
 .divider {
   height: 1px;
-  background: #edf0f0;
+  background: $gray-200;
   margin: 6px 0 4px;
 }
 
@@ -111,7 +113,7 @@
   }
 
   strong {
-    color: #1f2937;
+    color: $slate-800;
     font-size: 14px;
   }
 }
@@ -121,7 +123,7 @@
   font-weight: 600;
   letter-spacing: 0.3px;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: $slate-400;
 }
 
 @media (max-width: 480px) {

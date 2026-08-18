@@ -1,3 +1,5 @@
+@use '../../vars' as *;
+
 .container {
   display: flex;
   height: 100vh;
@@ -23,7 +25,7 @@
     width: 190px;
     font-size: 12px;
     font-weight: 700;
-    color: #526568;
+    color: $gray-700;
   }
 }
 
@@ -38,8 +40,8 @@
   justify-content: space-between;
   gap: 12px;
   padding: 14px 18px;
-  background: #fff;
-  border: 1px solid #edf2f7;
+  background: $white;
+  border: 1px solid $slate-050;
   border-radius: 16px;
 }
 
@@ -48,7 +50,7 @@
   align-items: center;
   gap: 14px;
   font-size: 13px;
-  color: #26383b;
+  color: $text-primary;
 
   strong {
     font-size: 14px;
@@ -62,28 +64,28 @@
   padding: 3px 10px;
 }
 .SCHEDULED {
-  background: #e6f0fb;
-  color: #2563eb;
+  background: $info-bg;
+  color: $info;
 }
 .CONFIRMED {
-  background: #e6f4f4;
-  color: #08777a;
+  background: $primary-200;
+  color: $primary;
 }
 .IN_PROGRESS {
-  background: #fef3c7;
-  color: #b45309;
+  background: $warning-bg;
+  color: $warning;
 }
 .COMPLETED {
-  background: #e3f6ea;
-  color: #1c8a4b;
+  background: $success-bg;
+  color: $success;
 }
 .CANCELED {
-  background: #f3e8e8;
-  color: #b34545;
+  background: $danger-bg-muted;
+  color: $danger;
 }
 .NO_SHOW {
-  background: #f1f0f0;
-  color: #6b7280;
+  background: $gray-100;
+  color: $gray-600;
 }
 
 .rowActions {
@@ -97,17 +99,17 @@
     cursor: pointer;
     font-size: 11px;
     font-weight: 700;
-    background: #eef3f3;
-    color: #08777a;
+    background: $primary-250;
+    color: $primary;
   }
 }
 
 .dangerButton {
-  background: #fbeaea !important;
-  color: #b34545 !important;
+  background: $danger-bg !important;
+  color: $danger !important;
 }
 
 .empty {
-  color: #94a3b8;
+  color: $slate-400;
   font-size: 13px;
 }

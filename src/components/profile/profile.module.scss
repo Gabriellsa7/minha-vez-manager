@@ -1,8 +1,10 @@
+@use '../../vars' as *;
+
 .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #ffffff;
+  background-color: $white;
   padding: 14px 16px;
   width: 250px;
   border-radius: 999px;
@@ -25,7 +27,7 @@
       width: 40px;
       height: 40px;
       border-radius: 999px;
-      background-color: #e1e3e4;
+      background-color: $gray-200;
       overflow: hidden;
 
       img {
@@ -35,7 +37,7 @@
       }
 
       span {
-        color: #007a78;
+        color: $primary;
       }
     }
   }

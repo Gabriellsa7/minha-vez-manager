@@ -1,7 +1,9 @@
+@use '../../vars' as *;
+
 .field {
   display: grid;
   gap: 6px;
-  color: #4b5d60;
+  color: $gray-700;
   font-size: 11px;
   font-weight: 600;
 }
@@ -11,11 +13,11 @@
 .field select {
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 15px;
   outline: none;
-  background: #fff;
-  color: #26383b;
+  background: $white;
+  color: $text-primary;
   font: inherit;
   font-size: 13px;
   padding: 10px 13px;
@@ -32,16 +34,16 @@
 .field input:focus,
 .field textarea:focus,
 .field select:focus {
-  border-color: #08777a;
+  border-color: $primary;
   box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
 }
 
 .field input::placeholder {
-  color: #a1adad;
+  color: $gray-450;
 }
 
 .error {
-  color: #c44242;
+  color: $danger;
   font-size: 10px;
   font-weight: 500;
 }

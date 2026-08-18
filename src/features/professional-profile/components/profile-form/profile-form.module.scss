@@ -1,3 +1,5 @@
+@use '../../../../vars' as *;
+
 .form {
   display: flex;
   flex-direction: column;
@@ -9,14 +11,14 @@
     width: 100%;
     padding: 10px 12px;
     border-radius: 10px;
-    border: 1px solid #dce5e5;
+    border: 1px solid $gray-200;
     font-size: 13px;
-    color: #26383b;
+    color: $text-primary;
   }
 
   input:focus {
     outline: none;
-    border-color: #08777a;
+    border-color: $primary;
   }
 }
 
@@ -32,8 +34,8 @@
   gap: 14px;
   padding: 16px;
   border-radius: 14px;
-  background: #f8fafc;
-  border: 1px solid #edf2f7;
+  background: $slate-050;
+  border: 1px solid $slate-050;
 
   div {
     display: flex;
@@ -42,7 +44,7 @@
   }
 
   strong {
-    color: #1f2937;
+    color: $slate-800;
     font-size: 14px;
   }
 }
@@ -52,7 +54,7 @@
   font-weight: 600;
   letter-spacing: 0.3px;
   text-transform: uppercase;
-  color: #94a3b8;
+  color: $slate-400;
 }
 
 .submitButton {
@@ -63,13 +65,13 @@
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  background: #08777a;
-  color: #fff;
+  background: $primary;
+  color: $white;
   box-shadow: 0 4px 10px rgba(8, 119, 122, 0.2);
 }
 
 .submitButton:hover:not(:disabled) {
-  background: #066669;
+  background: $primary-dark;
 }
 
 .submitButton:disabled {

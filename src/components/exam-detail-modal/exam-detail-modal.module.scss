@@ -1,3 +1,5 @@
+@use '../../vars' as *;
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -20,8 +22,8 @@
   display: flex;
   flex-direction: column;
 
-  background: #fff;
-  border: 1px solid #dce5e5;
+  background: $white;
+  border: 1px solid $gray-200;
   border-radius: 18px;
   padding: 20px;
 
@@ -38,14 +40,14 @@
 
 .header h2 {
   margin: 0;
-  color: #26383b;
+  color: $text-primary;
   font-size: 16px;
   font-weight: 700;
 }
 
 .subtitle {
   margin: 4px 0 0;
-  color: #64748b;
+  color: $slate-500;
   font-size: 13px;
 }
 
@@ -66,12 +68,12 @@
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
-  background: #08777a;
-  color: #fff;
+  background: $primary;
+  color: $white;
 }
 
 .downloadButton:hover {
-  background: #066669;
+  background: $primary-dark;
 }
 
 .closeButton {
@@ -82,13 +84,13 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #778486;
+  color: $gray-550;
   cursor: pointer;
 }
 
 .closeButton:hover {
-  background: #eef4f3;
-  color: #315e60;
+  background: $primary-100;
+  color: $text-secondary;
 }
 
 .body {
@@ -96,14 +98,14 @@
   min-height: 0;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #edf0f0;
+  border: 1px solid $gray-200;
 }
 
 .loading {
   display: grid;
   place-items: center;
   height: 100%;
-  color: #64748b;
+  color: $slate-500;
   font-size: 13px;
 }
 

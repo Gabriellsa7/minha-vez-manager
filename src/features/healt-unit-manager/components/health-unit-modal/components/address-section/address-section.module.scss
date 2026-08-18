@@ -1,3 +1,5 @@
+@use '../../../../../../vars' as *;
+
 .twoColumns,
 .addressRow {
   display: grid;
@@ -15,12 +17,12 @@
   margin: 0;
   padding: 14px 10px 2px;
   border: 0;
-  border-top: 1px solid #edf0f0;
+  border-top: 1px solid $gray-200;
 }
 
 .fieldset legend {
   padding: 0;
-  color: #5d7073;
+  color: $gray-550;
   font-size: 11px;
   font-weight: 700;
 }
@@ -39,11 +41,11 @@
 .field textarea {
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid #dce5e5;
+  border: 1px solid $gray-200;
   border-radius: 15px;
   outline: none;
-  background: #fff;
-  color: #26383b;
+  background: $white;
+  color: $text-primary;
   font: inherit;
   font-size: 13px;
   padding: 10px 13px;
@@ -57,14 +59,14 @@
 }
 .field input:focus,
 .field textarea:focus {
-  border-color: #08777a;
+  border-color: $primary;
   box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
 }
 .field input::placeholder {
-  color: #a1adad;
+  color: $gray-450;
 }
 .error {
-  color: #c44242;
+  color: $danger;
   font-size: 10px;
   font-weight: 500;
 }
