@@ -1,8 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
+import { authStorage } from './auth-storage';
 
 export type ThemePreference = 'light' | 'dark' | 'system';
 
-const THEME_STORAGE_KEY = 'theme';
+// A preferência de tema é isolada por usuário (chave sufixada com o id do
+// token logado) para que contas diferentes no mesmo navegador não herdem o
+// tema uma da outra ao trocar de login.
+function getThemeStorageKey() {
+  const userId = authStorage.getUserId();
+  return `theme:${userId ?? 'guest'}`;
+}
 
 function applyTheme(theme: ThemePreference) {
   const root = document.documentElement;
@@ -15,23 +22,27 @@ function applyTheme(theme: ThemePreference) {
   root.setAttribute('data-theme', theme);
 }
 
-function readStoredTheme(): ThemePreference {
-  const stored = localStorage.getItem(THEME_STORAGE_KEY);
+function readStoredTheme(storageKey: string): ThemePreference {
+  const stored = localStorage.getItem(storageKey);
   return stored === 'light' || stored === 'dark' ? stored : 'system';
 }
 
 function useTheme() {
-  const [theme, setThemeState] = useState<ThemePreference>(readStoredTheme);
+  const [theme, setThemeState] = useState<ThemePreference>(() =>
+    readStoredTheme(getThemeStorageKey())
+  );
 
   useEffect(() => {
     applyTheme(theme);
   }, [theme]);
 
   const setTheme = useCallback((next: ThemePreference) => {
+    const storageKey = getThemeStorageKey();
+
     if (next === 'system') {
-      localStorage.removeItem(THEME_STORAGE_KEY);
+      localStorage.removeItem(storageKey);
     } else {
-      localStorage.setItem(THEME_STORAGE_KEY, next);
+      localStorage.setItem(storageKey, next);
     }
     setThemeState(next);
   }, []);

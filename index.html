@@ -7,7 +7,26 @@
     <title>Minha Vez Manager | Painel de Gerenciamento</title>
     <script>
       (function () {
-        var theme = localStorage.getItem('theme');
+        // A preferência de tema é isolada por usuário (ver src/hooks/use-theme.ts),
+        // então aqui decodificamos o token para saber de qual conta ler o tema
+        // antes do primeiro paint, evitando herdar o tema de outra conta logada
+        // anteriormente no mesmo navegador.
+        function getUserId() {
+          try {
+            var token = localStorage.getItem('access_token');
+            if (!token) return undefined;
+            var payload = token.split('.')[1];
+            var json = JSON.parse(
+              atob(payload.replace(/-/g, '+').replace(/_/g, '/'))
+            );
+            return typeof json.sub === 'string' ? json.sub : undefined;
+          } catch {
+            return undefined;
+          }
+        }
+
+        var storageKey = 'theme:' + (getUserId() || 'guest');
+        var theme = localStorage.getItem(storageKey);
         if (theme === 'light' || theme === 'dark') {
           document.documentElement.setAttribute('data-theme', theme);
         }
