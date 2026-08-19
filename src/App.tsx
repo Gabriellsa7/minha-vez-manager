@@ -14,6 +14,7 @@ function App() {
         newestOnTop
         closeOnClick
         pauseOnHover
+        theme="colored"
       />
     </QueryClientProvider>
   );

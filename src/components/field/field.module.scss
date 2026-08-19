@@ -16,7 +16,7 @@
   border: 1px solid $gray-200;
   border-radius: 15px;
   outline: none;
-  background: $white;
+  background: $surface;
   color: $text-primary;
   font: inherit;
   font-size: 13px;
@@ -42,8 +42,29 @@
   color: $gray-450;
 }
 
+.invalid input,
+.invalid textarea,
+.invalid select {
+  border-color: $danger-strong;
+  background: $danger-bg;
+}
+
+.invalid input:focus,
+.invalid textarea:focus,
+.invalid select:focus {
+  border-color: $danger-strong;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
 .error {
-  color: $danger;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: $danger-strong;
   font-size: 10px;
   font-weight: 500;
+
+  svg {
+    flex-shrink: 0;
+  }
 }
