@@ -215,7 +215,7 @@ function HealthProfessionalModal({
             </Field>
           </div>
 
-          <h3>Turno da manhã</h3>
+          <p className={style.cicleTime}>Turno da manhã</p>
 
           <div className={style.twoColumns}>
             <Field
@@ -230,7 +230,7 @@ function HealthProfessionalModal({
             </Field>
           </div>
 
-          <h3>Turno da tarde</h3>
+          <p className={style.cicleTime}>Turno da tarde</p>
 
           <div className={style.twoColumns}>
             <Field
