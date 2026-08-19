@@ -9,10 +9,11 @@
   display: flex;
   flex-direction: column;
   width: 100vw;
+  gap: 20px;
 }
 
 .content {
-  padding: 26px;
+  padding-left: 26px;
 }
 
 .filters {

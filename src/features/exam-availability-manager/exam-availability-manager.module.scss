@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   width: 100vw;
+  gap: 20px;
 }
 
 .content {
@@ -92,9 +93,6 @@
   font-size: 10px;
   font-weight: 600;
 
-  // Column titles already explain each field via .ruleHeader above the
-  // list; repeating them per-row would be noisy, so they're kept for
-  // screen readers / narrow viewports where the header wraps oddly.
   @media (min-width: 901px) {
     display: none;
   }
