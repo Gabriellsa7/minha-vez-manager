@@ -24,10 +24,20 @@
       color: $primary;
       font-weight: 600;
     }
+
+    .titleIcon {
+      color: $primary;
+    }
   }
 
   .navCard {
     width: 100%;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .item,
@@ -54,12 +64,12 @@
     background: transparent;
 
     &:hover {
-      background: $white;
+      background: $surface;
     }
   }
 
   .activeItem {
-    background: $white;
+    background: $surface;
     color: $primary;
     font-weight: 600;
   }

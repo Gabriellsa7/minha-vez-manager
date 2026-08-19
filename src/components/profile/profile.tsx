@@ -45,8 +45,8 @@ function Profile({ user }: ProfileProps) {
         </div>
       </div>
       <div>
-        <button onClick={handleLogout}>
-          <LogOut size={24} color="#6b7280" />
+        <button className={style.logoutButton} onClick={handleLogout}>
+          <LogOut size={24} />
         </button>
       </div>
     </div>

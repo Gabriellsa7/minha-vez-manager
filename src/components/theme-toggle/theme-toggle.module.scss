@@ -1,0 +1,34 @@
+@use '../../vars' as *;
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: $surface;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.option,
+.active {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  color: $gray-500;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.option:hover {
+  color: $primary;
+  background: $primary-100;
+}
+
+.active {
+  background: $primary;
+  color: $white;
+}

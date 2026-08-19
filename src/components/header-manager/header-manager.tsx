@@ -26,7 +26,7 @@ function HeaderManager({
         <span className={style.subtitle}>{subtitle}</span>
       </div>
       <div className={style.buttonSection}>
-        <Bell size={22} color="#007a78" />
+        <Bell size={22} className={style.bellIcon} />
 
         {!isProfessional && buttonText && (
           <button onClick={onButtonClick} className={style.healthUnitButton}>

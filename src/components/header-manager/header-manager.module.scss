@@ -6,7 +6,7 @@
   align-items: center;
   padding: 20px 32px;
 
-  background: $white;
+  background: $surface;
 
   border-bottom: 1px solid $slate-050;
 
@@ -36,13 +36,17 @@
     align-items: center;
     gap: 12px;
 
+    .bellIcon {
+      color: $primary;
+    }
+
     .professionalButton {
       display: flex;
       align-items: center;
       gap: 8px;
       padding: 12px 22px;
       border-radius: 999px;
-      background-color: $white;
+      background-color: $surface;
       color: $gray-900;
     }
 

@@ -4,6 +4,7 @@ import style from './side-bar-manager.module.scss';
 import { NavLink } from 'react-router-dom';
 import type { IUser } from '../../config/entities/user/user.entity';
 import { Profile } from '../profile/profile';
+import { ThemeToggle } from '../theme-toggle/theme-toggle';
 
 interface SideBarProps {
   items: SidebarItem[];
@@ -16,7 +17,7 @@ function SideBar({ items, pageTitle, user }: SideBarProps) {
     <div className={style.container}>
       <div className={style.cardContainer}>
         <div className={style.titleContainer}>
-          <CirclePlus size={26} color="#007a78" />
+          <CirclePlus size={26} className={style.titleIcon} />
           <span>{pageTitle}</span>
         </div>
         {items.map(({ title, icon: Icon, path }) => (
@@ -34,7 +35,10 @@ function SideBar({ items, pageTitle, user }: SideBarProps) {
           </div>
         ))}
       </div>
-      <Profile user={user} />
+      <div className={style.footer}>
+        <ThemeToggle />
+        <Profile user={user} />
+      </div>
     </div>
   );
 }

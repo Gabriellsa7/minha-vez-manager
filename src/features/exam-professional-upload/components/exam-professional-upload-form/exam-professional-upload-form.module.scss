@@ -3,7 +3,7 @@
 .container {
   width: 100%;
   max-width: 640px;
-  background: $white;
+  background: $surface;
   border: 1px solid $gray-200;
   border-radius: 18px;
   padding: 24px;
@@ -73,7 +73,7 @@
   border: 1px solid $gray-200;
   border-radius: 15px;
   outline: none;
-  background: $white;
+  background: $surface;
   color: $text-primary;
   font: inherit;
   font-size: 13px;
