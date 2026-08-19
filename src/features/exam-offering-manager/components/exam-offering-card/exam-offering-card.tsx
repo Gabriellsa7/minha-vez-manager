@@ -4,18 +4,37 @@ import type { IExamOffering } from '../../../../config/entities/exam-offering/ex
 
 interface ExamOfferingCardProps {
   examOffering: IExamOffering;
+  onView: () => void;
   onEdit: () => void;
 }
 
-function ExamOfferingCard({ examOffering, onEdit }: ExamOfferingCardProps) {
+function ExamOfferingCard({
+  examOffering,
+  onView,
+  onEdit,
+}: ExamOfferingCardProps) {
   return (
-    <div className={style.card}>
+    <div
+      className={style.card}
+      role="button"
+      tabIndex={0}
+      onClick={onView}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onView();
+        }
+      }}
+    >
       <div className={style.cardHeader}>
         <h3>{examOffering.name}</h3>
         <button
           type="button"
           className={style.editButton}
-          onClick={onEdit}
+          onClick={(event) => {
+            event.stopPropagation();
+            onEdit();
+          }}
           aria-label={`Editar ${examOffering.name}`}
         >
           <Pencil size={16} />

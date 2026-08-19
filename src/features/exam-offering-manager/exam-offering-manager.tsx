@@ -7,6 +7,7 @@ import { useHealthUnitsByUserId } from '../../config/api/get-health-units-by-use
 import { useGetExamOfferingsByHealthUnitId } from '../../config/api/get-exam-offerings-by-health-unit-id';
 import { SIDEBAR_MANAGER_ITEMS } from '../healt-unit-manager/constants';
 import { ExamOfferingModal } from './components/exam-offering-modal/exam-offering-modal';
+import { ExamOfferingDetailModal } from './components/exam-offering-detail-modal/exam-offering-detail-modal';
 import { ExamOfferingCard } from './components/exam-offering-card/exam-offering-card';
 import style from './exam-offering-manager.module.scss';
 import type { IExamOffering } from '../../config/entities/exam-offering/exam-offering.entity';
@@ -14,6 +15,9 @@ import type { IExamOffering } from '../../config/entities/exam-offering/exam-off
 function ExamOfferingManager() {
   const [openModal, setOpenModal] = useState(false);
   const [editingOffering, setEditingOffering] = useState<IExamOffering | null>(
+    null
+  );
+  const [viewingOffering, setViewingOffering] = useState<IExamOffering | null>(
     null
   );
   const { data: user } = useCurrentUser();
@@ -32,6 +36,7 @@ function ExamOfferingManager() {
   };
 
   const openEditModal = (examOffering: IExamOffering) => {
+    setViewingOffering(null);
     setEditingOffering(examOffering);
     setOpenModal(true);
   };
@@ -63,6 +68,7 @@ function ExamOfferingManager() {
                 <ExamOfferingCard
                   key={examOffering._id}
                   examOffering={examOffering}
+                  onView={() => setViewingOffering(examOffering)}
                   onEdit={() => openEditModal(examOffering)}
                 />
               ))
@@ -77,6 +83,11 @@ function ExamOfferingManager() {
         onClose={() => setOpenModal(false)}
         healthUnitId={healthUnitId}
         examOffering={editingOffering}
+      />
+      <ExamOfferingDetailModal
+        examOffering={viewingOffering}
+        onClose={() => setViewingOffering(null)}
+        onEdit={openEditModal}
       />
     </>
   );

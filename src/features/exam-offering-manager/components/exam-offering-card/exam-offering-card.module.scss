@@ -2,11 +2,26 @@
 
 .card {
   width: 280px;
-  background: $white;
+  background: $surface;
   border-radius: 20px;
   padding: 16px;
   border: 1px solid $slate-050;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.card:hover,
+.card:focus-visible {
+  border-color: $primary-300;
+  box-shadow: 0 8px 24px rgba(8, 119, 122, 0.12);
+}
+
+.card:focus-visible {
+  outline: 2px solid $primary;
+  outline-offset: 2px;
 }
 
 .cardHeader {
