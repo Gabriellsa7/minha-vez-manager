@@ -30,6 +30,7 @@ interface MarkReturnModalProps {
 }
 
 const WEEKDAY_LABELS = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
+const RETURN_MAX_DAYS = 20;
 
 // Mounted by the parent only while the modal should be visible, so state
 // naturally starts fresh on every open instead of needing a reset effect.
@@ -105,6 +106,25 @@ function MarkReturnModal({
     return calendarMonth > currentMonth;
   }, [calendarMonth]);
 
+  // The origin consultation is happening today, so the 20-day return window
+  // is counted from now — mirrors the backend's max-days check, which counts
+  // from the origin appointment's own dateTime.
+  const maxReturnDate = useMemo(() => {
+    const max = startOfDay(new Date());
+    max.setDate(max.getDate() + RETURN_MAX_DAYS);
+    return max;
+  }, []);
+
+  const canGoToNextMonth = useMemo(() => {
+    const maxMonth = new Date(
+      maxReturnDate.getFullYear(),
+      maxReturnDate.getMonth(),
+      1
+    );
+
+    return calendarMonth < maxMonth;
+  }, [calendarMonth, maxReturnDate]);
+
   const handleChangeCalendarMonth = (direction: 'previous' | 'next') => {
     setCalendarMonth((currentMonth) => {
       const nextMonth = new Date(currentMonth);
@@ -173,6 +193,13 @@ function MarkReturnModal({
       return;
     }
 
+    if (startOfDay(dateTime) > maxReturnDate) {
+      toast.error(
+        `O retorno deve ser marcado em até ${RETURN_MAX_DAYS} dias após a consulta.`
+      );
+      return;
+    }
+
     createAppointment(
       {
         patientId,
@@ -234,6 +261,10 @@ function MarkReturnModal({
         <div className={style.body}>
           <div className={style.calendarSection}>
             <span className={style.sectionLabel}>Escolha o dia</span>
+            <span className={style.calendarHint}>
+              O retorno pode ser marcado em até {RETURN_MAX_DAYS} dias após a
+              consulta de hoje.
+            </span>
             <div className={style.calendarCard}>
               <div className={style.calendarHeader}>
                 <span>{calendarMonthLabel}</span>
@@ -249,6 +280,7 @@ function MarkReturnModal({
                   <button
                     type="button"
                     onClick={() => handleChangeCalendarMonth('next')}
+                    disabled={!canGoToNextMonth}
                     aria-label="Próximo mês"
                   >
                     <ChevronRight size={16} />
@@ -268,7 +300,9 @@ function MarkReturnModal({
                   const isCurrentMonth = isSameMonth(day, calendarMonth);
                   const isSelected = selectedDate === dateKey;
                   const isPastDay = startOfDay(day) < startOfDay(new Date());
-                  const isDisabled = !isCurrentMonth || isPastDay;
+                  const isAfterMaxReturnDay = startOfDay(day) > maxReturnDate;
+                  const isDisabled =
+                    !isCurrentMonth || isPastDay || isAfterMaxReturnDay;
 
                   return (
                     <button
