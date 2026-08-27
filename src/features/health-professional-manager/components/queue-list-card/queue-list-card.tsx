@@ -62,13 +62,22 @@ function QueueListCard({
           {isClosing ? 'Fechando...' : 'Fechar fila'}
         </button>
       ) : (
-        <button
-          className={style.openButton}
-          onClick={() => onOpen(queue._id)}
-          disabled={!canOpen || isOpening}
-        >
-          {isOpening ? 'Abrindo...' : 'Abrir fila'}
-        </button>
+        <div className={style.actions}>
+          <button
+            className={style.openButton}
+            onClick={() => onOpen(queue._id)}
+            disabled={!canOpen || isOpening}
+          >
+            {isOpening ? 'Abrindo...' : 'Abrir fila'}
+          </button>
+          <button
+            className={style.cancelButton}
+            onClick={() => onClose(queue._id)}
+            disabled={isClosing}
+          >
+            {isClosing ? 'Cancelando...' : 'Cancelar fila'}
+          </button>
+        </div>
       )}
     </div>
   );

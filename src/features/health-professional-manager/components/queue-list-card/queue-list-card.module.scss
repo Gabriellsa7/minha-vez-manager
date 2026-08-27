@@ -54,8 +54,15 @@
   color: $gray-400;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .openButton,
-.closeButton {
+.closeButton,
+.cancelButton {
   border: none;
   border-radius: 10px;
   padding: 10px 18px;
@@ -85,6 +92,21 @@
   background: $danger-bg;
   color: $danger-strong;
   border: 1px solid $danger-bg;
+
+  &:hover:not(:disabled) {
+    background: $danger-bg;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.cancelButton {
+  background: transparent;
+  color: $danger-strong;
+  border: 1px solid $danger-strong;
 
   &:hover:not(:disabled) {
     background: $danger-bg;

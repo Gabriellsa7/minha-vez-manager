@@ -183,12 +183,11 @@ function HealthProfessionalManager() {
   const today = new Date();
   const hasOpenQueue = Boolean(queueManagement?.queue);
 
-  // A queue that has already been opened and closed completed its cycle for
-  // the day (every patient was served) — it belongs in the history, not in
-  // this "abrir fila" list, so it shouldn't be offered for reopening.
-  const activeQueues = queues?.filter(
-    (queue) => !(queue.status === queueStatus.CLOSED && queue.openedAt),
-  );
+  // closedAt is set whenever a queue's cycle is done — either it was opened
+  // and closed normally (every patient was served) or it was canceled ahead
+  // of time while still pending (never opened, so openedAt stays unset).
+  // Either way it belongs in the history, not in this "abrir fila" list.
+  const activeQueues = queues?.filter((queue) => !queue.closedAt);
 
   return (
     <div className={style.container}>
