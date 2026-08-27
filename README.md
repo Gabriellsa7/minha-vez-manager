@@ -24,9 +24,9 @@ O **minha-vez-manager** é o painel administrativo do ecossistema Minha Vez, um 
 
 | Repositório | Papel |
 |---|---|
-| 🖥️ **minha-vez-manager** (este repo) | Painel web usado pelas unidades de saúde |
-| 📱 [minha-vez-app](../minha-vez-app) | App mobile usado pelos pacientes |
-| ⚙️ [minhavez-backend](../minhavez-backend) | API central — filas, agendamentos, notificações e autenticação |
+| 🖥️ **minha-vez-manager** | Painel web usado pelas unidades de saúde |
+| 📱 [minha-vez-app](https://github.com/Gabriellsa7/minha-vez-app) | App mobile usado pelos pacientes |
+| ⚙️ [minhavez-backend](https://github.com/Gabriellsa7/minhavez-backend) | API central — filas, agendamentos, notificações e autenticação |
 
 Enquanto o app mobile é usado pelo **paciente** para agendar e acompanhar sua vez, o Manager é usado pela **equipe da unidade de saúde** para configurar profissionais, exames disponíveis, horários e conduzir a fila do dia a dia.
 
