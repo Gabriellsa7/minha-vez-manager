@@ -19,6 +19,7 @@ export const appointmentsStatus = {
   IN_PROGRESS: 'IN_PROGRESS',
   COMPLETED: 'COMPLETED',
   CANCELED: 'CANCELED',
+  QUEUE_CLOSED: 'QUEUE_CLOSED',
 } as const;
 
 export type EAppointmentStatus =
