@@ -1,6 +1,7 @@
 <div align="center">
 
 <!-- IMG: logo do manager (ex: src/assets/img/logo) -->
+<img src="./assets/images/logo.png" alt="Minha Vez" width="120" />
 
 # Minha Vez — Manager
 
