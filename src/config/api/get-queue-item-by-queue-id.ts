@@ -6,7 +6,7 @@ export const GET_QUEUE_ITEM_BY_QUEUE_ID = 'GET_QUEUE_ITEM_BY_QUEUE_ID';
 
 export type GetQueueItemByQueueIdResponse = IQueueItem[];
 
-const getQueueItemByQueueId = async (
+export const getQueueItemByQueueId = async (
   queuelId: string
 ): Promise<GetQueueItemByQueueIdResponse> => {
   const path = `/queue-items/queues/${queuelId}`;

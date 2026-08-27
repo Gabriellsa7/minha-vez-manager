@@ -4,11 +4,21 @@ import type { IQueue } from '../entities/queue/queue.entity';
 
 export type CloseQueueResponse = IQueue;
 
-const closeQueue = async (queueId: string): Promise<CloseQueueResponse> => {
+export interface CloseQueueParams {
+  queueId: string;
+  reason?: string;
+}
+
+const closeQueue = async ({
+  queueId,
+  reason,
+}: CloseQueueParams): Promise<CloseQueueResponse> => {
   const path = `/queues/${queueId}/close`;
 
   try {
-    const response = await apiClient.patch<CloseQueueResponse>(path);
+    const response = await apiClient.patch<CloseQueueResponse>(path, {
+      reason,
+    });
 
     return response.data;
   } catch {

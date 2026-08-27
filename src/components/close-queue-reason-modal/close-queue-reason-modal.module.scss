@@ -1,0 +1,126 @@
+@use '../../vars' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+  background: rgba(30, 43, 44, 0.48);
+
+  z-index: 1100;
+}
+
+.modal {
+  width: 100%;
+  max-width: 420px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  background: $surface;
+  border: 1px solid $gray-200;
+  border-radius: 18px;
+  padding: 28px 24px 20px;
+
+  box-shadow: 0 20px 48px rgba(22, 37, 38, 0.18);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 14px;
+  border-radius: 50%;
+  background: $warning-bg;
+  color: $warning-dark;
+}
+
+.modal h2 {
+  margin: 0 0 8px;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.modal p {
+  margin: 0;
+  color: $slate-500;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.textarea {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px 12px;
+  border: 1px solid $gray-200;
+  border-radius: 10px;
+  background: $surface;
+  color: $text-primary;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: $primary;
+}
+
+.textarea:disabled {
+  opacity: 0.65;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+  width: 100%;
+}
+
+.cancelButton,
+.confirmButton {
+  flex: 1;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cancelButton {
+  background: $primary-250;
+  color: $gray-700;
+}
+
+.cancelButton:disabled,
+.confirmButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.confirmButton {
+  background: $primary;
+  color: $white;
+  box-shadow: 0 4px 10px rgba(22, 37, 38, 0.2);
+}
+
+.confirmButton:hover:not(:disabled) {
+  background: $primary-dark;
+}
+
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column-reverse;
+  }
+}

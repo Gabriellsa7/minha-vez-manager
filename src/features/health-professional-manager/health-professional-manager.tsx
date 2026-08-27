@@ -13,6 +13,12 @@ import {
 import { NowQueueCard } from './components/now-queue-card/now-queue-card';
 import { useOpenQueue } from '../../config/api/open-queue';
 import { useCloseQueue } from '../../config/api/close-queue';
+import {
+  GET_QUEUE_ITEM_BY_QUEUE_ID,
+  getQueueItemByQueueId,
+} from '../../config/api/get-queue-item-by-queue-id';
+import { QueueItemStatus } from '../../config/entities/queue-item/queue-item.entity';
+import { CloseQueueReasonModal } from '../../components/close-queue-reason-modal/close-queue-reason-modal';
 import { queryClient } from '../../services/react-query';
 import { QueueListCard } from './components/queue-list-card/queue-list-card';
 import {
@@ -55,6 +61,9 @@ function hasShiftStarted(shift: string, now: Date): boolean {
 function HealthProfessionalManager() {
   const [onModalOpen, setModalOpen] = useState(false);
   const [isMarkReturnModalOpen, setMarkReturnModalOpen] = useState(false);
+  const [closeReasonQueueId, setCloseReasonQueueId] = useState<string | null>(
+    null,
+  );
   const { data: user } = useCurrentUser();
   const { data: professional } = useHealthProfessionalById(user?._id);
 
@@ -136,8 +145,34 @@ function HealthProfessionalManager() {
 
   const handleCloseQueue = async (queueId: string) => {
     try {
-      await closeQueue(queueId);
+      const items = await queryClient.fetchQuery({
+        queryKey: [GET_QUEUE_ITEM_BY_QUEUE_ID, queueId],
+        queryFn: () => getQueueItemByQueueId(queueId),
+      });
+
+      const attendedSomeone = items.some(
+        (item) => item.status === QueueItemStatus.FINISHED,
+      );
+
+      if (!attendedSomeone) {
+        setCloseReasonQueueId(queueId);
+        return;
+      }
+
+      await closeQueue({ queueId });
       await invalidateQueues();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleConfirmCloseWithReason = async (reason: string) => {
+    if (!closeReasonQueueId) return;
+
+    try {
+      await closeQueue({ queueId: closeReasonQueueId, reason });
+      await invalidateQueues();
+      setCloseReasonQueueId(null);
     } catch (error) {
       console.error(error);
     }
@@ -187,7 +222,9 @@ function HealthProfessionalManager() {
                     onOpen={handleOpenQueue}
                     onClose={handleCloseQueue}
                     isOpening={isOpeningQueue && openingQueueId === queue._id}
-                    isClosing={isClosingQueue && closingQueueId === queue._id}
+                    isClosing={
+                      isClosingQueue && closingQueueId?.queueId === queue._id
+                    }
                   />
 
                   {isActive && queueManagement && (
@@ -223,6 +260,14 @@ function HealthProfessionalManager() {
           patientId={queueManagement.currentItem.patient._id}
           patientName={queueManagement.currentItem.user.name}
           originQueueItemId={queueManagement.currentItem.queueItem._id}
+        />
+      )}
+
+      {closeReasonQueueId && (
+        <CloseQueueReasonModal
+          isClosing={isClosingQueue}
+          onCancel={() => setCloseReasonQueueId(null)}
+          onConfirm={handleConfirmCloseWithReason}
         />
       )}
     </div>
