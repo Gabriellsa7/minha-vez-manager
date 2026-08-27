@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { useCurrentUser } from '../../config/api/get-current-user';
@@ -31,6 +31,7 @@ import { useCallQueueItem } from './api/call-queue-item';
 import { useHealthProfessionalById } from '../../config/api/get-health-professional-by-id';
 import { MarkReturnModal } from './components/mark-return-modal/mark-return-modal';
 import { handleApiError } from '../../config/utils/handle-api-error';
+import { QueueSocketService } from '../../services/realtime/queue-socket.service';
 
 function isSameDay(dateA: string, dateB: Date): boolean {
   const a = new Date(dateA);
@@ -70,7 +71,7 @@ function HealthProfessionalManager() {
   const { data: queueManagement } = useGetQueueManagement(user?._id);
   const { data: queues } = useGetQueuesByProfessionalId(user?._id);
 
-  const invalidateQueues = async () => {
+  const invalidateQueues = useCallback(async () => {
     await Promise.all([
       queryClient.invalidateQueries({
         queryKey: [GET_QUEUE_MANAGEMENT, user?._id],
@@ -79,7 +80,7 @@ function HealthProfessionalManager() {
         queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID, user?._id],
       }),
     ]);
-  };
+  }, [user?._id]);
 
   const { mutateAsync: finishQueueItem } = useFinishQueueItem({
     onSuccess: invalidateQueues,
@@ -104,6 +105,21 @@ function HealthProfessionalManager() {
     isPending: isClosingQueue,
     variables: closingQueueId,
   } = useCloseQueue();
+
+  // Keeps this panel in sync without an F5 — the backend broadcasts
+  // queue-item.created/queue.updated/queue.closed whenever a patient books
+  // or the queue state changes elsewhere.
+  useEffect(() => {
+    const unsubscribe = QueueSocketService.subscribeToSocket(() => {
+      void invalidateQueues();
+    });
+    const stopSocket = QueueSocketService.startSocket();
+
+    return () => {
+      unsubscribe();
+      stopSocket();
+    };
+  }, [invalidateQueues]);
 
   const handleFinish = async () => {
     if (!queueManagement?.currentItem) return;
