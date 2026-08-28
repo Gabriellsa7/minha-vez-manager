@@ -5,7 +5,10 @@
   min-height: 100vh;
 }
 .mainContent {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  gap: 20px;
 }
 
 .receptionistsSection {
