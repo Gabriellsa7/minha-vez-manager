@@ -14,6 +14,7 @@ export interface IAuthToken {
 export const HealthProfessionalRole = {
   USER: 'USER',
   HEALTH_PROFESSIONAL: 'HEALTH_PROFESSIONAL',
+  RECEPTIONIST: 'RECEPTIONIST',
 } as const;
 
 export type EPrincipalType =

@@ -6,6 +6,7 @@ import {
   Hospital,
   ListChecks,
   Stethoscope,
+  UserPlus,
 } from 'lucide-react';
 import type { SidebarItem } from '../../config/constants/side-bar-manager/side-bar-manager';
 
@@ -24,6 +25,11 @@ export const SIDEBAR_MANAGER_ITEMS: SidebarItem[] = [
     title: 'Profissionais',
     icon: Stethoscope,
     path: '/profissionals',
+  },
+  {
+    title: 'Recepcionistas',
+    icon: UserPlus,
+    path: '/receptionists',
   },
   {
     title: 'Exames',

@@ -188,6 +188,46 @@ export const isSameMonth = (firstDate: Date, secondDate: Date) =>
 export const startOfDay = (date: Date) =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
+const WEEKDAYS_BY_JS_INDEX = [
+  'SUNDAY',
+  'MONDAY',
+  'TUESDAY',
+  'WEDNESDAY',
+  'THURSDAY',
+  'FRIDAY',
+  'SATURDAY',
+] as const;
+
+const toMinutes = (hhmm: string) => {
+  const [hour, minute] = hhmm.split(':').map(Number);
+  return hour * 60 + minute;
+};
+
+export function getOpeningHoursForDateKey<
+  T extends { day: string; open?: string; close?: string; isClosed: boolean },
+>(openingHours: T[], dateKey: string): T | undefined {
+  const [year, month, day] = dateKey.split('-').map(Number);
+  const weekday = WEEKDAYS_BY_JS_INDEX[new Date(year, month - 1, day).getDay()];
+
+  return openingHours.find((entry) => entry.day === weekday);
+}
+
+export function isTimeWithinOpeningHours<
+  T extends { day: string; open?: string; close?: string; isClosed: boolean },
+>(openingHours: T[], dateKey: string, time: string): boolean {
+  const dayHours = getOpeningHoursForDateKey(openingHours, dateKey);
+
+  if (!dayHours || dayHours.isClosed || !dayHours.open || !dayHours.close) {
+    return false;
+  }
+
+  const minutes = toMinutes(time);
+
+  return (
+    minutes >= toMinutes(dayHours.open) && minutes < toMinutes(dayHours.close)
+  );
+}
+
 export function generateTimes(
   start: string,
   end: string,

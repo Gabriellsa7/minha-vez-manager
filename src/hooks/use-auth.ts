@@ -39,6 +39,9 @@ export const useAuth = () => {
     isHealthProfessional:
       user?.principalType === HealthProfessionalRole.HEALTH_PROFESSIONAL,
 
+    isReceptionist:
+      user?.principalType === HealthProfessionalRole.RECEPTIONIST,
+
     isAuthenticated: !!accessToken && isSuccess,
     isLoading,
   };

@@ -60,6 +60,11 @@ function Login() {
         return;
       }
 
+      if (response.principalType === HealthProfessionalRole.RECEPTIONIST) {
+        navigate('/reception/appointments');
+        return;
+      }
+
       switch (response.principal.role) {
         case UserRole.ADMIN:
           navigate('/');

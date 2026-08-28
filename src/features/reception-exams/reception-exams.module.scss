@@ -1,0 +1,132 @@
+@use '../../vars' as *;
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.mainContent {
+  width: 100%;
+}
+
+.card {
+  background: $surface;
+  border: 1px solid $slate-050;
+  border-radius: 20px;
+  padding: 22px;
+  margin: 0 26px 26px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  color: $gray-700;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  max-width: 360px;
+}
+
+.field select,
+.field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid $gray-200;
+  border-radius: 15px;
+  outline: none;
+  background: $surface;
+  color: $text-primary;
+  font: inherit;
+  font-size: 13px;
+  padding: 10px 13px;
+}
+
+.field select:focus,
+.field input:focus {
+  border-color: $primary;
+  box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
+}
+
+.offeringInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 18px;
+  color: $slate-500;
+  font-size: 12px;
+}
+
+.sectionTitle {
+  margin: 0 0 12px;
+  color: $text-primary;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.timesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.timeSlot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid $gray-200;
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: $surface;
+  color: $text-primary;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.timeSlot:hover:not(:disabled) {
+  border-color: $primary;
+}
+
+.timeSlotSelected {
+  background: $primary;
+  border-color: $primary;
+  color: $white;
+}
+
+.timeSlot:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.empty {
+  color: $slate-500;
+  font-size: 13px;
+}
+
+.confirmButton {
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 20px;
+  background: $primary;
+  color: $white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.confirmButton:hover:not(:disabled) {
+  background: $primary-dark;
+}
+
+.confirmButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background: $gray-300;
+}

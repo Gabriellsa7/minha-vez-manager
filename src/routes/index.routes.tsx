@@ -28,6 +28,10 @@ import { ExamBookingsManager } from '../features/exam-bookings-manager/exam-book
 import { ExamProfessionalManager } from '../features/exam-professional-manager/exam-professional-manager';
 import { ExamProfessionalHistory } from '../features/exam-professional-history/exam-professional-history';
 import { ExamProfessionalUpload } from '../features/exam-professional-upload/exam-professional-upload';
+import { Receptionists } from '../features/receptionists/receptionists';
+import { ReceptionAppointments } from '../features/reception-appointments/reception-appointments';
+import { ReceptionExams } from '../features/reception-exams/reception-exams';
+import { ReceptionProfile } from '../features/reception-profile/reception-profile';
 
 export const router = createBrowserRouter([
   {
@@ -60,6 +64,10 @@ export const router = createBrowserRouter([
                   {
                     path: '/profissionals',
                     element: <Professionals />,
+                  },
+                  {
+                    path: '/receptionists',
+                    element: <Receptionists />,
                   },
                   {
                     path: '/exam-registration',
@@ -133,6 +141,29 @@ export const router = createBrowserRouter([
                         element: <ExamProfessionalHistory />,
                       },
                     ],
+                  },
+                ],
+              },
+              {
+                element: (
+                  <PrincipalTypeOutlet
+                    allowedPrincipalTypes={[
+                      HealthProfessionalRole.RECEPTIONIST,
+                    ]}
+                  />
+                ),
+                children: [
+                  {
+                    path: '/reception/appointments',
+                    element: <ReceptionAppointments />,
+                  },
+                  {
+                    path: '/reception/exams',
+                    element: <ReceptionExams />,
+                  },
+                  {
+                    path: '/reception/profile',
+                    element: <ReceptionProfile />,
                   },
                 ],
               },

@@ -1,0 +1,22 @@
+@use '../../vars' as *;
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+.mainContent {
+  width: 100%;
+}
+
+.receptionistsSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+  padding: 26px;
+}
+
+.empty {
+  padding: 0 26px;
+  color: $gray-600;
+  font-size: 14px;
+}

@@ -1,0 +1,144 @@
+@use '../../vars' as *;
+
+.card {
+  background: $surface;
+  border: 1px solid $slate-050;
+  border-radius: 20px;
+  padding: 18px;
+  margin: 0 26px 20px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.title {
+  margin: 0 0 12px;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.searchRow {
+  display: flex;
+  gap: 10px;
+}
+
+.input {
+  flex: 1;
+  box-sizing: border-box;
+  min-height: 42px;
+  border: 1px solid $gray-200;
+  border-radius: 15px;
+  outline: none;
+  background: $surface;
+  color: $text-primary;
+  font: inherit;
+  font-size: 13px;
+  padding: 10px 13px;
+}
+
+.input:focus {
+  border-color: $primary;
+  box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
+}
+
+.searchButton {
+  border: 0;
+  border-radius: 12px;
+  padding: 0 18px;
+  background: $primary;
+  color: $white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.searchButton:hover:not(:disabled) {
+  background: $primary-dark;
+}
+
+.searchButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 15px;
+  background: $primary-050;
+}
+
+.profileImg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background-color: $gray-200;
+  flex-shrink: 0;
+
+  span {
+    color: $primary;
+    font-weight: 700;
+    font-size: 13px;
+  }
+}
+
+.patientInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  strong {
+    color: $text-primary;
+    font-size: 14px;
+  }
+
+  span {
+    color: $slate-500;
+    font-size: 12px;
+  }
+}
+
+.changeButton {
+  border: 0;
+  background: transparent;
+  color: $primary;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.notFound {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 15px;
+  background: $warning-bg;
+  border: 1px dashed $gray-300;
+}
+
+.notFoundText {
+  color: $gray-700;
+  font-size: 13px;
+}
+
+.registerButton {
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 14px;
+  background: $primary;
+  color: $white;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}

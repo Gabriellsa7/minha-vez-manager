@@ -19,3 +19,20 @@ export const patientPriority = {
 
 export type EPatientPriority =
   (typeof patientPriority)[keyof typeof patientPriority];
+
+export const PRIORITY_LABEL: Record<EPatientPriority, string> = {
+  [patientPriority.NORMAL]: 'Nenhuma prioridade',
+  [patientPriority.ELDERLY]: 'Idoso (60+)',
+  [patientPriority.PREGNANT]: 'Gestante',
+  [patientPriority.DISABLED]: 'Pessoa com deficiência (PCD)',
+  [patientPriority.CHRONIC_CONDITION]: 'Doença crônica ou condição de saúde',
+};
+
+export const PRIORITY_REASON_OPTIONS = [
+  patientPriority.NORMAL,
+  patientPriority.PREGNANT,
+  patientPriority.DISABLED,
+  patientPriority.CHRONIC_CONDITION,
+] as const;
+
+export const ELDERLY_AGE_THRESHOLD = 60;
