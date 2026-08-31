@@ -22,6 +22,7 @@ import { ProfessionalProfile } from '../features/professional-profile/profession
 import { ExamRegistration } from '../features/exam-registration/exam-registration';
 import { HealthProfessionalExams } from '../features/health-professional-exams/health-professional-exams';
 import { HealthProfessionalHistory } from '../features/health-professional-history/health-professional-history';
+import { HealthProfessionalPrescription } from '../features/health-professional-prescription/health-professional-prescription';
 import { ExamOfferingManager } from '../features/exam-offering-manager/exam-offering-manager';
 import { ExamAvailabilityManager } from '../features/exam-availability-manager/exam-availability-manager';
 import { ExamBookingsManager } from '../features/exam-bookings-manager/exam-bookings-manager';
@@ -118,6 +119,10 @@ export const router = createBrowserRouter([
                       {
                         path: '/exams',
                         element: <HealthProfessionalExams />,
+                      },
+                      {
+                        path: '/prescriptions',
+                        element: <HealthProfessionalPrescription />,
                       },
                     ],
                   },

@@ -1,6 +1,7 @@
 import type { SidebarItem } from '../../config/constants/side-bar-manager/side-bar-manager';
 import {
   CircleUserRound,
+  ClipboardPlus,
   FileText,
   History,
   MonitorCog,
@@ -21,6 +22,11 @@ export const SIDEBAR_PROFESSIONAL_MANAGER: SidebarItem[] = [
     title: 'Exames',
     icon: FileText,
     path: '/exams',
+  },
+  {
+    title: 'Receitas',
+    icon: ClipboardPlus,
+    path: '/prescriptions',
   },
   {
     title: 'Perfil',

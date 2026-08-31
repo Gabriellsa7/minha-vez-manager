@@ -6,22 +6,35 @@ import style from './now-queue-card.module.scss';
 interface INowQueueCardProps {
   queue: IQueue;
   currentItem: IQueueManagementItem | null;
+  hasPrescription: boolean;
   onFinish?: () => void;
   onAbsent?: () => void;
   onMarkReturn?: () => void;
+  onPrescribe?: () => void;
 }
 
 function NowQueueCard({
   // queue,
   currentItem,
+  hasPrescription,
   onFinish,
   onAbsent,
   onMarkReturn,
+  onPrescribe,
 }: INowQueueCardProps) {
   if (!currentItem) return null;
 
   const hasReturnHandled = currentItem.isReturn || currentItem.returnScheduled;
-  const canFinish = hasReturnHandled;
+  const canFinish = hasReturnHandled && hasPrescription;
+
+  const missingSteps = [
+    !hasReturnHandled && 'marque o retorno do paciente',
+    !hasPrescription && 'registre uma receita',
+  ].filter((step): step is string => Boolean(step));
+
+  const finishHint = missingSteps.length
+    ? `${missingSteps.join(' e ').replace(/^./, (char) => char.toUpperCase())} antes de concluir o atendimento.`
+    : undefined;
 
   return (
     <div className={style.container}>
@@ -48,11 +61,7 @@ function NowQueueCard({
             className={style.finishButton}
             onClick={onFinish}
             disabled={!canFinish}
-            title={
-              canFinish
-                ? undefined
-                : 'Marque o retorno do paciente antes de concluir o atendimento.'
-            }
+            title={finishHint}
           >
             Concluir
           </button>
@@ -64,13 +73,12 @@ function NowQueueCard({
               Marcar Retorno
             </button>
           )}
+          <button className={style.prescribeButton} onClick={onPrescribe}>
+            Prescrever
+          </button>
         </div>
 
-        {!canFinish && (
-          <p className={style.finishHint}>
-            Marque o retorno do paciente antes de concluir o atendimento.
-          </p>
-        )}
+        {finishHint && <p className={style.finishHint}>{finishHint}</p>}
       </div>
 
       <div className={style.imageContainer}>

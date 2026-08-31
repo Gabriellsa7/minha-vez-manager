@@ -30,6 +30,8 @@ import { useMarkQueueItemAsAbsent } from './api/mark-queue-item-as-absent';
 import { useCallQueueItem } from './api/call-queue-item';
 import { useHealthProfessionalById } from '../../config/api/get-health-professional-by-id';
 import { MarkReturnModal } from './components/mark-return-modal/mark-return-modal';
+import { PrescriptionModal } from '../health-professional-prescription/components/prescription-modal/prescription-modal';
+import { useGetPrescriptionsByPatientId } from '../health-professional-prescription/api/get-prescriptions-by-patient-id';
 import { handleApiError } from '../../config/utils/handle-api-error';
 import { QueueSocketService } from '../../services/realtime/queue-socket.service';
 
@@ -62,6 +64,7 @@ function hasShiftStarted(shift: string, now: Date): boolean {
 function HealthProfessionalManager() {
   const [onModalOpen, setModalOpen] = useState(false);
   const [isMarkReturnModalOpen, setMarkReturnModalOpen] = useState(false);
+  const [isPrescriptionModalOpen, setPrescriptionModalOpen] = useState(false);
   const [closeReasonQueueId, setCloseReasonQueueId] = useState<string | null>(
     null,
   );
@@ -70,6 +73,19 @@ function HealthProfessionalManager() {
 
   const { data: queueManagement } = useGetQueueManagement(user?._id);
   const { data: queues } = useGetQueuesByProfessionalId(user?._id);
+
+  // Prescribing is mandatory before finishing an attendance, so we need to
+  // know whether the current queue item already has one linked to it.
+  const { data: currentPatientPrescriptions } = useGetPrescriptionsByPatientId(
+    queueManagement?.currentItem?.patient._id,
+  );
+  const hasPrescriptionForCurrentItem = Boolean(
+    queueManagement?.currentItem &&
+      currentPatientPrescriptions?.some(
+        (prescription) =>
+          prescription.queueItemId === queueManagement.currentItem!.queueItem._id,
+      ),
+  );
 
   const invalidateQueues = useCallback(async () => {
     await Promise.all([
@@ -148,6 +164,11 @@ function HealthProfessionalManager() {
   const handleMarkReturn = () => {
     if (!queueManagement?.currentItem) return;
     setMarkReturnModalOpen(true);
+  };
+
+  const handlePrescribe = () => {
+    if (!queueManagement?.currentItem) return;
+    setPrescriptionModalOpen(true);
   };
 
   const handleOpenQueue = async (queueId: string) => {
@@ -248,9 +269,11 @@ function HealthProfessionalManager() {
                         <NowQueueCard
                           queue={queueManagement.queue}
                           currentItem={queueManagement.currentItem}
+                          hasPrescription={hasPrescriptionForCurrentItem}
                           onFinish={handleFinish}
                           onAbsent={handleAbsent}
                           onMarkReturn={handleMarkReturn}
+                          onPrescribe={handlePrescribe}
                         />
                       )}
                       <AwaitingQueueCard
@@ -275,6 +298,16 @@ function HealthProfessionalManager() {
           patientId={queueManagement.currentItem.patient._id}
           patientName={queueManagement.currentItem.user.name}
           originQueueItemId={queueManagement.currentItem.queueItem._id}
+        />
+      )}
+
+      {isPrescriptionModalOpen && queueManagement?.currentItem && professional && (
+        <PrescriptionModal
+          onClose={() => setPrescriptionModalOpen(false)}
+          professional={professional}
+          patientId={queueManagement.currentItem.patient._id}
+          patientName={queueManagement.currentItem.user.name}
+          queueItemId={queueManagement.currentItem.queueItem._id}
         />
       )}
 

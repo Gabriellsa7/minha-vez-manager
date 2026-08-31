@@ -1,0 +1,72 @@
+@use '../../../../vars' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  width: 100%;
+  text-align: left;
+
+  border: 1px solid $gray-200;
+  border-radius: 16px;
+  padding: 16px 18px;
+
+  background: $surface;
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.card:hover {
+  border-color: $primary;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.patientName {
+  color: $text-primary;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: $gray-600;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.examBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: $primary-100;
+  color: $primary-dark;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.medications {
+  margin: 0;
+  color: $gray-700;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

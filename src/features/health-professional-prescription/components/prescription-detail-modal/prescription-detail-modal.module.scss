@@ -1,0 +1,179 @@
+@use '../../../../vars' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+  background: rgba(30, 43, 44, 0.48);
+
+  z-index: 999;
+}
+
+.modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 48px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: $surface;
+
+  border: 1px solid $gray-200;
+  border-radius: 18px;
+
+  padding: 24px 20px 16px;
+
+  box-shadow: 0 20px 48px rgba(22, 37, 38, 0.18);
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 4px 18px;
+
+  h2 {
+    margin: 0;
+    color: $text-primary;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  span {
+    display: block;
+    margin-top: 4px;
+    color: $gray-600;
+    font-size: 13px;
+  }
+}
+
+.closeButton {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: $gray-550;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background: $primary-100;
+  color: $text-secondary;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.metaLabel {
+  color: $gray-600;
+}
+
+.metaValue {
+  color: $text-primary;
+  font-weight: 600;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: $gray-700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.examList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid $gray-200;
+    border-radius: 12px;
+    padding: 10px 14px;
+  }
+}
+
+.examName {
+  color: $text-primary;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.text {
+  margin: 0;
+  color: $text-primary;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  border-top: 1px solid $gray-200;
+  margin-top: 18px;
+  padding: 16px 4px 0;
+}
+
+.closeActionButton {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  background: $primary-250;
+  color: $gray-700;
+}
+
+@media (max-width: 480px) {
+  .overlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .modal {
+    max-height: calc(100vh - 24px);
+    border-radius: 14px;
+  }
+}

@@ -79,7 +79,8 @@
 
 .finishButton,
 .absentButton,
-.returnButton {
+.returnButton,
+.prescribeButton {
   border: none;
   border-radius: 8px;
   padding: 14px 28px;
@@ -129,6 +130,16 @@
 
   &:hover {
     background: $primary-200;
+  }
+}
+
+.prescribeButton {
+  background: transparent;
+  color: $gray-700;
+  border: 1px solid $slate-050;
+
+  &:hover {
+    background: $gray-150;
   }
 }
 
