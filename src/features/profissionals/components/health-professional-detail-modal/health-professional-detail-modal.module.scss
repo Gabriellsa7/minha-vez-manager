@@ -177,6 +177,10 @@
   box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
 }
 
+.field select {
+  padding-right: 36px;
+}
+
 .twoColumns {
   display: grid;
   grid-template-columns: 1fr 1fr;

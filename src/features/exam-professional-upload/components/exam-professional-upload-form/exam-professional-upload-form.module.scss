@@ -88,6 +88,10 @@
   min-height: 74px;
 }
 
+.field select {
+  padding-right: 36px;
+}
+
 .field input:focus,
 .field textarea:focus,
 .field select:focus {

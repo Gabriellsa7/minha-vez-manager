@@ -81,6 +81,9 @@
   border-color: $primary;
   box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
 }
+.field select {
+  padding-right: 36px;
+}
 .field input::placeholder {
   color: $gray-450;
 }

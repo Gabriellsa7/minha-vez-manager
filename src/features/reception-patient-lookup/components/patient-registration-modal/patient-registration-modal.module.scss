@@ -85,6 +85,9 @@
 .field input:disabled {
   opacity: 0.65;
 }
+.field select {
+  padding-right: 36px;
+}
 .field input:focus,
 .field select:focus {
   border-color: $primary;

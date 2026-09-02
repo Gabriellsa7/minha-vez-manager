@@ -26,6 +26,10 @@
     box-shadow 0.15s;
 }
 
+.field select {
+  padding-right: 36px;
+}
+
 .field textarea {
   resize: vertical;
   min-height: 74px;
