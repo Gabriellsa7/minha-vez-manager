@@ -8,8 +8,6 @@ interface CloseQueueReasonModalProps {
   onConfirm: (reason: string) => void;
 }
 
-// Mounted by the parent only while the modal should be visible, so state
-// naturally starts fresh on every open instead of needing a reset effect.
 function CloseQueueReasonModal({
   isClosing,
   onCancel,
@@ -49,7 +47,9 @@ function CloseQueueReasonModal({
           <AlertTriangle size={22} />
         </div>
 
-        <h2 id="close-queue-reason-modal-title">Fechar fila sem atendimentos</h2>
+        <h2 id="close-queue-reason-modal-title">
+          Fechar fila sem atendimentos
+        </h2>
         <p>
           Nenhum paciente foi atendido nesta fila. Descreva o motivo do
           fechamento para que os pacientes que estavam aguardando sejam

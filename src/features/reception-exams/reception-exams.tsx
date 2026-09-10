@@ -38,10 +38,6 @@ function ReceptionExams() {
 
   const { data: slotsResponse } = useGetExamSlots(healthUnitId, selectedDate);
 
-  // Exam slot times are UTC-encoded wall-clock values (see
-  // getExamDateTimeFromDateAndTime) — "now" must be re-anchored the same way
-  // before comparing, otherwise the browser's timezone offset makes today's
-  // slots look past/future at the wrong moment.
   const now = new Date();
   const comparableNow = new Date(
     Date.UTC(
@@ -53,10 +49,8 @@ function ReceptionExams() {
     )
   );
 
-  // Rather than clearing `selectedTime` via an effect whenever the offering
-  // or date changes, treat a selection that's no longer in the freshly
-  // fetched slot list as unselected.
-  const availableSlotTimes = slotsResponse?.slots.map((slot) => slot.time) ?? [];
+  const availableSlotTimes =
+    slotsResponse?.slots.map((slot) => slot.time) ?? [];
   const effectiveSelectedTime = availableSlotTimes.includes(selectedTime)
     ? selectedTime
     : '';
@@ -150,7 +144,9 @@ function ReceptionExams() {
               )}
               {selectedOffering.requiresPreparation &&
                 selectedOffering.preparationInstructions && (
-                  <span>Preparo: {selectedOffering.preparationInstructions}</span>
+                  <span>
+                    Preparo: {selectedOffering.preparationInstructions}
+                  </span>
                 )}
             </div>
           )}

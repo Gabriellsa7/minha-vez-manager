@@ -69,18 +69,9 @@ export const normalizeBirthDate = (value: string) => {
   return `${year}-${month}-${day}`;
 };
 
-/**
- * Exam-scheduling dates/times are matched against availability rules in the
- * backend using UTC getters (no timezone is tracked anywhere in
- * HealthUnit/ExamAvailabilityRule) — same convention the mobile app's
- * `getExamDateTimeFromDateAndTime` already relies on. Appointment booking
- * uses real local-time `Date`s instead; mixing the two conventions is what
- * produces the backend's "Invalid time slot" error, since the UTC hour sent
- * would be off by the browser's timezone offset.
- */
 export const getExamDateTimeFromDateAndTime = (
   date: string,
-  time: string,
+  time: string
 ): Date => {
   const [year, month, day] = date.split('-').map(Number);
   const [hour, minute] = time.split(':').map(Number);

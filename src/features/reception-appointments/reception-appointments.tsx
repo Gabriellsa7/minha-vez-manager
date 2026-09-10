@@ -8,9 +8,7 @@ import { useHealthUnitById } from '../../config/api/get-health-unit-by-id';
 import { useGetHealthProfessionals } from '../../config/api/get-health-professionals';
 import { useGetAppointmentsByProfessionalId } from '../../config/api/get-appointments-by-professional-id';
 import { usePostAppointment } from '../../config/api/post-appointment';
-import {
-  appointmentsStatus,
-} from '../../config/entities/appointments/appointment.entity';
+import { appointmentsStatus } from '../../config/entities/appointments/appointment.entity';
 import {
   generateTimes,
   getDateKey,
@@ -93,12 +91,11 @@ function ReceptionAppointments() {
         selectedProfessional.schedule.afternoon?.end || '',
         selectedProfessional.schedule.appointmentDuration
       ),
-    ].filter((time) => isTimeWithinOpeningHours(openingHours, selectedDate, time));
+    ].filter((time) =>
+      isTimeWithinOpeningHours(openingHours, selectedDate, time)
+    );
   }, [selectedProfessional, healthUnit, selectedDate]);
 
-  // Rather than clearing `selectedTime` via an effect whenever the
-  // professional/date changes, treat a selection that's no longer in the
-  // freshly computed slot list as unselected.
   const effectiveSelectedTime = availableTimes.includes(selectedTime)
     ? selectedTime
     : '';
@@ -142,9 +139,9 @@ function ReceptionAppointments() {
 
   const canConfirm = Boolean(
     lookup.patient &&
-      selectedProfessional &&
-      selectedDate &&
-      effectiveSelectedTime
+    selectedProfessional &&
+    selectedDate &&
+    effectiveSelectedTime
   );
 
   return (
@@ -171,7 +168,9 @@ function ReceptionAppointments() {
             <span>Profissional</span>
             <select
               value={professionalId}
-              onChange={(event) => setSelectedProfessionalId(event.target.value)}
+              onChange={(event) =>
+                setSelectedProfessionalId(event.target.value)
+              }
             >
               <option value="">Selecione um profissional</option>
               {professionalsForUnit.map((professional) => (

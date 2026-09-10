@@ -28,9 +28,6 @@ export const authStorage = {
     return localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
   },
 
-  // Identifica o usuário logado a partir do token, sem depender da resposta
-  // de /users/me. Usado para isolar preferências salvas localmente (ex.:
-  // tema) entre contas diferentes no mesmo navegador.
   getUserId() {
     const token = this.getAccessToken();
     return token ? decodeAccessTokenUserId(token) : undefined;

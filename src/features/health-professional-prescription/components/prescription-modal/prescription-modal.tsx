@@ -33,8 +33,6 @@ const defaultValues: PrescriptionFormData = {
   exams: [defaultExam],
 };
 
-// Mounted by the parent only while the modal should be visible, so state
-// naturally starts fresh on every open instead of needing a reset effect.
 function PrescriptionModal({
   onClose,
   professional,
@@ -97,7 +95,10 @@ function PrescriptionModal({
           queryKey: [GET_PRESCRIPTIONS_BY_PATIENT_ID_KEY, patientId],
         }),
         queryClient.invalidateQueries({
-          queryKey: [GET_PRESCRIPTIONS_BY_PROFESSIONAL_ID_KEY, professional._id],
+          queryKey: [
+            GET_PRESCRIPTIONS_BY_PROFESSIONAL_ID_KEY,
+            professional._id,
+          ],
         }),
       ]);
 

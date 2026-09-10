@@ -32,8 +32,6 @@ interface MarkReturnModalProps {
 const WEEKDAY_LABELS = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
 const RETURN_MAX_DAYS = 20;
 
-// Mounted by the parent only while the modal should be visible, so state
-// naturally starts fresh on every open instead of needing a reset effect.
 function MarkReturnModal({
   onClose,
   professional,
@@ -48,7 +46,7 @@ function MarkReturnModal({
     return new Date(today.getFullYear(), today.getMonth(), 1);
   });
   const [selectedDate, setSelectedDate] = useState(() =>
-    getDateKey(new Date()),
+    getDateKey(new Date())
   );
   const [selectedTime, setSelectedTime] = useState('');
 
@@ -106,9 +104,6 @@ function MarkReturnModal({
     return calendarMonth > currentMonth;
   }, [calendarMonth]);
 
-  // The origin consultation is happening today, so the 20-day return window
-  // is counted from now — mirrors the backend's max-days check, which counts
-  // from the origin appointment's own dateTime.
   const maxReturnDate = useMemo(() => {
     const max = startOfDay(new Date());
     max.setDate(max.getDate() + RETURN_MAX_DAYS);
@@ -338,8 +333,7 @@ function MarkReturnModal({
                 const isBooked = bookedTimes.has(time);
                 const isPast =
                   Boolean(selectedDate) &&
-                  getDateTimeFromDateAndTime(selectedDate, time) <=
-                    new Date();
+                  getDateTimeFromDateAndTime(selectedDate, time) <= new Date();
                 const isUnavailable =
                   isBooked || isPast || isAppointmentsLoading;
 

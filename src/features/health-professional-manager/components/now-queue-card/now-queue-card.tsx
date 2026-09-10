@@ -14,7 +14,6 @@ interface INowQueueCardProps {
 }
 
 function NowQueueCard({
-  // queue,
   currentItem,
   hasPrescription,
   onFinish,
@@ -53,7 +52,6 @@ function NowQueueCard({
           <strong>{currentItem.queueItem.code}</strong>
           <span>•</span>
           <span>{formatTime(currentItem.queueItem.calledAt) || null}</span>
-          {/* <span>Sala {queue.room}</span> */}
         </p>
 
         <div className={style.actions}>
@@ -86,8 +84,6 @@ function NowQueueCard({
           <span className={style.dot} />
           Atendimento Ativo
         </span>
-
-        {/* <img src={currentItem.patient.photo} alt={currentItem.patient.name} /> */}
       </div>
     </div>
   );

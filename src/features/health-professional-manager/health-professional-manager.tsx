@@ -2,7 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { useCurrentUser } from '../../config/api/get-current-user';
-import { queueShift, queueStatus } from '../../config/entities/queue/queue.entity';
+import {
+  queueShift,
+  queueStatus,
+} from '../../config/entities/queue/queue.entity';
 import { SIDEBAR_PROFESSIONAL_MANAGER } from './constants';
 import style from './health-professional-manager.module.scss';
 import { AwaitingQueueCard } from './components/awating-queue-card/awating-queue-card';
@@ -55,7 +58,7 @@ function hasShiftStarted(shift: string, now: Date): boolean {
     AFTERNOON_SHIFT_START_HOUR,
     AFTERNOON_SHIFT_START_MINUTE,
     0,
-    0,
+    0
   );
 
   return now.getTime() >= afternoonStart.getTime();
@@ -66,7 +69,7 @@ function HealthProfessionalManager() {
   const [isMarkReturnModalOpen, setMarkReturnModalOpen] = useState(false);
   const [isPrescriptionModalOpen, setPrescriptionModalOpen] = useState(false);
   const [closeReasonQueueId, setCloseReasonQueueId] = useState<string | null>(
-    null,
+    null
   );
   const { data: user } = useCurrentUser();
   const { data: professional } = useHealthProfessionalById(user?._id);
@@ -74,17 +77,15 @@ function HealthProfessionalManager() {
   const { data: queueManagement } = useGetQueueManagement(user?._id);
   const { data: queues } = useGetQueuesByProfessionalId(user?._id);
 
-  // Prescribing is mandatory before finishing an attendance, so we need to
-  // know whether the current queue item already has one linked to it.
   const { data: currentPatientPrescriptions } = useGetPrescriptionsByPatientId(
-    queueManagement?.currentItem?.patient._id,
+    queueManagement?.currentItem?.patient._id
   );
   const hasPrescriptionForCurrentItem = Boolean(
     queueManagement?.currentItem &&
-      currentPatientPrescriptions?.some(
-        (prescription) =>
-          prescription.queueItemId === queueManagement.currentItem!.queueItem._id,
-      ),
+    currentPatientPrescriptions?.some(
+      (prescription) =>
+        prescription.queueItemId === queueManagement.currentItem!.queueItem._id
+    )
   );
 
   const invalidateQueues = useCallback(async () => {
@@ -122,9 +123,6 @@ function HealthProfessionalManager() {
     variables: closingQueueId,
   } = useCloseQueue();
 
-  // Keeps this panel in sync without an F5 — the backend broadcasts
-  // queue-item.created/queue.updated/queue.closed whenever a patient books
-  // or the queue state changes elsewhere.
   useEffect(() => {
     const unsubscribe = QueueSocketService.subscribeToSocket(() => {
       void invalidateQueues();
@@ -188,7 +186,7 @@ function HealthProfessionalManager() {
       });
 
       const attendedSomeone = items.some(
-        (item) => item.status === QueueItemStatus.FINISHED,
+        (item) => item.status === QueueItemStatus.FINISHED
       );
 
       if (!attendedSomeone) {
@@ -220,10 +218,6 @@ function HealthProfessionalManager() {
   const today = new Date();
   const hasOpenQueue = Boolean(queueManagement?.queue);
 
-  // closedAt is set whenever a queue's cycle is done — either it was opened
-  // and closed normally (every patient was served) or it was canceled ahead
-  // of time while still pending (never opened, so openedAt stays unset).
-  // Either way it belongs in the history, not in this "abrir fila" list.
   const activeQueues = queues?.filter((queue) => !queue.closedAt);
 
   return (
@@ -301,15 +295,17 @@ function HealthProfessionalManager() {
         />
       )}
 
-      {isPrescriptionModalOpen && queueManagement?.currentItem && professional && (
-        <PrescriptionModal
-          onClose={() => setPrescriptionModalOpen(false)}
-          professional={professional}
-          patientId={queueManagement.currentItem.patient._id}
-          patientName={queueManagement.currentItem.user.name}
-          queueItemId={queueManagement.currentItem.queueItem._id}
-        />
-      )}
+      {isPrescriptionModalOpen &&
+        queueManagement?.currentItem &&
+        professional && (
+          <PrescriptionModal
+            onClose={() => setPrescriptionModalOpen(false)}
+            professional={professional}
+            patientId={queueManagement.currentItem.patient._id}
+            patientName={queueManagement.currentItem.user.name}
+            queueItemId={queueManagement.currentItem.queueItem._id}
+          />
+        )}
 
       {closeReasonQueueId && (
         <CloseQueueReasonModal

@@ -38,9 +38,7 @@ function ExamAvailabilityManager() {
   const { data: blackouts } = useGetExamAvailabilityBlackouts(healthUnitId);
 
   const [rows, setRows] = useState<RuleRow[]>(defaultRows());
-  // Tracks which health unit `rows` was last populated from, so the fetched
-  // rules can seed local editable state exactly once per unit without an
-  // effect (see "Adjusting state when a prop changes" in the React docs).
+
   const [syncedHealthUnitId, setSyncedHealthUnitId] = useState<string | null>(
     null
   );
@@ -244,7 +242,6 @@ function ExamAvailabilityManager() {
                     }
                   />
                 </div>
-
               </div>
             ))}
             <button

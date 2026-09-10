@@ -29,7 +29,6 @@ function HealthProfessionalCard({
       }}
     >
       <div className={style.profileImg}>
-        {/* user Profile image */}
         <span> {userInitials}</span>
       </div>
 

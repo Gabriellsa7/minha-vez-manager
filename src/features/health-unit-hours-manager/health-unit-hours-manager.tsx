@@ -30,9 +30,7 @@ function HealthUnitHoursManager() {
   const [rows, setRows] = useState<IHealthUnitOpeningHours[]>(
     defaultOpeningHours()
   );
-  // Tracks which health unit `rows` was last populated from, so the fetched
-  // opening hours can seed local editable state exactly once per unit
-  // without an effect (see "Adjusting state when a prop changes").
+
   const [syncedHealthUnitId, setSyncedHealthUnitId] = useState<string | null>(
     null
   );

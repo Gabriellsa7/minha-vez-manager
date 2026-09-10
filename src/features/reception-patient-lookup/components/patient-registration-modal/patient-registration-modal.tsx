@@ -44,8 +44,7 @@ function PatientRegistrationModal({
   onClose,
   onRegistered,
 }: PatientRegistrationModalProps) {
-  const { mutateAsync: createUser, isPending: isCreatingUser } =
-    usePostUser();
+  const { mutateAsync: createUser, isPending: isCreatingUser } = usePostUser();
   const { mutateAsync: deleteUser } = useDeleteUser();
   const { mutateAsync: createPatient, isPending: isCreatingPatient } =
     usePostPatient();
@@ -101,9 +100,6 @@ function PatientRegistrationModal({
       toast.success('Paciente cadastrado com sucesso.');
       onRegistered(patient);
     } catch (error) {
-      // The account was already created in the step above — roll it back so
-      // a failed patient step (e.g. CPF already in use) doesn't leave an
-      // orphaned login the receptionist can't recreate under the same e-mail.
       if (createdUserId) {
         await deleteUser(createdUserId).catch(() => {});
       }
@@ -164,16 +160,11 @@ function PatientRegistrationModal({
             />
           </Field>
           <div className={style.twoColumns}>
-            <Field
-              label="Data de nascimento"
-              error={errors.birthDate?.message}
-            >
+            <Field label="Data de nascimento" error={errors.birthDate?.message}>
               <input
                 {...register('birthDate', {
                   onChange: (event) => {
-                    event.target.value = formatBirthDate(
-                      event.target.value
-                    );
+                    event.target.value = formatBirthDate(event.target.value);
                   },
                 })}
                 placeholder="DD/MM/AAAA"
@@ -192,7 +183,10 @@ function PatientRegistrationModal({
               />
             </Field>
           </div>
-          <Field label="Prioridade de atendimento" error={errors.priority?.message}>
+          <Field
+            label="Prioridade de atendimento"
+            error={errors.priority?.message}
+          >
             <select {...register('priority')}>
               {Object.entries(PRIORITY_LABEL)
                 .filter(([value]) => value !== patientPriority.ELDERLY)

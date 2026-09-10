@@ -27,9 +27,6 @@ function ReceptionCheckIn() {
   const { data: queueItems, isFetching: isLoadingQueueItems } =
     useGetQueueItemByPatientId(patientId);
 
-  // A patient only ever has one non-finished queue item at a time (the
-  // booking flow blocks a second one), so the most recently created
-  // WAITING/IN_SERVICE item is today's attendance, if any.
   const activeQueueItem = [...(queueItems ?? [])]
     .filter(
       (item) =>

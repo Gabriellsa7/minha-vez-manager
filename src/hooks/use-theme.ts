@@ -3,9 +3,6 @@ import { authStorage } from './auth-storage';
 
 export type ThemePreference = 'light' | 'dark' | 'system';
 
-// A preferência de tema é isolada por usuário (chave sufixada com o id do
-// token logado) para que contas diferentes no mesmo navegador não herdem o
-// tema uma da outra ao trocar de login.
 function getThemeStorageKey() {
   const userId = authStorage.getUserId();
   return `theme:${userId ?? 'guest'}`;
