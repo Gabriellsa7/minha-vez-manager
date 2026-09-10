@@ -1,20 +1,17 @@
 import { useMemo, useState } from 'react';
 import { Clock3, CalendarCheck } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { useQueryClient } from '@tanstack/react-query';
 import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { useCurrentUser } from '../../config/api/get-current-user';
-import { useHealthUnitById } from '../../config/api/get-health-unit-by-id';
 import { useGetHealthProfessionals } from '../../config/api/get-health-professionals';
-import { useGetAppointmentsByProfessionalId } from '../../config/api/get-appointments-by-professional-id';
-import { usePostAppointment } from '../../config/api/post-appointment';
-import { appointmentsStatus } from '../../config/entities/appointments/appointment.entity';
 import {
-  generateTimes,
-  getDateKey,
-  getDateTimeFromDateAndTime,
-  isTimeWithinOpeningHours,
-} from '../../config/utils';
+  useGetAvailableSlots,
+  GET_AVAILABLE_SLOTS_KEY,
+} from '../../config/api/get-available-slots';
+import { usePostAppointment } from '../../config/api/post-appointment';
+import { getDateKey } from '../../config/utils';
 import { handleApiError } from '../../config/utils/handle-api-error';
 import { usePatientLookup } from '../reception-patient-lookup/hooks/use-patient-lookup';
 import { PatientLookupPanel } from '../reception-patient-lookup/patient-lookup-panel';
@@ -25,7 +22,6 @@ function ReceptionAppointments() {
   const { data: user } = useCurrentUser();
   const healthUnitId = user?.healthUnitId;
 
-  const { data: healthUnit } = useHealthUnitById(healthUnitId);
   const { data: allProfessionals } = useGetHealthProfessionals();
 
   const professionalsForUnit = useMemo(
@@ -49,88 +45,54 @@ function ReceptionAppointments() {
     (professional) => professional._id === professionalId
   );
 
-  const { data: professionalAppointments } = useGetAppointmentsByProfessionalId(
-    professionalId || undefined
+  const { data: availableSlots } = useGetAvailableSlots({
+    professionalId: professionalId || undefined,
+    date: selectedDate || undefined,
+  });
+
+  const slotsByTime = useMemo(() => {
+    const map = new Map<string, string>();
+    availableSlots?.forEach((slot) => map.set(slot.time, slot.dateTime));
+    return map;
+  }, [availableSlots]);
+
+  const availableTimes = useMemo(
+    () => Array.from(slotsByTime.keys()),
+    [slotsByTime]
   );
-
-  const bookedTimes = useMemo(() => {
-    const times = new Set<string>();
-
-    professionalAppointments?.forEach((appointment) => {
-      if (
-        appointment.status === appointmentsStatus.COMPLETED ||
-        appointment.status === appointmentsStatus.CANCELED
-      ) {
-        return;
-      }
-
-      const appointmentDate = new Date(appointment.dateTime);
-      if (getDateKey(appointmentDate) !== selectedDate) return;
-
-      const hour = String(appointmentDate.getHours()).padStart(2, '0');
-      const minute = String(appointmentDate.getMinutes()).padStart(2, '0');
-      times.add(`${hour}:${minute}`);
-    });
-
-    return times;
-  }, [professionalAppointments, selectedDate]);
-
-  const availableTimes = useMemo(() => {
-    if (!selectedProfessional) return [];
-
-    const openingHours = healthUnit?.openingHours ?? [];
-
-    return [
-      ...generateTimes(
-        selectedProfessional.schedule.morning?.start || '',
-        selectedProfessional.schedule.morning?.end || '',
-        selectedProfessional.schedule.appointmentDuration
-      ),
-      ...generateTimes(
-        selectedProfessional.schedule.afternoon?.start || '',
-        selectedProfessional.schedule.afternoon?.end || '',
-        selectedProfessional.schedule.appointmentDuration
-      ),
-    ].filter((time) =>
-      isTimeWithinOpeningHours(openingHours, selectedDate, time)
-    );
-  }, [selectedProfessional, healthUnit, selectedDate]);
 
   const effectiveSelectedTime = availableTimes.includes(selectedTime)
     ? selectedTime
     : '';
 
   const lookup = usePatientLookup();
+  const queryClient = useQueryClient();
   const { mutate: createAppointment, isPending } = usePostAppointment();
 
   const handleConfirm = () => {
-    if (
-      !lookup.patient ||
-      !selectedProfessional ||
-      !selectedDate ||
-      !effectiveSelectedTime
-    ) {
+    const dateTime = slotsByTime.get(effectiveSelectedTime);
+
+    if (!lookup.patient || !selectedProfessional || !dateTime) {
       return;
     }
-
-    const dateTime = getDateTimeFromDateAndTime(
-      selectedDate,
-      effectiveSelectedTime
-    );
 
     createAppointment(
       {
         patientId: lookup.patient._id,
         professionalId: selectedProfessional._id,
         healthUnitId: selectedProfessional.healthUnitId,
-        dateTime: dateTime.toISOString(),
+        dateTime,
         notes: 'Agendamento realizado pela recepção',
+        isWalkIn: true,
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           toast.success('Consulta marcada com sucesso.');
           setSelectedTime('');
           lookup.reset();
+          await queryClient.invalidateQueries({
+            queryKey: [GET_AVAILABLE_SLOTS_KEY],
+          });
         },
         onError: handleApiError,
       }
@@ -199,17 +161,12 @@ function ReceptionAppointments() {
           ) : (
             <div className={style.timesGrid}>
               {availableTimes.map((time) => {
-                const isBooked = bookedTimes.has(time);
-                const isPast =
-                  getDateTimeFromDateAndTime(selectedDate, time) <= new Date();
-                const isUnavailable = isBooked || isPast;
                 const isSelected = effectiveSelectedTime === time;
 
                 return (
                   <button
                     key={time}
                     type="button"
-                    disabled={isUnavailable}
                     onClick={() => setSelectedTime(time)}
                     className={`${style.timeSlot} ${
                       isSelected ? style.timeSlotSelected : ''
@@ -217,7 +174,6 @@ function ReceptionAppointments() {
                   >
                     <Clock3 size={14} />
                     {time}
-                    {isBooked && ' (ocupado)'}
                   </button>
                 );
               })}

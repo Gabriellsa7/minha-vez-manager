@@ -4,22 +4,13 @@ import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
 import style from './mark-return-modal.module.scss';
 import type { IHealthProfessional } from '../../../../config/entities/health-profissional/health-professional.entity';
-import { appointmentsStatus } from '../../../../config/entities/appointments/appointment.entity';
-import {
-  useGetAppointmentsByProfessionalId,
-  GET_APPOINTMENTS_BY_PROFESSIONAL_ID_KEY,
-} from '../../api/get-appointments-by-professional-id';
+import { GET_APPOINTMENTS_BY_PROFESSIONAL_ID_KEY } from '../../api/get-appointments-by-professional-id';
+import { useGetAvailableSlots } from '../../../../config/api/get-available-slots';
 import { useCreateAppointment } from '../../api/create-appointment';
 import { GET_QUEUE_MANAGEMENT } from '../../api/get-queue-management-by-professional-id';
 import { GET_QUEUES_BY_PROFESSIONAL_ID } from '../../api/get-queues-by-professional-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
-import {
-  generateTimes,
-  getDateKey,
-  getDateTimeFromDateAndTime,
-  isSameMonth,
-  startOfDay,
-} from '../../../../config/utils';
+import { getDateKey, isSameMonth, startOfDay } from '../../../../config/utils';
 
 interface MarkReturnModalProps {
   onClose: () => void;
@@ -50,9 +41,10 @@ function MarkReturnModal({
   );
   const [selectedTime, setSelectedTime] = useState('');
 
-  const { data: appointments, isLoading: isAppointmentsLoading } =
-    useGetAppointmentsByProfessionalId(professional?._id, {
-      enabled: Boolean(professional?._id),
+  const { data: availableSlots, isLoading: isAvailableSlotsLoading } =
+    useGetAvailableSlots({
+      professionalId: professional?._id,
+      date: selectedDate || undefined,
     });
 
   const { mutate: createAppointment, isPending: isCreating } =
@@ -131,46 +123,16 @@ function MarkReturnModal({
     });
   };
 
-  const availableTimes = useMemo(() => {
-    if (!professional) return [];
+  const slotsByTime = useMemo(() => {
+    const map = new Map<string, string>();
+    availableSlots?.forEach((slot) => map.set(slot.time, slot.dateTime));
+    return map;
+  }, [availableSlots]);
 
-    return [
-      ...generateTimes(
-        professional.schedule.morning?.start || '',
-        professional.schedule.morning?.end || '',
-        professional.schedule.appointmentDuration
-      ),
-      ...generateTimes(
-        professional.schedule.afternoon?.start || '',
-        professional.schedule.afternoon?.end || '',
-        professional.schedule.appointmentDuration
-      ),
-    ];
-  }, [professional]);
-
-  const bookedTimes = useMemo(() => {
-    if (!appointments || !selectedDate) return new Set<string>();
-
-    return appointments.reduce((times, appointment) => {
-      if (
-        appointment.status === appointmentsStatus.COMPLETED ||
-        appointment.status === appointmentsStatus.CANCELED
-      ) {
-        return times;
-      }
-
-      const dateKey = getDateKey(new Date(appointment.dateTime));
-
-      if (dateKey === selectedDate) {
-        const appointmentDate = new Date(appointment.dateTime);
-        const hour = String(appointmentDate.getHours()).padStart(2, '0');
-        const minute = String(appointmentDate.getMinutes()).padStart(2, '0');
-        times.add(`${hour}:${minute}`);
-      }
-
-      return times;
-    }, new Set<string>());
-  }, [appointments, selectedDate]);
+  const availableTimes = useMemo(
+    () => Array.from(slotsByTime.keys()),
+    [slotsByTime]
+  );
 
   const closeModal = () => {
     if (isCreating) return;
@@ -180,15 +142,15 @@ function MarkReturnModal({
   const handleConfirm = () => {
     if (!professional || !selectedDate || !selectedTime) return;
 
-    const dateTime = getDateTimeFromDateAndTime(selectedDate, selectedTime);
+    const dateTime = slotsByTime.get(selectedTime);
 
-    if (dateTime <= new Date()) {
-      toast.error('Escolha um horário futuro para o retorno.');
+    if (!dateTime) {
+      toast.error('Escolha um horário disponível para o retorno.');
       setSelectedTime('');
       return;
     }
 
-    if (startOfDay(dateTime) > maxReturnDate) {
+    if (startOfDay(new Date(dateTime)) > maxReturnDate) {
       toast.error(
         `O retorno deve ser marcado em até ${RETURN_MAX_DAYS} dias após a consulta.`
       );
@@ -200,7 +162,7 @@ function MarkReturnModal({
         patientId,
         professionalId: professional._id,
         healthUnitId: professional.healthUnitId,
-        dateTime: dateTime.toISOString(),
+        dateTime,
         notes: 'Retorno agendado pelo profissional',
         isReturn: true,
         originQueueItemId,
@@ -330,28 +292,19 @@ function MarkReturnModal({
               )}
               {availableTimes.map((time) => {
                 const isSelected = selectedTime === time;
-                const isBooked = bookedTimes.has(time);
-                const isPast =
-                  Boolean(selectedDate) &&
-                  getDateTimeFromDateAndTime(selectedDate, time) <= new Date();
-                const isUnavailable =
-                  isBooked || isPast || isAppointmentsLoading;
 
                 return (
                   <button
                     type="button"
                     key={time}
-                    disabled={isUnavailable}
+                    disabled={isAvailableSlotsLoading}
                     onClick={() => setSelectedTime(time)}
                     className={`${style.time} ${
                       isSelected ? style.timeSelected : ''
-                    } ${isUnavailable ? style.timeDisabled : ''}`}
+                    }`}
                   >
                     <Clock3 size={14} />
                     {time}
-                    {isBooked && (
-                      <span className={style.timeHint}>Ocupado</span>
-                    )}
                   </button>
                 );
               })}

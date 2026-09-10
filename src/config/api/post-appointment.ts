@@ -8,6 +8,7 @@ export interface CreateAppointmentParams {
   healthUnitId: string;
   dateTime: string;
   notes?: string;
+  isWalkIn?: boolean;
 }
 
 const postAppointment = async (
