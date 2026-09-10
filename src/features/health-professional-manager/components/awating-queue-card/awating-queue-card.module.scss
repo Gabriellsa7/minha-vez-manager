@@ -160,6 +160,16 @@
   color: $gray-600 !important;
 }
 
+.checkedIn {
+  background: $success-bg;
+  color: $success !important;
+}
+
+.notCheckedIn {
+  background: $warning-bg;
+  color: $warning-dark !important;
+}
+
 .callButton {
   background: $primary-darker;
   color: white;

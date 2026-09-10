@@ -76,6 +76,21 @@ function AwaitingQueueCard({
                   </span>
                 </div>
 
+                <div>
+                  <label>PRESENÇA</label>
+                  <span
+                    className={`${style.priority} ${
+                      item.queueItem.checkInTime
+                        ? style.checkedIn
+                        : style.notCheckedIn
+                    }`}
+                  >
+                    {item.queueItem.checkInTime
+                      ? 'Check-in feito'
+                      : 'Sem check-in'}
+                  </span>
+                </div>
+
                 {canCall && isNext && (
                   <button
                     className={style.callButton}

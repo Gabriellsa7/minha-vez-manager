@@ -33,6 +33,7 @@ import { Receptionists } from '../features/receptionists/receptionists';
 import { ReceptionAppointments } from '../features/reception-appointments/reception-appointments';
 import { ReceptionExams } from '../features/reception-exams/reception-exams';
 import { ReceptionProfile } from '../features/reception-profile/reception-profile';
+import { ReceptionCheckIn } from '../features/reception-check-in/reception-check-in';
 
 export const router = createBrowserRouter([
   {
@@ -158,6 +159,10 @@ export const router = createBrowserRouter([
                   />
                 ),
                 children: [
+                  {
+                    path: '/reception/check-in',
+                    element: <ReceptionCheckIn />,
+                  },
                   {
                     path: '/reception/appointments',
                     element: <ReceptionAppointments />,

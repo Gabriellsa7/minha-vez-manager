@@ -1,0 +1,86 @@
+@use '../../vars' as *;
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.mainContent {
+  width: 100%;
+}
+
+.card {
+  background: $surface;
+  border: 1px solid $slate-050;
+  border-radius: 20px;
+  padding: 22px;
+  margin: 0 26px 26px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.empty {
+  color: $slate-500;
+  font-size: 13px;
+  margin: 0;
+}
+
+.queueInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+
+  span {
+    color: $gray-600;
+    font-size: 13px;
+  }
+
+  strong {
+    font-size: 18px;
+    color: $text-primary;
+  }
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  background: $gray-150;
+  color: $gray-600;
+}
+
+.pending {
+  background: $warning-bg;
+  color: $warning-dark;
+}
+
+.confirmed {
+  background: $success-bg;
+  color: $success;
+}
+
+.confirmButton {
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 20px;
+  background: $primary;
+  color: $white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.confirmButton:hover:not(:disabled) {
+  background: $primary-dark;
+}
+
+.confirmButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background: $gray-300;
+}
