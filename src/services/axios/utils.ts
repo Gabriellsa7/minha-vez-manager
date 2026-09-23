@@ -1,4 +1,4 @@
-import { clearAccessToken } from '../../config/utils';
+import { authStorage } from '../../hooks/auth-storage';
 import { LOGIN_ROUTE } from './constants';
 
 function redirectToLogin() {
@@ -6,6 +6,6 @@ function redirectToLogin() {
 }
 
 export function handleUnauthorizedResponse() {
-  clearAccessToken();
+  authStorage.clear();
   redirectToLogin();
 }

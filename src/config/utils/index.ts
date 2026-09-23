@@ -5,10 +5,6 @@ export function getAccessToken(): string | null {
   return localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
 }
 
-export function clearAccessToken(): void {
-  localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
-}
-
 export function isApiClientError(error: unknown): boolean {
   if (!isAxiosError(error)) {
     return false;
