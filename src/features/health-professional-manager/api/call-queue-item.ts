@@ -5,12 +5,8 @@ export const CALL_QUEUE_ITEM = 'CALL_QUEUE_ITEM';
 
 const callQueueItem = async (queueItemId: string) => {
   const path = `/queue-items/${queueItemId}/call`;
-  try {
-    const response = await apiClient.patch(path);
-    return response.data;
-  } catch {
-    throw new Error(path);
-  }
+  const response = await apiClient.patch(path);
+  return response.data;
 };
 
 export const useCallQueueItem = (

@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../services/axios';
 import type { IQueue } from '../entities/queue/queue.entity';
 
@@ -7,17 +7,16 @@ export type OpenQueueResponse = IQueue;
 const openQueue = async (queueId: string): Promise<OpenQueueResponse> => {
   const path = `/queues/${queueId}/open`;
 
-  try {
-    const response = await apiClient.patch<OpenQueueResponse>(path);
+  const response = await apiClient.patch<OpenQueueResponse>(path);
 
-    return response.data;
-  } catch {
-    throw new Error(path);
-  }
+  return response.data;
 };
 
-export const useOpenQueue = () => {
+export const useOpenQueue = (
+  options?: UseMutationOptions<OpenQueueResponse, unknown, string>
+) => {
   return useMutation({
     mutationFn: openQueue,
+    ...options,
   });
 };

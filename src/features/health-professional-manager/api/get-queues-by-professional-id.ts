@@ -11,14 +11,9 @@ const getQueuesByProfessionalId = async (
 ): Promise<GetQueuesByProfessionalIdResponse> => {
   const path = `/queues/professional/${professionalId}`;
 
-  try {
-    const response =
-      await apiClient.get<GetQueuesByProfessionalIdResponse>(path);
+  const response = await apiClient.get<GetQueuesByProfessionalIdResponse>(path);
 
-    return response.data;
-  } catch {
-    throw new Error(path);
-  }
+  return response.data;
 };
 
 export const useGetQueuesByProfessionalId = (

@@ -10,13 +10,9 @@ export const getQueueItemByQueueId = async (
   queuelId: string
 ): Promise<GetQueueItemByQueueIdResponse> => {
   const path = `/queue-items/queues/${queuelId}`;
-  try {
-    const response = await apiClient.get<GetQueueItemByQueueIdResponse>(path);
+  const response = await apiClient.get<GetQueueItemByQueueIdResponse>(path);
 
-    return response.data;
-  } catch {
-    throw new Error(path);
-  }
+  return response.data;
 };
 
 export const useGetQueueItemByQueueId = (
