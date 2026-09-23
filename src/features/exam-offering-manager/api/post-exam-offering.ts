@@ -1,6 +1,8 @@
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../../services/axios';
 import type { IExamOffering } from '../../../config/entities/exam-offering/exam-offering.entity';
+import { withInvalidation } from '../../../services/react-query';
+import { GET_EXAM_OFFERINGS_BY_HEALTH_UNIT_ID_KEY } from '../../../config/api/get-exam-offerings-by-health-unit-id';
 
 export interface CreateExamOfferingParams {
   healthUnitId: string;
@@ -37,5 +39,5 @@ export const usePostExamOffering = (
 ) =>
   useMutation({
     mutationFn: postExamOffering,
-    ...options,
+    ...withInvalidation([GET_EXAM_OFFERINGS_BY_HEALTH_UNIT_ID_KEY], options),
   });

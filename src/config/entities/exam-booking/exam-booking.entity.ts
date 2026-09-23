@@ -29,3 +29,12 @@ export interface IExamBooking {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export const EXAM_BOOKING_STATUS_LABEL: Record<ExamBookingStatus, string> = {
+  SCHEDULED: 'Agendado',
+  CONFIRMED: 'Confirmado',
+  IN_PROGRESS: 'Em atendimento',
+  COMPLETED: 'Realizado',
+  CANCELED: 'Cancelado',
+  NO_SHOW: 'Não compareceu',
+};
