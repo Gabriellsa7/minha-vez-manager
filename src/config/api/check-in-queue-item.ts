@@ -1,6 +1,8 @@
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../services/axios';
 import type { IQueueItem } from '../entities/queue-item/queue-item.entity';
+import { withInvalidation } from '../../services/react-query';
+import { GET_QUEUE_ITEM_BY_PATIENT_ID } from './get-queue-item-by-patient-id';
 
 export const CHECK_IN_QUEUE_ITEM = 'CHECK_IN_QUEUE_ITEM';
 
@@ -16,6 +18,6 @@ export const useCheckInQueueItem = (
   return useMutation({
     mutationKey: [CHECK_IN_QUEUE_ITEM],
     mutationFn: checkInQueueItem,
-    ...options,
+    ...withInvalidation([GET_QUEUE_ITEM_BY_PATIENT_ID], options),
   });
 };

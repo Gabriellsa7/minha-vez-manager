@@ -11,13 +11,9 @@ const markQueueItemAsAbsent = async (
 ): Promise<MarkQueueItemAsAbsentResponse> => {
   const path = `/queue-items/${queueItemId}/absent`;
 
-  try {
-    const response = await apiClient.patch<MarkQueueItemAsAbsentResponse>(path);
+  const response = await apiClient.patch<MarkQueueItemAsAbsentResponse>(path);
 
-    return response.data;
-  } catch {
-    throw new Error(path);
-  }
+  return response.data;
 };
 
 export const useMarkQueueItemAsAbsent = (
