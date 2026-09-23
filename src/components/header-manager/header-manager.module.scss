@@ -1,9 +1,13 @@
 @use '../../vars' as *;
 
 .container {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 24px;
   padding: 20px 32px;
 
   background: $surface;
@@ -17,17 +21,20 @@
   .titleContainer {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+    min-width: 0;
 
     .title {
+      color: $text-primary;
       font-size: 22px;
       font-weight: 600;
+      line-height: 1.25;
     }
 
     .subtitle {
-      font-size: 14px;
       color: $gray-550;
-      opacity: 80%;
+      font-size: 14px;
+      line-height: 1.4;
     }
   }
 
@@ -58,6 +65,18 @@
       border-radius: 999px;
       background: linear-gradient(to right, $primary-darker, $primary);
       color: $white;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: filter 0.15s ease;
+
+      &:hover {
+        filter: brightness(1.08);
+      }
+
+      &:focus-visible {
+        outline: 2px solid $primary;
+        outline-offset: 2px;
+      }
     }
   }
 }

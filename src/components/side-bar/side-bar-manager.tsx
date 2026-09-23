@@ -14,10 +14,10 @@ interface SideBarProps {
 
 function SideBar({ items, pageTitle, user }: SideBarProps) {
   return (
-    <div className={style.container}>
-      <div className={style.cardContainer}>
+    <aside className={style.container}>
+      <nav className={style.cardContainer} aria-label={pageTitle}>
         <div className={style.titleContainer}>
-          <CirclePlus size={26} className={style.titleIcon} />
+          <CirclePlus size={26} className={style.titleIcon} aria-hidden />
           <span>{pageTitle}</span>
         </div>
         {items.map(({ title, icon: Icon, path }) => (
@@ -29,17 +29,17 @@ function SideBar({ items, pageTitle, user }: SideBarProps) {
                 isActive ? style.activeItem : style.item
               }
             >
-              <Icon size={20} />
+              <Icon size={20} aria-hidden />
               <span>{title}</span>
             </NavLink>
           </div>
         ))}
-      </div>
+      </nav>
       <div className={style.footer}>
         <ThemeToggle />
         <Profile user={user} />
       </div>
-    </div>
+    </aside>
   );
 }
 

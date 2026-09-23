@@ -6,7 +6,7 @@ interface HeaderManagerProps {
   title: string;
   subtitle: string;
   buttonText?: string;
-  onButtonClick: () => void;
+  onButtonClick?: () => void;
   user?: IUser;
 }
 
@@ -18,24 +18,29 @@ function HeaderManager({
   user,
 }: HeaderManagerProps) {
   const isProfessional = user?.principalType === 'HEALTH_PROFESSIONAL';
+  const showAction = !isProfessional && buttonText && onButtonClick;
 
   return (
-    <div className={style.container}>
+    <header className={style.container}>
       <div className={style.titleContainer}>
-        <span className={style.title}>{title}</span>
-        <span className={style.subtitle}>{subtitle}</span>
+        <h1 className={style.title}>{title}</h1>
+        <p className={style.subtitle}>{subtitle}</p>
       </div>
       <div className={style.buttonSection}>
-        <Bell size={22} className={style.bellIcon} />
+        <Bell size={22} className={style.bellIcon} aria-hidden />
 
-        {!isProfessional && buttonText && (
-          <button onClick={onButtonClick} className={style.healthUnitButton}>
-            <Plus size={20} color="#FFFFFF" />
+        {showAction && (
+          <button
+            type="button"
+            onClick={onButtonClick}
+            className={style.healthUnitButton}
+          >
+            <Plus size={20} aria-hidden />
             {buttonText}
           </button>
         )}
       </div>
-    </div>
+    </header>
   );
 }
 
