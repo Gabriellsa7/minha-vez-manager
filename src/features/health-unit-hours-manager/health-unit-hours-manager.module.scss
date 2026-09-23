@@ -1,19 +1,13 @@
 @use '../../vars' as *;
 
-.container {
-  display: flex;
-  height: 100vh;
-}
-
 .mainContent {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  gap: 20px;
+  width: 100%;
 }
 
 .content {
-  padding: 26px;
+  @include page-content;
 }
 
 .rulesSection {
@@ -34,7 +28,7 @@
 .ruleRow {
   display: grid;
   grid-template-columns: 150px 1fr 1fr 1fr;
-  align-items: end;
+  align-items: center;
   gap: 10px;
   padding: 10px 12px;
   border: 1px solid $primary-250;
@@ -52,7 +46,8 @@
     color: $text-primary;
     font: inherit;
     font-size: 12px;
-    padding: 8px 10px;
+    min-height: 38px;
+    padding: 8px 12px;
   }
 
   input:disabled {
@@ -75,6 +70,12 @@
     text-transform: uppercase;
     letter-spacing: 0.02em;
   }
+}
+
+.dayName {
+  color: $text-primary;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .fieldGroup {

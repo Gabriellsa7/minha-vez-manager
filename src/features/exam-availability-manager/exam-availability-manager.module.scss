@@ -1,22 +1,16 @@
 @use '../../vars' as *;
 
-.container {
-  display: flex;
-  height: 100vh;
-}
-
 .mainContent {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  gap: 20px;
+  width: 100%;
 }
 
 .content {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 20px;
-  padding: 26px;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+  gap: $page-gap;
+  padding: $page-gap $page-gutter 40px;
   align-items: start;
 }
 
@@ -37,8 +31,8 @@
 
 .ruleRow {
   display: grid;
-  grid-template-columns: 150px 1fr 1fr 130px 130px;
-  align-items: end;
+  grid-template-columns: 150px 1fr 1fr 150px;
+  align-items: center;
   gap: 10px;
   padding: 10px 12px;
   border: 1px solid $primary-250;
@@ -57,7 +51,8 @@
     color: $text-primary;
     font: inherit;
     font-size: 12px;
-    padding: 8px 10px;
+    min-height: 38px;
+    padding: 8px 12px;
   }
 
   input:disabled {
@@ -79,6 +74,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.02em;
+    white-space: nowrap;
   }
 }
 
@@ -101,10 +97,10 @@
 .checkbox {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  color: $gray-700;
-  font-size: 12px;
-  font-weight: 700;
+  gap: 8px;
+  color: $text-primary;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -126,18 +122,11 @@
 
 .blackoutForm {
   display: grid;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 16px;
 
-  input {
-    box-sizing: border-box;
-    width: 100%;
-    border: 1px solid $gray-200;
-    border-radius: 12px;
-    outline: none;
-    font: inherit;
-    font-size: 13px;
-    padding: 9px 12px;
+  .saveButton {
+    margin-top: 4px;
   }
 }
 
@@ -150,19 +139,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
+  gap: 12px;
+  padding: 10px 12px;
   border: 1px solid $slate-050;
-  border-radius: 10px;
-  font-size: 12px;
+  border-radius: 12px;
+  font-size: 13px;
   color: $gray-700;
 
   button {
     display: grid;
     place-items: center;
+    width: 32px;
+    height: 32px;
     border: 0;
+    border-radius: 8px;
     background: transparent;
     color: $danger;
     cursor: pointer;
+
+    &:hover {
+      background: $danger-bg;
+    }
   }
 }
 

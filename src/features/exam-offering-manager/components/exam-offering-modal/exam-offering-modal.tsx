@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
 import style from './exam-offering-modal.module.scss';
 import {
   examOfferingModalSchema,
@@ -11,7 +10,6 @@ import {
 } from './entities/exam-offering-modal.schema';
 import { usePostExamOffering } from '../../api/post-exam-offering';
 import { usePatchExamOffering } from '../../api/patch-exam-offering';
-import { GET_EXAM_OFFERINGS_BY_HEALTH_UNIT_ID_KEY } from '../../../../config/api/get-exam-offerings-by-health-unit-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import { Field } from '../../../../components/field/field';
 import type { IExamOffering } from '../../../../config/entities/exam-offering/exam-offering.entity';
@@ -65,7 +63,6 @@ function ExamOfferingModal({
   healthUnitId,
   examOffering,
 }: ExamOfferingModalProps) {
-  const queryClient = useQueryClient();
   const isEditing = Boolean(examOffering);
   const { mutateAsync: createOffering, isPending: isCreating } =
     usePostExamOffering();
@@ -149,9 +146,6 @@ function ExamOfferingModal({
         toast.success('Exame cadastrado com sucesso.');
       }
 
-      await queryClient.invalidateQueries({
-        queryKey: [GET_EXAM_OFFERINGS_BY_HEALTH_UNIT_ID_KEY, healthUnitId],
-      });
       closeModal();
     } catch (error) {
       handleApiError(error);
@@ -185,19 +179,32 @@ function ExamOfferingModal({
 
         <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
           <Field label="Nome do exame" error={errors.name?.message}>
-            <input {...register('name')} autoFocus placeholder="Ex.: Hemograma completo" />
+            <input
+              {...register('name')}
+              autoFocus
+              placeholder="Ex.: Hemograma completo"
+            />
           </Field>
 
           <div className={style.twoColumns}>
             <Field label="Código (opcional)" error={errors.code?.message}>
               <input {...register('code')} />
             </Field>
-            <Field label="Categoria (opcional)" error={errors.category?.message}>
-              <input {...register('category')} placeholder="Ex.: Sangue, Imagem" />
+            <Field
+              label="Categoria (opcional)"
+              error={errors.category?.message}
+            >
+              <input
+                {...register('category')}
+                placeholder="Ex.: Sangue, Imagem"
+              />
             </Field>
           </div>
 
-          <Field label="Descrição (opcional)" error={errors.description?.message}>
+          <Field
+            label="Descrição (opcional)"
+            error={errors.description?.message}
+          >
             <textarea {...register('description')} rows={2} />
           </Field>
 
@@ -206,7 +213,10 @@ function ExamOfferingModal({
               label="Tipo de material/coleta (opcional)"
               error={errors.sampleType?.message}
             >
-              <input {...register('sampleType')} placeholder="Ex.: Sangue venoso" />
+              <input
+                {...register('sampleType')}
+                placeholder="Ex.: Sangue venoso"
+              />
             </Field>
             <Field
               label="Duração aproximada (min.)"
@@ -248,10 +258,7 @@ function ExamOfferingModal({
             Exige jejum
           </label>
           {requiresFasting && (
-            <Field
-              label="Horas de jejum"
-              error={errors.fastingHours?.message}
-            >
+            <Field label="Horas de jejum" error={errors.fastingHours?.message}>
               <input
                 type="number"
                 min="0"
@@ -261,7 +268,10 @@ function ExamOfferingModal({
           )}
 
           <div className={style.twoColumns}>
-            <Field label="Valor particular (R$, opcional)" error={errors.price?.message}>
+            <Field
+              label="Valor particular (R$, opcional)"
+              error={errors.price?.message}
+            >
               <input
                 type="number"
                 min="0"
@@ -288,11 +298,23 @@ function ExamOfferingModal({
           )}
 
           <div className={style.actions}>
-            <button type="button" className={style.cancelButton} onClick={closeModal}>
+            <button
+              type="button"
+              className={style.cancelButton}
+              onClick={closeModal}
+            >
               Cancelar
             </button>
-            <button type="submit" className={style.submitButton} disabled={isPending}>
-              {isPending ? 'Salvando...' : isEditing ? 'Salvar alterações' : 'Cadastrar exame'}
+            <button
+              type="submit"
+              className={style.submitButton}
+              disabled={isPending}
+            >
+              {isPending
+                ? 'Salvando...'
+                : isEditing
+                  ? 'Salvar alterações'
+                  : 'Cadastrar exame'}
             </button>
           </div>
         </form>
