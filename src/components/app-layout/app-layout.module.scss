@@ -1,0 +1,13 @@
+@use '../../vars' as *;
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
