@@ -1,0 +1,35 @@
+@use '../../vars' as *;
+
+.page {
+  @include page-content;
+}
+
+.fieldsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  max-width: 760px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  color: $gray-700;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.detailChip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: $primary-100;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 500;
+}

@@ -1,0 +1,60 @@
+@use '../../../../vars' as *;
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  color: $text-primary;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.slot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  border: 1px solid $gray-200;
+  border-radius: 999px;
+  padding: 0 16px;
+  background: $surface;
+  color: $text-primary;
+  font-size: 13px;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    border-color: $primary;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+}
+
+.selected {
+  border-color: $primary;
+  background: $primary;
+  color: $white;
+}
+
+.loading {
+  color: $slate-500;
+  font-size: 13px;
+}
