@@ -1,18 +1,13 @@
-.container {
-  display: flex;
-  height: 100vh;
+@use '../../vars' as *;
 
-  .mainContent {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    overflow-y: auto;
-  }
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .content {
-  display: flex;
+  @include page-content;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 24px;
-  padding: 26px;
 }

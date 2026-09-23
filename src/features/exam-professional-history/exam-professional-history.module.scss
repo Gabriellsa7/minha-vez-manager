@@ -1,82 +1,16 @@
 @use '../../vars' as *;
 
-.container {
-  display: flex;
-  height: 100vh;
-}
-
 .mainContent {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  overflow-y: auto;
+  width: 100%;
 }
 
 .content {
-  padding: 26px;
+  @include page-content;
 }
 
 .list {
   display: grid;
   gap: 10px;
-  margin-top: 16px;
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 18px;
-  background: $surface;
-  border: 1px solid $slate-050;
-  border-radius: 16px;
-}
-
-.rowInfo {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 13px;
-  color: $text-primary;
-
-  strong {
-    font-size: 14px;
-  }
-}
-
-.status {
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: 999px;
-  padding: 3px 10px;
-}
-.SCHEDULED {
-  background: $info-bg;
-  color: $info;
-}
-.CONFIRMED {
-  background: $primary-200;
-  color: $primary;
-}
-.IN_PROGRESS {
-  background: $warning-bg;
-  color: $warning;
-}
-.COMPLETED {
-  background: $success-bg;
-  color: $success;
-}
-.CANCELED {
-  background: $danger-bg-muted;
-  color: $danger;
-}
-.NO_SHOW {
-  background: $gray-100;
-  color: $gray-600;
-}
-
-.empty {
-  color: $slate-400;
-  font-size: 13px;
 }

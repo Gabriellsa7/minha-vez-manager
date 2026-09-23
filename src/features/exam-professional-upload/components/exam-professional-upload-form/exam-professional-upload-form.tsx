@@ -16,6 +16,7 @@ import {
   type ExamProfessionalUploadFormData,
 } from './entities/exam-professional-upload-form.schema';
 import style from './exam-professional-upload-form.module.scss';
+import { Select } from '../../../../components/select/select';
 
 const ALLOWED_MIME_TYPE = 'application/pdf';
 
@@ -198,7 +199,7 @@ function ExamProfessionalUploadForm() {
         <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
           {linkableBookings.length > 0 && (
             <Field label="Vincular a um agendamento (opcional)">
-              <select
+              <Select
                 value={selectedBookingId}
                 onChange={(event) => setSelectedBookingId(event.target.value)}
               >
@@ -206,13 +207,12 @@ function ExamProfessionalUploadForm() {
                 {linkableBookings.map((booking) => (
                   <option key={booking._id} value={booking._id}>
                     {booking.examOfferingName} —{' '}
-                    {new Date(booking.scheduledAt).toLocaleDateString(
-                      'pt-BR',
-                      { timeZone: 'UTC' }
-                    )}
+                    {new Date(booking.scheduledAt).toLocaleDateString('pt-BR', {
+                      timeZone: 'UTC',
+                    })}
                   </option>
                 ))}
-              </select>
+              </Select>
             </Field>
           )}
 

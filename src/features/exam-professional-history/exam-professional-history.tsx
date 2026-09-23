@@ -1,25 +1,17 @@
 import { useState } from 'react';
-import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { useCurrentUser } from '../../config/api/get-current-user';
 import { useGetExamBookingsByHealthUnitId } from '../../config/api/get-exam-bookings-by-health-unit-id';
-import { toApiDateRange, formatDate, formatTime } from '../../config/utils';
+import { toApiDateRange } from '../../config/utils';
+import { History } from 'lucide-react';
+import { EmptyState } from '../../components/empty-state/empty-state';
+import { ExamBookingRow } from '../../components/exam-booking-row/exam-booking-row';
 import {
   examBookingStatus,
   type ExamBookingStatus,
 } from '../../config/entities/exam-booking/exam-booking.entity';
 import { HistoryFilter } from '../health-professional-history/components/history-filter/history-filter';
-import { SIDEBAR_EXAM_PROFESSIONAL_MANAGER } from '../exam-professional-manager/constants';
 import style from './exam-professional-history.module.scss';
-
-const STATUS_LABEL: Record<ExamBookingStatus, string> = {
-  SCHEDULED: 'Agendado',
-  CONFIRMED: 'Confirmado',
-  IN_PROGRESS: 'Em atendimento',
-  COMPLETED: 'Realizado',
-  CANCELED: 'Cancelado',
-  NO_SHOW: 'Não compareceu',
-};
 
 const HISTORY_STATUSES: ExamBookingStatus[] = [
   examBookingStatus.COMPLETED,
@@ -37,7 +29,7 @@ function ExamProfessionalHistory() {
     endDate?: string;
   }>({});
 
-  const { data: bookings } = useGetExamBookingsByHealthUnitId(
+  const { data: bookings, isLoading } = useGetExamBookingsByHealthUnitId(
     user?.healthUnitId,
     {
       startDate: appliedRange.startDate,
@@ -65,57 +57,39 @@ function ExamProfessionalHistory() {
     );
 
   return (
-    <div className={style.container}>
-      <SideBar
-        items={SIDEBAR_EXAM_PROFESSIONAL_MANAGER}
-        pageTitle="Painel de Exames"
+    <div className={style.mainContent}>
+      <HeaderManager
+        title="Histórico"
+        subtitle="Exames já realizados, cancelados ou não comparecidos"
         user={user}
       />
-      <div className={style.mainContent}>
-        <HeaderManager
-          title="Histórico"
-          subtitle="Exames já realizados, cancelados ou não comparecidos"
-          onButtonClick={() => {}}
-          user={user}
+
+      <div className={style.content}>
+        <HistoryFilter
+          startDateInput={startDateInput}
+          endDateInput={endDateInput}
+          hasAppliedFilter={Boolean(appliedRange.startDate)}
+          onStartDateChange={setStartDateInput}
+          onEndDateChange={setEndDateInput}
+          onApply={handleApplyFilter}
+          onClear={handleClearFilter}
         />
 
-        <div className={style.content}>
-          <HistoryFilter
-            startDateInput={startDateInput}
-            endDateInput={endDateInput}
-            hasAppliedFilter={Boolean(appliedRange.startDate)}
-            onStartDateChange={setStartDateInput}
-            onEndDateChange={setEndDateInput}
-            onApply={handleApplyFilter}
-            onClear={handleClearFilter}
-          />
-
+        {historyBookings.length ? (
           <div className={style.list}>
-            {historyBookings.length ? (
-              historyBookings.map((booking) => (
-                <div key={booking._id} className={style.row}>
-                  <div className={style.rowInfo}>
-                    <strong>{booking.patientName}</strong>
-                    <span>
-                      {formatDate(booking.scheduledAt, 'UTC')}{' '}
-                      {formatTime(booking.scheduledAt, 'UTC')}
-                    </span>
-                    <span>{booking.examOfferingName}</span>
-                    <span
-                      className={`${style.status} ${style[booking.status]}`}
-                    >
-                      {STATUS_LABEL[booking.status]}
-                    </span>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className={style.empty}>
-                Nenhum exame encontrado para o período selecionado.
-              </p>
-            )}
+            {historyBookings.map((booking) => (
+              <ExamBookingRow key={booking._id} booking={booking} showDate />
+            ))}
           </div>
-        </div>
+        ) : (
+          !isLoading && (
+            <EmptyState
+              icon={History}
+              title="Nenhum exame no histórico"
+              description="Não encontramos exames realizados, cancelados ou com falta no período selecionado."
+            />
+          )
+        )}
       </div>
     </div>
   );
