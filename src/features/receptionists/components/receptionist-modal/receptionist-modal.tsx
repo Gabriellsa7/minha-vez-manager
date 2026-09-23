@@ -3,9 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
 import { usePostReceptionist } from '../../../../config/api/post-receptionist';
-import { GET_RECEPTIONISTS_BY_HEALTH_UNIT_ID_KEY } from '../../../../config/api/get-receptionists-by-health-unit-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import { normalizeEmail } from '../../../../config/utils';
 import { Field } from '../../../../components/field/field';
@@ -36,7 +34,6 @@ function ReceptionistModal({
   onClose,
   healthUnitId,
 }: ReceptionistModalProps) {
-  const queryClient = useQueryClient();
   const { mutateAsync, isPending } = usePostReceptionist();
   const {
     register,
@@ -76,9 +73,6 @@ function ReceptionistModal({
         name: data.name,
         email: data.email,
         password: data.password,
-      });
-      await queryClient.invalidateQueries({
-        queryKey: [GET_RECEPTIONISTS_BY_HEALTH_UNIT_ID_KEY, data.healthUnitId],
       });
       toast.success('Recepcionista cadastrada com sucesso.');
       closeModal();
