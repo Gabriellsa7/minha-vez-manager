@@ -30,10 +30,10 @@ import { ExamProfessionalManager } from '../features/exam-professional-manager/e
 import { ExamProfessionalHistory } from '../features/exam-professional-history/exam-professional-history';
 import { ExamProfessionalUpload } from '../features/exam-professional-upload/exam-professional-upload';
 import { Receptionists } from '../features/receptionists/receptionists';
-import { ReceptionAppointments } from '../features/reception-appointments/reception-appointments';
-import { ReceptionExams } from '../features/reception-exams/reception-exams';
-import { ReceptionProfile } from '../features/reception-profile/reception-profile';
-import { ReceptionCheckIn } from '../features/reception-check-in/reception-check-in';
+import { ReceptionAppointments } from '../features/reception/appointments/reception-appointments';
+import { ReceptionExams } from '../features/reception/exams/reception-exams';
+import { ReceptionProfile } from '../features/reception/profile/reception-profile';
+import { ReceptionCheckIn } from '../features/reception/check-in/reception-check-in';
 
 export const router = createBrowserRouter([
   {
