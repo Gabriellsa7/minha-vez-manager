@@ -2,7 +2,7 @@
 
 .wrapper {
   max-width: 320px;
-  margin: 0 26px 16px;
+  margin: $page-gap $page-gutter 0;
 
   select {
     box-sizing: border-box;

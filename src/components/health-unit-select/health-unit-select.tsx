@@ -1,6 +1,7 @@
 import { Field } from '../field/field';
 import type { IHealthUnit } from '../../config/entities/health-unit/health-unit.entity';
 import style from './health-unit-select.module.scss';
+import { Select } from '../select/select';
 
 interface HealthUnitSelectProps {
   healthUnits?: IHealthUnit[];
@@ -18,7 +19,7 @@ function HealthUnitSelect({
   return (
     <div className={style.wrapper}>
       <Field label="Unidade de saúde">
-        <select
+        <Select
           value={value ?? ''}
           onChange={(event) => onChange(event.target.value)}
         >
@@ -27,7 +28,7 @@ function HealthUnitSelect({
               {unit.name}
             </option>
           ))}
-        </select>
+        </Select>
       </Field>
     </div>
   );
