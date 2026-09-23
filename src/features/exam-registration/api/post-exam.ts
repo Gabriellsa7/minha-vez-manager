@@ -1,6 +1,11 @@
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../../services/axios';
 import type { IExam } from '../../../config/entities/exam/exam.entity';
+import { withInvalidation } from '../../../services/react-query';
+import { GET_EXAMS_BY_HEALTH_UNIT_ID_KEY } from '../../../config/api/get-exams-by-health-unit-id';
+import { GET_EXAMS_BY_HEALTH_PROFESSIONAL_ID_KEY } from '../../../config/api/get-exams-by-health-professional-id';
+import { GET_EXAM_BOOKINGS_BY_PATIENT_ID_KEY } from '../../../config/api/get-exam-bookings-by-patient-id';
+import { GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY } from '../../../config/api/get-exam-bookings-by-health-unit-id';
 
 export interface CreateExamParams {
   patientCpf: string;
@@ -26,5 +31,13 @@ export const usePostExam = (
 ) =>
   useMutation({
     mutationFn: postExam,
-    ...options,
+    ...withInvalidation(
+      [
+        GET_EXAMS_BY_HEALTH_UNIT_ID_KEY,
+        GET_EXAMS_BY_HEALTH_PROFESSIONAL_ID_KEY,
+        GET_EXAM_BOOKINGS_BY_PATIENT_ID_KEY,
+        GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY,
+      ],
+      options
+    ),
   });

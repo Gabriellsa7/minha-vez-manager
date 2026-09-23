@@ -5,6 +5,8 @@ import type {
   IHealthUnit,
   IService,
 } from '../../../../../config/entities/health-unit/health-unit.entity';
+import { withInvalidation } from '../../../../../services/react-query';
+import { GET_HEALTH_UNITS_BY_USER_ID_KEY } from '../../../../../config/api/get-health-units-by-user-id';
 
 export interface CreateHealthUnitParams {
   userId: string;
@@ -39,5 +41,5 @@ export const usePostHealthUnit = (
 ) =>
   useMutation({
     mutationFn: postHealthUnit,
-    ...options,
+    ...withInvalidation([GET_HEALTH_UNITS_BY_USER_ID_KEY], options),
   });

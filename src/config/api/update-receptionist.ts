@@ -1,6 +1,9 @@
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../services/axios';
 import type { IReceptionist } from '../entities/receptionist/receptionist.entity';
+import { withInvalidation } from '../../services/react-query';
+import { GET_RECEPTIONISTS_BY_HEALTH_UNIT_ID_KEY } from './get-receptionists-by-health-unit-id';
+import { GET_RECEPTIONIST_BY_ID_KEY } from './get-receptionist-by-id';
 
 export interface UpdateReceptionistParams {
   id: string;
@@ -23,5 +26,8 @@ export const useUpdateReceptionist = (
 ) =>
   useMutation({
     mutationFn: updateReceptionist,
-    ...options,
+    ...withInvalidation(
+      [GET_RECEPTIONISTS_BY_HEALTH_UNIT_ID_KEY, GET_RECEPTIONIST_BY_ID_KEY],
+      options
+    ),
   });
