@@ -1,6 +1,9 @@
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../services/axios';
 import type { IExamAvailabilityRule } from '../entities/exam-availability/exam-availability.entity';
+import { withInvalidation } from '../../services/react-query';
+import { GET_EXAM_AVAILABILITY_RULES_KEY } from './get-exam-availability-rules';
+import { GET_EXAM_SLOTS_KEY } from './get-exam-slots';
 
 export interface PutExamAvailabilityRulesParams {
   healthUnitId: string;
@@ -27,5 +30,8 @@ export const usePutExamAvailabilityRules = (
 ) =>
   useMutation({
     mutationFn: putExamAvailabilityRules,
-    ...options,
+    ...withInvalidation(
+      [GET_EXAM_AVAILABILITY_RULES_KEY, GET_EXAM_SLOTS_KEY],
+      options
+    ),
   });

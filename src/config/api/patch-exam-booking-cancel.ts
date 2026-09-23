@@ -1,6 +1,9 @@
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../services/axios';
 import type { IExamBooking } from '../entities/exam-booking/exam-booking.entity';
+import { withInvalidation } from '../../services/react-query';
+import { GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY } from './get-exam-bookings-by-health-unit-id';
+import { GET_EXAM_SLOTS_KEY } from './get-exam-slots';
 
 export interface PatchExamBookingCancelParams {
   id: string;
@@ -27,5 +30,8 @@ export const usePatchExamBookingCancel = (
 ) =>
   useMutation({
     mutationFn: patchExamBookingCancel,
-    ...options,
+    ...withInvalidation(
+      [GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY, GET_EXAM_SLOTS_KEY],
+      options
+    ),
   });

@@ -4,6 +4,9 @@ import type {
   ExamBookingStatus,
   IExamBooking,
 } from '../entities/exam-booking/exam-booking.entity';
+import { withInvalidation } from '../../services/react-query';
+import { GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY } from './get-exam-bookings-by-health-unit-id';
+import { GET_EXAM_SLOTS_KEY } from './get-exam-slots';
 
 export interface PatchExamBookingStatusParams {
   id: string;
@@ -30,5 +33,8 @@ export const usePatchExamBookingStatus = (
 ) =>
   useMutation({
     mutationFn: patchExamBookingStatus,
-    ...options,
+    ...withInvalidation(
+      [GET_EXAM_BOOKINGS_BY_HEALTH_UNIT_ID_KEY, GET_EXAM_SLOTS_KEY],
+      options
+    ),
   });
