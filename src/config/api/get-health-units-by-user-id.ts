@@ -12,13 +12,9 @@ const getHealthUnitsByUserId = async (
 ): Promise<GetHealthUnitsByUserIdResponse> => {
   const path = `/health-units/user/${userId}`;
 
-  try {
-    const response = await apiClient.get<GetHealthUnitsByUserIdResponse>(path);
+  const response = await apiClient.get<GetHealthUnitsByUserIdResponse>(path);
 
-    return response.data;
-  } catch {
-    throw new Error(path);
-  }
+  return response.data;
 };
 
 export const useHealthUnitsByUserId = (

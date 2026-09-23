@@ -10,14 +10,9 @@ const getQueueByProfessionalId = async (
   professionalId: string
 ): Promise<GetQueueByProfessionalIdResponse> => {
   const path = `/queue/professional/${professionalId}`;
-  try {
-    const response =
-      await apiClient.get<GetQueueByProfessionalIdResponse>(path);
+  const response = await apiClient.get<GetQueueByProfessionalIdResponse>(path);
 
-    return response.data;
-  } catch {
-    throw new Error(path);
-  }
+  return response.data;
 };
 
 export const useGetQueueByProfessionalId = (

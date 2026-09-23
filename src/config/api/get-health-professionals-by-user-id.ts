@@ -12,13 +12,9 @@ const getHealthProfessionalsByUserId = async (
 ): Promise<GetHealthProfessionalsByUserId> => {
   const path = `/health-professionals/user/${userId}`;
 
-  try {
-    const response = await apiClient.get<GetHealthProfessionalsByUserId>(path);
+  const response = await apiClient.get<GetHealthProfessionalsByUserId>(path);
 
-    return response.data;
-  } catch {
-    throw new Error(path);
-  }
+  return response.data;
 };
 
 export const useHealthProfessionalsByUserId = (
