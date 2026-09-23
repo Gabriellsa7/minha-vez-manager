@@ -4,10 +4,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 12px;
   background-color: $surface;
-  padding: 14px 16px;
-  min-width: 250px;
+  padding: 12px 14px;
   border-radius: 999px;
 
   .imgContainer {
@@ -19,13 +18,29 @@
     .userInfo {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
       min-width: 0;
 
       span {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+
+      .userName {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        color: $text-primary;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.25;
+        white-space: normal;
+      }
+
+      .userRole {
+        color: $gray-550;
+        font-size: 12px;
       }
     }
 
@@ -48,6 +63,8 @@
 
       span {
         color: $primary;
+        font-size: 14px;
+        font-weight: 700;
       }
     }
   }
@@ -55,13 +72,35 @@
   .actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 4px;
     flex-shrink: 0;
   }
 
   .helpButton,
   .logoutButton {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
     color: $gray-600;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+
+    &:hover {
+      background: $gray-100;
+      color: $text-primary;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary;
+      outline-offset: 2px;
+    }
+  }
+
+  .logoutButton:hover {
+    color: $danger;
   }
 }

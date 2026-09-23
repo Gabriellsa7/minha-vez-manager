@@ -15,13 +15,6 @@ export const useAuth = () => {
     retry: false,
   });
 
-  console.log({
-    accessToken,
-    user,
-    isLoading,
-    isSuccess,
-  });
-
   return {
     user,
 
@@ -39,8 +32,7 @@ export const useAuth = () => {
     isHealthProfessional:
       user?.principalType === HealthProfessionalRole.HEALTH_PROFESSIONAL,
 
-    isReceptionist:
-      user?.principalType === HealthProfessionalRole.RECEPTIONIST,
+    isReceptionist: user?.principalType === HealthProfessionalRole.RECEPTIONIST,
 
     isAuthenticated: !!accessToken && isSuccess,
     isLoading,

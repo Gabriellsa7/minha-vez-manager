@@ -9,7 +9,10 @@ import { handleApiError } from '../../config/utils/handle-api-error';
 import { UserRole } from '../../config/entities/user/user.entity';
 import { HealthProfessionalRole } from '../../config/entities/auth/auth.entity';
 import { healthProfessionalType } from '../../config/entities/health-profissional/health-professional.entity';
-import { apiClient } from '../../services/axios';
+import {
+  GET_CURRENT_USER,
+  getCurrentUser,
+} from '../../config/api/get-current-user';
 import styles from './login.module.scss';
 import { HealthIcon } from '../../assets/svg';
 import loginHero from '../../assets/img/login-hero.png';
@@ -35,14 +38,12 @@ function Login() {
     try {
       const response = await mutateAsync(data);
 
+      queryClient.clear();
       authStorage.save(response);
 
       await queryClient.fetchQuery({
-        queryKey: ['GET_CURRENT_USER'],
-        queryFn: async () => {
-          const response = await apiClient.get('/users/me');
-          return response.data;
-        },
+        queryKey: [GET_CURRENT_USER],
+        queryFn: getCurrentUser,
       });
 
       if (
