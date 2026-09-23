@@ -1,30 +1,23 @@
-.container {
+@use '../../vars' as *;
+
+.mainContent {
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  width: 100%;
+}
 
-  .mainContent {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
+.queueContainer {
+  @include page-content;
+}
 
-    .queueContainer {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding: 40px;
-    }
+.queueEntry {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-    .queueEntry {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .queueDetails {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding-left: 8px;
-    }
-  }
+.queueDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }

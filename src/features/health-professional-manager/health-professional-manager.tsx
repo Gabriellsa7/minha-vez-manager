@@ -1,320 +1,133 @@
-import { useCallback, useEffect, useState } from 'react';
-import { HeaderManager } from '../../components/header-manager/header-manager';
-import { SideBar } from '../../components/side-bar/side-bar-manager';
-import { useCurrentUser } from '../../config/api/get-current-user';
-import {
-  queueShift,
-  queueStatus,
-} from '../../config/entities/queue/queue.entity';
-import { SIDEBAR_PROFESSIONAL_MANAGER } from './constants';
-import style from './health-professional-manager.module.scss';
-import { AwaitingQueueCard } from './components/awating-queue-card/awating-queue-card';
-import {
-  GET_QUEUE_MANAGEMENT,
-  useGetQueueManagement,
-} from './api/get-queue-management-by-professional-id';
-import { NowQueueCard } from './components/now-queue-card/now-queue-card';
-import { useOpenQueue } from '../../config/api/open-queue';
-import { useCloseQueue } from '../../config/api/close-queue';
-import {
-  GET_QUEUE_ITEM_BY_QUEUE_ID,
-  getQueueItemByQueueId,
-} from '../../config/api/get-queue-item-by-queue-id';
-import { QueueItemStatus } from '../../config/entities/queue-item/queue-item.entity';
+import { useState } from 'react';
+import { ListX } from 'lucide-react';
 import { CloseQueueReasonModal } from '../../components/close-queue-reason-modal/close-queue-reason-modal';
-import { queryClient } from '../../services/react-query';
-import { QueueListCard } from './components/queue-list-card/queue-list-card';
-import {
-  GET_QUEUES_BY_PROFESSIONAL_ID,
-  useGetQueuesByProfessionalId,
-} from './api/get-queues-by-professional-id';
-import { useFinishQueueItem } from './api/finish-queue-item';
-import { useMarkQueueItemAsAbsent } from './api/mark-queue-item-as-absent';
-import { useCallQueueItem } from './api/call-queue-item';
+import { EmptyState } from '../../components/empty-state/empty-state';
+import { HeaderManager } from '../../components/header-manager/header-manager';
+import { useCurrentUser } from '../../config/api/get-current-user';
 import { useHealthProfessionalById } from '../../config/api/get-health-professional-by-id';
-import { MarkReturnModal } from './components/mark-return-modal/mark-return-modal';
-import { PrescriptionModal } from '../health-professional-prescription/components/prescription-modal/prescription-modal';
+import { queueStatus } from '../../config/entities/queue/queue.entity';
 import { useGetPrescriptionsByPatientId } from '../health-professional-prescription/api/get-prescriptions-by-patient-id';
-import { handleApiError } from '../../config/utils/handle-api-error';
-import { QueueSocketService } from '../../services/realtime/queue-socket.service';
-
-function isSameDay(dateA: string, dateB: Date): boolean {
-  const a = new Date(dateA);
-  return (
-    a.getFullYear() === dateB.getFullYear() &&
-    a.getMonth() === dateB.getMonth() &&
-    a.getDate() === dateB.getDate()
-  );
-}
-
-const AFTERNOON_SHIFT_START_HOUR = 12;
-const AFTERNOON_SHIFT_START_MINUTE = 30;
-
-function hasShiftStarted(shift: string, now: Date): boolean {
-  if (shift === queueShift.MORNING) return true;
-
-  const afternoonStart = new Date(now);
-  afternoonStart.setHours(
-    AFTERNOON_SHIFT_START_HOUR,
-    AFTERNOON_SHIFT_START_MINUTE,
-    0,
-    0
-  );
-
-  return now.getTime() >= afternoonStart.getTime();
-}
+import { PrescriptionModal } from '../health-professional-prescription/components/prescription-modal/prescription-modal';
+import { AwaitingQueueCard } from './components/awating-queue-card/awating-queue-card';
+import { MarkReturnModal } from './components/mark-return-modal/mark-return-modal';
+import { NowQueueCard } from './components/now-queue-card/now-queue-card';
+import { QueueListCard } from './components/queue-list-card/queue-list-card';
+import style from './health-professional-manager.module.scss';
+import { useQueueManagement } from './hooks/use-queue-management';
+import { hasShiftStarted, isSameDay } from './utils/queue-schedule';
 
 function HealthProfessionalManager() {
-  const [onModalOpen, setModalOpen] = useState(false);
   const [isMarkReturnModalOpen, setMarkReturnModalOpen] = useState(false);
   const [isPrescriptionModalOpen, setPrescriptionModalOpen] = useState(false);
-  const [closeReasonQueueId, setCloseReasonQueueId] = useState<string | null>(
-    null
-  );
+
   const { data: user } = useCurrentUser();
   const { data: professional } = useHealthProfessionalById(user?._id);
+  const queue = useQueueManagement(user?._id);
 
-  const { data: queueManagement } = useGetQueueManagement(user?._id);
-  const { data: queues } = useGetQueuesByProfessionalId(user?._id);
+  const currentItem = queue.queueManagement?.currentItem;
 
   const { data: currentPatientPrescriptions } = useGetPrescriptionsByPatientId(
-    queueManagement?.currentItem?.patient._id
+    currentItem?.patient._id
   );
   const hasPrescriptionForCurrentItem = Boolean(
-    queueManagement?.currentItem &&
+    currentItem &&
     currentPatientPrescriptions?.some(
-      (prescription) =>
-        prescription.queueItemId === queueManagement.currentItem!.queueItem._id
+      (prescription) => prescription.queueItemId === currentItem.queueItem._id
     )
   );
 
-  const invalidateQueues = useCallback(async () => {
-    await Promise.all([
-      queryClient.invalidateQueries({
-        queryKey: [GET_QUEUE_MANAGEMENT, user?._id],
-      }),
-      queryClient.invalidateQueries({
-        queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID, user?._id],
-      }),
-    ]);
-  }, [user?._id]);
-
-  const { mutateAsync: finishQueueItem } = useFinishQueueItem({
-    onSuccess: invalidateQueues,
-  });
-
-  const { mutateAsync: markQueueItemAsAbsent } = useMarkQueueItemAsAbsent({
-    onSuccess: invalidateQueues,
-  });
-
-  const { mutateAsync: callQueueItem } = useCallQueueItem({
-    onSuccess: invalidateQueues,
-  });
-
-  const {
-    mutateAsync: openQueue,
-    isPending: isOpeningQueue,
-    variables: openingQueueId,
-  } = useOpenQueue();
-
-  const {
-    mutateAsync: closeQueue,
-    isPending: isClosingQueue,
-    variables: closingQueueId,
-  } = useCloseQueue();
-
-  useEffect(() => {
-    const unsubscribe = QueueSocketService.subscribeToSocket(() => {
-      void invalidateQueues();
-    });
-    const stopSocket = QueueSocketService.startSocket();
-
-    return () => {
-      unsubscribe();
-      stopSocket();
-    };
-  }, [invalidateQueues]);
-
-  const handleFinish = async () => {
-    if (!queueManagement?.currentItem) return;
-
-    try {
-      await finishQueueItem(queueManagement.currentItem.queueItem._id);
-    } catch (error) {
-      handleApiError(error);
-    }
-  };
-
-  const handleAbsent = async () => {
-    if (!queueManagement?.currentItem) return;
-
-    try {
-      await markQueueItemAsAbsent(queueManagement.currentItem.queueItem._id);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleCall = async (id: string) => {
-    await callQueueItem(id);
-  };
-
-  const handleMarkReturn = () => {
-    if (!queueManagement?.currentItem) return;
-    setMarkReturnModalOpen(true);
-  };
-
-  const handlePrescribe = () => {
-    if (!queueManagement?.currentItem) return;
-    setPrescriptionModalOpen(true);
-  };
-
-  const handleOpenQueue = async (queueId: string) => {
-    try {
-      await openQueue(queueId);
-      await invalidateQueues();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleCloseQueue = async (queueId: string) => {
-    try {
-      const items = await queryClient.fetchQuery({
-        queryKey: [GET_QUEUE_ITEM_BY_QUEUE_ID, queueId],
-        queryFn: () => getQueueItemByQueueId(queueId),
-      });
-
-      const attendedSomeone = items.some(
-        (item) => item.status === QueueItemStatus.FINISHED
-      );
-
-      if (!attendedSomeone) {
-        setCloseReasonQueueId(queueId);
-        return;
-      }
-
-      await closeQueue({ queueId });
-      await invalidateQueues();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleConfirmCloseWithReason = async (reason: string) => {
-    if (!closeReasonQueueId) return;
-
-    try {
-      await closeQueue({ queueId: closeReasonQueueId, reason });
-      await invalidateQueues();
-      setCloseReasonQueueId(null);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  console.log(onModalOpen);
-
   const today = new Date();
-  const hasOpenQueue = Boolean(queueManagement?.queue);
-
-  const activeQueues = queues?.filter((queue) => !queue.closedAt);
+  const hasOpenQueue = Boolean(queue.queueManagement?.queue);
 
   return (
-    <div className={style.container}>
-      <SideBar
-        pageTitle="Painel de Gestão"
-        items={SIDEBAR_PROFESSIONAL_MANAGER}
-        user={user}
-      />
+    <>
       <div className={style.mainContent}>
         <HeaderManager
           title="Painel de Gestão"
-          subtitle="Status da Clinica: Operação Normal"
-          onButtonClick={() => setModalOpen(true)}
+          subtitle="Abra sua fila do dia e chame os pacientes em ordem de atendimento"
           user={user}
         />
         <div className={style.queueContainer}>
-          {activeQueues?.length ? (
-            activeQueues.map((queue) => {
-              const isActive =
-                queue.status === queueStatus.OPEN ||
-                queue.status === queueStatus.IN_PROGRESS;
+          {queue.activeQueues.length
+            ? queue.activeQueues.map((item) => {
+                const isActive =
+                  item.status === queueStatus.OPEN ||
+                  item.status === queueStatus.IN_PROGRESS;
 
-              return (
-                <div key={queue._id} className={style.queueEntry}>
-                  <QueueListCard
-                    queue={queue}
-                    isToday={isSameDay(queue.queueDate, today)}
-                    hasShiftStarted={hasShiftStarted(queue.shift, today)}
-                    isActive={isActive}
-                    isBlocked={hasOpenQueue && !isActive}
-                    onOpen={handleOpenQueue}
-                    onClose={handleCloseQueue}
-                    isOpening={isOpeningQueue && openingQueueId === queue._id}
-                    isClosing={
-                      isClosingQueue && closingQueueId?.queueId === queue._id
-                    }
-                  />
+                return (
+                  <div key={item._id} className={style.queueEntry}>
+                    <QueueListCard
+                      queue={item}
+                      isToday={isSameDay(item.queueDate, today)}
+                      hasShiftStarted={hasShiftStarted(item.shift, today)}
+                      isActive={isActive}
+                      isBlocked={hasOpenQueue && !isActive}
+                      onOpen={queue.openQueue}
+                      onClose={queue.requestCloseQueue}
+                      isOpening={queue.openingQueueId === item._id}
+                      isClosing={queue.closingQueueId === item._id}
+                    />
 
-                  {isActive && queueManagement && (
-                    <div className={style.queueDetails}>
-                      {queueManagement.currentItem && (
-                        <NowQueueCard
-                          queue={queueManagement.queue}
-                          currentItem={queueManagement.currentItem}
-                          hasPrescription={hasPrescriptionForCurrentItem}
-                          onFinish={handleFinish}
-                          onAbsent={handleAbsent}
-                          onMarkReturn={handleMarkReturn}
-                          onPrescribe={handlePrescribe}
+                    {isActive && queue.queueManagement && (
+                      <div className={style.queueDetails}>
+                        {currentItem && (
+                          <NowQueueCard
+                            queue={queue.queueManagement.queue}
+                            currentItem={currentItem}
+                            hasPrescription={hasPrescriptionForCurrentItem}
+                            onFinish={queue.finishCurrentItem}
+                            onAbsent={queue.markCurrentItemAbsent}
+                            onMarkReturn={() => setMarkReturnModalOpen(true)}
+                            onPrescribe={() => setPrescriptionModalOpen(true)}
+                          />
+                        )}
+                        <AwaitingQueueCard
+                          onCall={queue.callQueueItem}
+                          queueManagement={queue.queueManagement}
                         />
-                      )}
-                      <AwaitingQueueCard
-                        onCall={handleCall}
-                        queueManagement={queueManagement}
-                      />
-                    </div>
-                  )}
-                </div>
-              );
-            })
-          ) : (
-            <p>Nenhuma fila disponível</p>
-          )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            : !queue.isLoading && (
+                <EmptyState
+                  icon={ListX}
+                  title="Nenhuma fila disponível"
+                  description="Suas filas aparecem aqui quando houver consultas agendadas para você."
+                />
+              )}
         </div>
       </div>
 
-      {isMarkReturnModalOpen && queueManagement?.currentItem && (
+      {isMarkReturnModalOpen && currentItem && (
         <MarkReturnModal
           onClose={() => setMarkReturnModalOpen(false)}
           professional={professional}
-          patientId={queueManagement.currentItem.patient._id}
-          patientName={queueManagement.currentItem.user.name}
-          originQueueItemId={queueManagement.currentItem.queueItem._id}
+          patientId={currentItem.patient._id}
+          patientName={currentItem.user.name}
+          originQueueItemId={currentItem.queueItem._id}
         />
       )}
 
-      {isPrescriptionModalOpen &&
-        queueManagement?.currentItem &&
-        professional && (
-          <PrescriptionModal
-            onClose={() => setPrescriptionModalOpen(false)}
-            professional={professional}
-            patientId={queueManagement.currentItem.patient._id}
-            patientName={queueManagement.currentItem.user.name}
-            queueItemId={queueManagement.currentItem.queueItem._id}
-          />
-        )}
+      {isPrescriptionModalOpen && currentItem && professional && (
+        <PrescriptionModal
+          onClose={() => setPrescriptionModalOpen(false)}
+          professional={professional}
+          patientId={currentItem.patient._id}
+          patientName={currentItem.user.name}
+          queueItemId={currentItem.queueItem._id}
+        />
+      )}
 
-      {closeReasonQueueId && (
+      {queue.closeReasonQueueId && (
         <CloseQueueReasonModal
-          isClosing={isClosingQueue}
-          onCancel={() => setCloseReasonQueueId(null)}
-          onConfirm={handleConfirmCloseWithReason}
+          isClosing={queue.isClosingQueue}
+          onCancel={queue.cancelCloseWithReason}
+          onConfirm={queue.confirmCloseWithReason}
         />
       )}
-    </div>
+    </>
   );
 }
 
