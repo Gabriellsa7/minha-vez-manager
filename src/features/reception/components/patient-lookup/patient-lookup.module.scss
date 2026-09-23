@@ -1,0 +1,149 @@
+@use '../../../../vars' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid $slate-050;
+  border-radius: 20px;
+  background: $surface;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.title {
+  color: $text-primary;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.searchRow {
+  display: flex;
+  gap: 10px;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid $gray-200;
+  border-radius: 14px;
+  outline: none;
+  background: $surface;
+  color: $text-primary;
+  font-size: 14px;
+  padding: 0 16px;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
+  }
+
+  &:disabled {
+    background: $gray-100;
+    color: $gray-600;
+  }
+}
+
+.searchButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border-radius: 12px;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+}
+
+.searchButton {
+  background: $primary;
+  color: $white;
+
+  &:hover:not(:disabled) {
+    background: $primary-dark;
+  }
+}
+
+.secondaryButton {
+  border: 1px solid $gray-200;
+  background: $surface;
+  color: $primary;
+
+  &:hover {
+    background: $primary-050;
+  }
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: $primary-050;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background-color: $gray-200;
+  color: $primary;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.patientInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  strong {
+    color: $text-primary;
+    font-size: 14px;
+  }
+
+  span {
+    color: $slate-500;
+    font-size: 12px;
+  }
+}
+
+.notFound {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px dashed $warning;
+  border-radius: 14px;
+  background: $warning-bg;
+}
+
+.notFoundText {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: $warning-dark;
+  font-size: 13px;
+  font-weight: 500;
+}
