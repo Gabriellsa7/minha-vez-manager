@@ -1,0 +1,106 @@
+@use '../../vars' as *;
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 1px solid $slate-050;
+  border-radius: 16px;
+  background: $surface;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  min-width: 0;
+  color: $text-primary;
+  font-size: 13px;
+}
+
+.patient {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.time {
+  color: $gray-600;
+  font-variant-numeric: tabular-nums;
+}
+
+.status {
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.SCHEDULED {
+  background: $info-bg;
+  color: $info;
+}
+
+.CONFIRMED {
+  background: $primary-200;
+  color: $primary;
+}
+
+.IN_PROGRESS {
+  background: $warning-bg;
+  color: $warning;
+}
+
+.COMPLETED {
+  background: $success-bg;
+  color: $success;
+}
+
+.CANCELED {
+  background: $danger-bg-muted;
+  color: $danger;
+}
+
+.NO_SHOW {
+  background: $gray-100;
+  color: $gray-600;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.action {
+  min-height: 34px;
+  border-radius: 10px;
+  padding: 0 14px;
+  background: $primary-250;
+  color: $primary;
+  font-size: 12px;
+  font-weight: 700;
+  transition: filter 0.15s ease;
+
+  &:hover:not(:disabled) {
+    filter: brightness(0.96);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.danger {
+  background: $danger-bg;
+  color: $danger;
+}
