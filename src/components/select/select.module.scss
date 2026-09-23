@@ -1,0 +1,41 @@
+@use '../../vars' as *;
+
+.wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+:where(.select) {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid $gray-200;
+  border-radius: 15px;
+  outline: none;
+  background: $surface;
+  color: $text-primary;
+  font-size: 13px;
+  padding: 10px 14px;
+}
+
+.wrapper .select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 42px;
+  text-overflow: ellipsis;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  color: $gray-550;
+  pointer-events: none;
+}

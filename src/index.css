@@ -64,8 +64,6 @@
   --color-purple: #5333e5;
 }
 
-/* Tema escuro "do sistema": aplica quando o usuário escolheu "padrão do
-   navegador" (nenhum data-theme forçado) e o SO está em modo escuro. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
@@ -134,7 +132,6 @@
   }
 }
 
-/* Tema escuro forçado pelo usuário (independe do SO). */
 :root[data-theme='dark'] {
   color-scheme: dark;
 
@@ -245,6 +242,46 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+:where(
+    input:not([type='checkbox'], [type='radio'], [type='file'], [type='range']),
+    textarea
+  ) {
+  min-height: 42px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 12px;
+  outline: none;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 13px;
+  padding: 10px 14px;
+}
+
+:where(textarea) {
+  line-height: 1.5;
+  resize: vertical;
+}
+
+:where(input, textarea, select)::placeholder {
+  color: var(--color-gray-450);
+}
+
+:where(input, textarea, select):focus-visible {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+:where(p) {
+  line-height: 1.5;
 }
 
 button {

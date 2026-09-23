@@ -1,14 +1,3 @@
-// Paleta de cores do projeto.
-// Use `@use '<caminho-relativo-para-src>/vars' as *;` no topo de cada .module.scss
-// e utilize as variáveis diretamente, ex: `background-color: $primary;`.
-//
-// Os valores abaixo apontam para CSS custom properties definidas em `index.css`,
-// que trocam de valor conforme o tema (claro/escuro/padrão do navegador) ativo em
-// `<html data-theme="...">`. Isso permite que qualquer .module.scss que já usa
-// essas variáveis fique automaticamente compatível com o tema, sem precisar editar
-// cada arquivo individualmente.
-
-// Marca (primary)
 $primary-050: var(--color-primary-050);
 $primary-100: var(--color-primary-100);
 $primary-150: var(--color-primary-150);
@@ -20,21 +9,13 @@ $primary: var(--color-primary);
 $primary-dark: var(--color-primary-dark);
 $primary-darker: var(--color-primary-darker);
 
-// Texto
 $text-primary: var(--color-text-primary);
 $text-secondary: var(--color-text-secondary);
 
-// Branco "literal": usado para texto/ícones sobre fundos coloridos (botões
-// primários, gradientes) que permanecem legíveis nos dois temas. Não muda com
-// o tema — para fundos de cartão/modal use `$surface`.
 $white: #ffffff;
 
-// Superfície: fundo de cartões, modais, header etc. Em modo claro é branco
-// (igual ao antigo uso de `$white` como background); em modo escuro vira um
-// tom escuro de superfície.
 $surface: var(--color-surface);
 
-// Neutros (gray)
 $gray-100: var(--color-gray-100);
 $gray-150: var(--color-gray-150);
 $gray-200: var(--color-gray-200);
@@ -49,7 +30,6 @@ $gray-800: var(--color-gray-800);
 $gray-900: var(--color-gray-900);
 $gray-950: var(--color-gray-950);
 
-// Neutros azulados (slate)
 $slate-050: var(--color-slate-050);
 $slate-300: var(--color-slate-300);
 $slate-400: var(--color-slate-400);
@@ -58,30 +38,35 @@ $slate-600: var(--color-slate-600);
 $slate-700: var(--color-slate-700);
 $slate-800: var(--color-slate-800);
 
-// Perigo (danger)
 $danger-bg: var(--color-danger-bg);
 $danger-bg-muted: var(--color-danger-bg-muted);
 $danger: var(--color-danger);
 $danger-strong: var(--color-danger-strong);
 $danger-dark: var(--color-danger-dark);
 
-// Aviso (warning)
 $warning-bg: var(--color-warning-bg);
 $warning: var(--color-warning);
 $warning-dark: var(--color-warning-dark);
 
-// Sucesso (success)
 $success-bg: var(--color-success-bg);
 $success: var(--color-success);
 
-// Informação (info)
 $info-bg: var(--color-info-bg);
 $info: var(--color-info);
 $info-dark: var(--color-info-dark);
 $info-darker: var(--color-info-darker);
 
-// Destaque (purple)
 $purple-bg: var(--color-purple-bg);
 $purple-light: var(--color-purple-light);
 $purple-mid: var(--color-purple-mid);
 $purple: var(--color-purple);
+
+$page-gutter: 32px;
+$page-gap: 24px;
+
+@mixin page-content {
+  display: flex;
+  flex-direction: column;
+  gap: $page-gap;
+  padding: $page-gap $page-gutter 40px;
+}
