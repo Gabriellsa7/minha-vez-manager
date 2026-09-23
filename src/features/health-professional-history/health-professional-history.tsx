@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { useCurrentUser } from '../../config/api/get-current-user';
 import { useGetQueueHistoryByProfessionalId } from '../../config/api/get-queue-history-by-professional-id';
-import { SIDEBAR_PROFESSIONAL_MANAGER } from '../health-professional-manager/constants';
 import { toApiDateRange } from '../../config/utils';
 import { HistoryCard } from './components/history-card/history-card';
 import { HistoryDetailModal } from './components/history-detail-modal/history-detail-modal';
 import { HistoryFilter } from './components/history-filter/history-filter';
 import style from './health-professional-history.module.scss';
+import { EmptyState } from '../../components/empty-state/empty-state';
+import { History } from 'lucide-react';
 
 function HealthProfessionalHistory() {
   const { data: user } = useCurrentUser();
@@ -44,20 +44,14 @@ function HealthProfessionalHistory() {
 
   return (
     <>
-      <div className={style.container}>
-        <SideBar
-          items={SIDEBAR_PROFESSIONAL_MANAGER}
-          pageTitle="Painel de Gestão"
+      <div className={style.mainContent}>
+        <HeaderManager
+          title="Histórico"
+          subtitle="Atendimentos que você já realizou"
           user={user}
         />
-        <div className={style.mainContent}>
-          <HeaderManager
-            title="Histórico"
-            subtitle="Atendimentos que você já realizou"
-            onButtonClick={() => {}}
-            user={user}
-          />
 
+        <div className={style.content}>
           <HistoryFilter
             startDateInput={startDateInput}
             endDateInput={endDateInput}
@@ -68,25 +62,25 @@ function HealthProfessionalHistory() {
             onClear={handleClearFilter}
           />
 
-          <div className={style.historyGrid}>
-            {history?.length ? (
-              history.map((entry) => (
+          {history?.length ? (
+            <div className={style.historyGrid}>
+              {history.map((entry) => (
                 <HistoryCard
                   key={entry.queueItem._id}
                   entry={entry}
                   onClick={() => setSelectedEntryId(entry.queueItem._id)}
                 />
-              ))
-            ) : (
-              <p className={style.empty}>
-                Nenhum atendimento concluído encontrado para o período
-                selecionado.
-              </p>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              icon={History}
+              title="Nenhum atendimento encontrado"
+              description="Não há atendimentos concluídos no período selecionado."
+            />
+          )}
         </div>
       </div>
-
       <HistoryDetailModal
         entry={selectedEntry}
         onClose={() => setSelectedEntryId(null)}
