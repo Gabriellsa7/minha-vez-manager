@@ -1,6 +1,10 @@
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../services/axios';
 import type { IHealthProfessional } from '../entities/health-profissional/health-professional.entity';
+import { withInvalidation } from '../../services/react-query';
+import { GET_HEALTH_PROFESSIONALS_BY_USER_ID } from './get-health-professionals-by-user-id';
+import { GET_HEALTH_PROFESSIONAL_BY_USER_ID } from './get-health-professional-by-id';
+import { GET_HEALTH_PROFESSIONALS_KEY } from './get-health-professionals';
 
 export interface UpdateHealthProfessionalParams {
   id: string;
@@ -32,5 +36,12 @@ export const useUpdateHealthProfessional = (
 ) =>
   useMutation({
     mutationFn: updateHealthProfessional,
-    ...options,
+    ...withInvalidation(
+      [
+        GET_HEALTH_PROFESSIONALS_BY_USER_ID,
+        GET_HEALTH_PROFESSIONAL_BY_USER_ID,
+        GET_HEALTH_PROFESSIONALS_KEY,
+      ],
+      options
+    ),
   });

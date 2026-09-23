@@ -1,6 +1,9 @@
 import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { apiClient } from '../../services/axios';
 import type { IHealthProfessional } from '../entities/health-profissional/health-professional.entity';
+import { withInvalidation } from '../../services/react-query';
+import { GET_HEALTH_PROFESSIONAL_BY_USER_ID } from './get-health-professional-by-id';
+import { GET_HEALTH_PROFESSIONALS_BY_USER_ID } from './get-health-professionals-by-user-id';
 
 export interface UploadHealthProfessionalImageParams {
   id: string;
@@ -35,5 +38,8 @@ export const useUploadHealthProfessionalImage = (
 ) =>
   useMutation({
     mutationFn: uploadHealthProfessionalImage,
-    ...options,
+    ...withInvalidation(
+      [GET_HEALTH_PROFESSIONAL_BY_USER_ID, GET_HEALTH_PROFESSIONALS_BY_USER_ID],
+      options
+    ),
   });
