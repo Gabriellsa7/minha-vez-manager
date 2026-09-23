@@ -7,15 +7,13 @@ import { Field } from '../../../../components/field/field';
 import { useGetExamOfferingsByHealthUnitId } from '../../../../config/api/get-exam-offerings-by-health-unit-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import type { IHealthProfessional } from '../../../../config/entities/health-profissional/health-professional.entity';
-import { queryClient } from '../../../../services/react-query';
-import { GET_PRESCRIPTIONS_BY_PATIENT_ID_KEY } from '../../api/get-prescriptions-by-patient-id';
-import { GET_PRESCRIPTIONS_BY_PROFESSIONAL_ID_KEY } from '../../api/get-prescriptions-by-professional-id';
 import { usePostPrescription } from '../../api/post-prescription';
 import {
   prescriptionFormSchema,
   type PrescriptionFormData,
 } from './entities/prescription-modal.schema';
 import style from './prescription-modal.module.scss';
+import { Select } from '../../../../components/select/select';
 
 interface PrescriptionModalProps {
   onClose: () => void;
@@ -90,18 +88,6 @@ function PrescriptionModal({
         })),
       });
 
-      await Promise.all([
-        queryClient.invalidateQueries({
-          queryKey: [GET_PRESCRIPTIONS_BY_PATIENT_ID_KEY, patientId],
-        }),
-        queryClient.invalidateQueries({
-          queryKey: [
-            GET_PRESCRIPTIONS_BY_PROFESSIONAL_ID_KEY,
-            professional._id,
-          ],
-        }),
-      ]);
-
       toast.success('Receita registrada com sucesso.');
       onClose();
     } catch (error) {
@@ -161,14 +147,14 @@ function PrescriptionModal({
                   label="Exame"
                   error={errors.exams?.[index]?.examOfferingId?.message}
                 >
-                  <select {...register(`exams.${index}.examOfferingId`)}>
+                  <Select {...register(`exams.${index}.examOfferingId`)}>
                     <option value="">Selecione um exame</option>
                     {examOfferings?.map((offering) => (
                       <option key={offering._id} value={offering._id}>
                         {offering.name}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </Field>
 
                 <button

@@ -1,31 +1,22 @@
 @use '../../vars' as *;
 
-.container {
+.mainContent {
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  width: 100%;
+}
 
-  .mainContent {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    overflow-y: auto;
+.content {
+  @include page-content;
+}
 
-    .content {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding: 40px;
-    }
+.loading {
+  color: $slate-500;
+  font-size: 14px;
+}
 
-    .emptyState {
-      color: $gray-700;
-      font-size: 14px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-    }
-  }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
 }

@@ -1,14 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight, Clock3, X } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
 import style from './mark-return-modal.module.scss';
 import type { IHealthProfessional } from '../../../../config/entities/health-profissional/health-professional.entity';
-import { GET_APPOINTMENTS_BY_PROFESSIONAL_ID_KEY } from '../../api/get-appointments-by-professional-id';
 import { useGetAvailableSlots } from '../../../../config/api/get-available-slots';
 import { useCreateAppointment } from '../../api/create-appointment';
-import { GET_QUEUE_MANAGEMENT } from '../../api/get-queue-management-by-professional-id';
-import { GET_QUEUES_BY_PROFESSIONAL_ID } from '../../api/get-queues-by-professional-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import { getDateKey, isSameMonth, startOfDay } from '../../../../config/utils';
 
@@ -30,8 +26,6 @@ function MarkReturnModal({
   patientName,
   originQueueItemId,
 }: MarkReturnModalProps) {
-  const queryClient = useQueryClient();
-
   const [calendarMonth, setCalendarMonth] = useState(() => {
     const today = new Date();
     return new Date(today.getFullYear(), today.getMonth(), 1);
@@ -170,20 +164,6 @@ function MarkReturnModal({
       {
         onSuccess: async () => {
           toast.success('Retorno agendado com sucesso.');
-          await Promise.all([
-            queryClient.invalidateQueries({
-              queryKey: [
-                GET_APPOINTMENTS_BY_PROFESSIONAL_ID_KEY,
-                professional._id,
-              ],
-            }),
-            queryClient.invalidateQueries({
-              queryKey: [GET_QUEUE_MANAGEMENT, professional._id],
-            }),
-            queryClient.invalidateQueries({
-              queryKey: [GET_QUEUES_BY_PROFESSIONAL_ID, professional._id],
-            }),
-          ]);
           onClose();
         },
         onError: handleApiError,

@@ -1,58 +1,54 @@
 import { useState } from 'react';
 import { HeaderManager } from '../../components/header-manager/header-manager';
-import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { useCurrentUser } from '../../config/api/get-current-user';
 import { useHealthProfessionalById } from '../../config/api/get-health-professional-by-id';
-import { SIDEBAR_PROFESSIONAL_MANAGER } from '../health-professional-manager/constants';
 import { useGetPrescriptionsByProfessionalId } from './api/get-prescriptions-by-professional-id';
 import { PrescriptionCard } from './components/prescription-card/prescription-card';
 import { PrescriptionDetailModal } from './components/prescription-detail-modal/prescription-detail-modal';
 import type { IPrescription } from '../../config/entities/prescription/prescription.entity';
 import style from './health-professional-prescription.module.scss';
+import { EmptyState } from '../../components/empty-state/empty-state';
+import { ClipboardPlus } from 'lucide-react';
 
 function HealthProfessionalPrescription() {
   const { data: user } = useCurrentUser();
   const { data: professional } = useHealthProfessionalById(user?._id);
-  const { data: prescriptions, isLoading } = useGetPrescriptionsByProfessionalId(
-    professional?._id
-  );
+  const { data: prescriptions, isLoading } =
+    useGetPrescriptionsByProfessionalId(professional?._id);
 
   const [selectedPrescription, setSelectedPrescription] =
     useState<IPrescription | null>(null);
 
   return (
-    <div className={style.container}>
-      <SideBar
-        pageTitle="Receitas"
-        items={SIDEBAR_PROFESSIONAL_MANAGER}
-        user={user}
-      />
+    <>
       <div className={style.mainContent}>
         <HeaderManager
           title="Receitas"
           subtitle="Histórico de receitas emitidas por você"
-          onButtonClick={() => {}}
           user={user}
         />
         <div className={style.content}>
-          {isLoading && <p className={style.emptyState}>Carregando...</p>}
+          {isLoading && <p className={style.loading}>Carregando...</p>}
 
-          {!isLoading && prescriptions?.length === 0 && (
-            <p className={style.emptyState}>
-              Ainda não há prescrições. Use o botão &quot;Prescrever&quot;
-              durante um atendimento para criar uma.
-            </p>
+          {!isLoading && !prescriptions?.length && (
+            <EmptyState
+              icon={ClipboardPlus}
+              title="Nenhuma receita emitida"
+              description="Use o botão “Prescrever” durante um atendimento para criar uma receita."
+            />
           )}
 
-          <div className={style.grid}>
-            {prescriptions?.map((prescription) => (
-              <PrescriptionCard
-                key={prescription._id}
-                prescription={prescription}
-                onClick={() => setSelectedPrescription(prescription)}
-              />
-            ))}
-          </div>
+          {Boolean(prescriptions?.length) && (
+            <div className={style.grid}>
+              {prescriptions?.map((prescription) => (
+                <PrescriptionCard
+                  key={prescription._id}
+                  prescription={prescription}
+                  onClick={() => setSelectedPrescription(prescription)}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -62,7 +58,7 @@ function HealthProfessionalPrescription() {
           onClose={() => setSelectedPrescription(null)}
         />
       )}
-    </div>
+    </>
   );
 }
 
