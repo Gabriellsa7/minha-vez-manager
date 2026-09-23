@@ -13,6 +13,7 @@ import {
 } from './entities/health-professional-modal.schema';
 import { healthProfessionalType } from '../../../../config/entities/health-profissional/health-professional.entity';
 import style from './health-professional-modal.module.scss';
+import { Select } from '../../../../components/select/select';
 
 interface HealthProfessionalModalProps {
   open: boolean;
@@ -131,7 +132,7 @@ function HealthProfessionalModal({
         </div>
         <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
           <Field label="Unidade de saúde" error={errors.healthUnitId?.message}>
-            <select
+            <Select
               {...register('healthUnitId')}
               disabled={isLoadingUnits || !hasHealthUnits}
             >
@@ -147,27 +148,27 @@ function HealthProfessionalModal({
                   {unit.name}
                 </option>
               ))}
-            </select>
+            </Select>
           </Field>
           <Field label="Nome completo" error={errors.name?.message}>
             <input {...register('name')} autoFocus />
           </Field>
           <Field label="Classificação" error={errors.type?.message}>
-            <select {...register('type')}>
+            <Select {...register('type')}>
               <option value={healthProfessionalType.GENERAL}>
                 Atendimento (consultas)
               </option>
               <option value={healthProfessionalType.EXAM_PROFESSIONAL}>
                 Profissional de exames
               </option>
-            </select>
+            </Select>
           </Field>
           <div className={style.twoColumns}>
             <Field
               label="Duração da consulta"
               error={errors.schedule?.appointmentDuration?.message}
             >
-              <select
+              <Select
                 {...register('schedule.appointmentDuration', {
                   valueAsNumber: true,
                 })}
@@ -178,7 +179,7 @@ function HealthProfessionalModal({
                 <option value={30}>30 minutos</option>
                 <option value={45}>45 minutos</option>
                 <option value={60}>60 minutos</option>
-              </select>
+              </Select>
             </Field>
           </div>
 

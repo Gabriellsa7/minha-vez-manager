@@ -3,12 +3,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Pencil, Trash2, X } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
 import style from './receptionist-detail-modal.module.scss';
 import type { IReceptionist } from '../../../../config/entities/receptionist/receptionist.entity';
 import { useUpdateReceptionist } from '../../../../config/api/update-receptionist';
 import { useDeleteReceptionist } from '../../../../config/api/delete-receptionist';
-import { GET_RECEPTIONISTS_BY_HEALTH_UNIT_ID_KEY } from '../../../../config/api/get-receptionists-by-health-unit-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import { getUserInitials } from '../../../../config/utils';
 import { Field } from '../../../../components/field/field';
@@ -37,7 +35,6 @@ function ReceptionistDetailModal({
   receptionist,
   onClose,
 }: ReceptionistDetailModalProps) {
-  const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
@@ -90,12 +87,6 @@ function ReceptionistDetailModal({
       { id: receptionist._id, data },
       {
         onSuccess: async () => {
-          await queryClient.invalidateQueries({
-            queryKey: [
-              GET_RECEPTIONISTS_BY_HEALTH_UNIT_ID_KEY,
-              receptionist.healthUnitId,
-            ],
-          });
           toast.success('Recepcionista atualizada com sucesso.');
           setIsEditing(false);
         },
@@ -107,12 +98,6 @@ function ReceptionistDetailModal({
   const handleConfirmDelete = () => {
     deleteReceptionist(receptionist._id, {
       onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: [
-            GET_RECEPTIONISTS_BY_HEALTH_UNIT_ID_KEY,
-            receptionist.healthUnitId,
-          ],
-        });
         toast.success('Recepcionista excluída com sucesso.');
         setIsConfirmDeleteOpen(false);
         onClose();

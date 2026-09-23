@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { HealthUnitSelect } from '../../components/health-unit-select/health-unit-select';
 import { useCurrentUser } from '../../config/api/get-current-user';
 import { useHealthUnitsByUserId } from '../../config/api/get-health-units-by-user-id';
 import { useReceptionistsByHealthUnitId } from '../../config/api/get-receptionists-by-health-unit-id';
-import { SIDEBAR_MANAGER_ITEMS } from '../healt-unit-manager/constants';
 import { ReceptionistModal } from './components/receptionist-modal/receptionist-modal';
 import { ReceptionistDetailModal } from './components/receptionist-detail-modal/receptionist-detail-modal';
 import { ReceptionistCard } from './components/receptionist-card/receptionist-card';
 import style from './receptionists.module.scss';
+import { EmptyState } from '../../components/empty-state/empty-state';
+import { UserPlus } from 'lucide-react';
 
 function Receptionists() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +21,8 @@ function Receptionists() {
   const [selectedHealthUnitId, setSelectedHealthUnitId] = useState<string>();
   const healthUnitId = selectedHealthUnitId ?? healthUnits?.[0]?._id;
 
-  const { data: receptionists } = useReceptionistsByHealthUnitId(healthUnitId);
+  const { data: receptionists, isLoading } =
+    useReceptionistsByHealthUnitId(healthUnitId);
 
   const selectedReceptionist =
     receptionists?.find(
@@ -30,40 +31,39 @@ function Receptionists() {
 
   return (
     <>
-      <div className={style.container}>
-        <SideBar
-          items={SIDEBAR_MANAGER_ITEMS}
-          pageTitle="Painel Manager"
+      <div className={style.mainContent}>
+        <HeaderManager
+          title="Recepcionistas"
+          subtitle="Gerencie quem pode marcar consultas e exames no balcão"
+          buttonText="Nova recepcionista"
+          onButtonClick={() => setIsModalOpen(true)}
           user={user}
         />
-        <div className={style.mainContent}>
-          <HeaderManager
-            title="Recepcionistas"
-            subtitle="Gerencie quem pode marcar consultas e exames no balcão"
-            buttonText="Nova recepcionista"
-            onButtonClick={() => setIsModalOpen(true)}
-            user={user}
-          />
-          <HealthUnitSelect
-            healthUnits={healthUnits}
-            value={healthUnitId}
-            onChange={setSelectedHealthUnitId}
-          />
-          <div className={style.receptionistsSection}>
-            {receptionists?.length ? (
-              receptionists.map((receptionist) => (
+        <HealthUnitSelect
+          healthUnits={healthUnits}
+          value={healthUnitId}
+          onChange={setSelectedHealthUnitId}
+        />
+        <div className={style.content}>
+          {receptionists?.length ? (
+            <div className={style.receptionistsSection}>
+              {receptionists.map((receptionist) => (
                 <ReceptionistCard
                   key={receptionist._id}
                   receptionist={receptionist}
                   onClick={() => setSelectedReceptionistId(receptionist._id)}
                 />
-              ))
-            ) : (
-              <p className={style.empty}>
-                Nenhuma recepcionista cadastrada ainda.
-              </p>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            !isLoading && (
+              <EmptyState
+                icon={UserPlus}
+                title="Nenhuma recepcionista cadastrada"
+                description="Recepcionistas fazem check-in e marcam consultas e exames no balcão da unidade."
+              />
+            )
+          )}
         </div>
       </div>
       <ReceptionistModal

@@ -3,12 +3,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Pencil, Trash2, X } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
 import style from './health-professional-detail-modal.module.scss';
 import type { IHealthProfessional } from '../../../../config/entities/health-profissional/health-professional.entity';
 import { useUpdateHealthProfessional } from '../../../../config/api/update-health-professional';
 import { useDeleteHealthProfessional } from '../../../../config/api/delete-health-professional';
-import { GET_HEALTH_PROFESSIONALS_BY_USER_ID } from '../../../../config/api/get-health-professionals-by-user-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import { getUserInitials } from '../../../../config/utils';
 import { Field } from '../../../../components/field/field';
@@ -17,10 +15,10 @@ import {
   healthProfessionalDetailModalSchema,
   type HealthProfessionalDetailModalFormData,
 } from './entities/health-professional-detail-modal.schema';
+import { Select } from '../../../../components/select/select';
 
 interface HealthProfessionalDetailModalProps {
   healthProfessional: IHealthProfessional;
-  userId?: string;
   onClose: () => void;
 }
 
@@ -48,10 +46,8 @@ function buildDefaultValues(
 
 function HealthProfessionalDetailModal({
   healthProfessional,
-  userId,
   onClose,
 }: HealthProfessionalDetailModalProps) {
-  const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
@@ -104,9 +100,6 @@ function HealthProfessionalDetailModal({
       { id: healthProfessional._id, data },
       {
         onSuccess: async () => {
-          await queryClient.invalidateQueries({
-            queryKey: [GET_HEALTH_PROFESSIONALS_BY_USER_ID, userId],
-          });
           toast.success('Profissional atualizado com sucesso.');
           setIsEditing(false);
         },
@@ -118,9 +111,6 @@ function HealthProfessionalDetailModal({
   const handleConfirmDelete = () => {
     deleteHealthProfessional(healthProfessional._id, {
       onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: [GET_HEALTH_PROFESSIONALS_BY_USER_ID, userId],
-        });
         toast.success('Profissional excluído com sucesso.');
         setIsConfirmDeleteOpen(false);
         onClose();
@@ -160,10 +150,7 @@ function HealthProfessionalDetailModal({
               </Field>
 
               <div className={style.twoColumns}>
-                <Field
-                  label="Especialidade"
-                  error={errors.specialty?.message}
-                >
+                <Field label="Especialidade" error={errors.specialty?.message}>
                   <input {...register('specialty')} />
                 </Field>
                 <Field label="Sala" error={errors.room?.message}>
@@ -194,7 +181,7 @@ function HealthProfessionalDetailModal({
                   label="Duração da consulta"
                   error={errors.schedule?.appointmentDuration?.message}
                 >
-                  <select
+                  <Select
                     {...register('schedule.appointmentDuration', {
                       valueAsNumber: true,
                     })}
@@ -205,7 +192,7 @@ function HealthProfessionalDetailModal({
                     <option value={30}>30 minutos</option>
                     <option value={45}>45 minutos</option>
                     <option value={60}>60 minutos</option>
-                  </select>
+                  </Select>
                 </Field>
               </div>
 
@@ -291,12 +278,9 @@ function HealthProfessionalDetailModal({
                     <span>{healthProfessional.professionalLicense}</span>
                   </div>
                   <div className={style.infoItem}>
-                    <span className={style.infoLabel}>
-                      Duração da consulta
-                    </span>
+                    <span className={style.infoLabel}>Duração da consulta</span>
                     <span>
-                      {healthProfessional.schedule.appointmentDuration}{' '}
-                      minutos
+                      {healthProfessional.schedule.appointmentDuration} minutos
                     </span>
                   </div>
                   <div className={style.infoItem}>
@@ -309,8 +293,8 @@ function HealthProfessionalDetailModal({
                   <div className={style.infoItem}>
                     <span className={style.infoLabel}>Tarde</span>
                     <span>
-                      {healthProfessional.schedule.afternoon?.start ?? '--'}{' '}
-                      às {healthProfessional.schedule.afternoon?.end ?? '--'}
+                      {healthProfessional.schedule.afternoon?.start ?? '--'} às{' '}
+                      {healthProfessional.schedule.afternoon?.end ?? '--'}
                     </span>
                   </div>
                 </div>

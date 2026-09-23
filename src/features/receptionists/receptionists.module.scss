@@ -1,25 +1,17 @@
 @use '../../vars' as *;
 
-.container {
-  display: flex;
-  min-height: 100vh;
-}
 .mainContent {
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 20px;
+}
+
+.content {
+  @include page-content;
 }
 
 .receptionistsSection {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 12px;
-  padding: 26px;
-}
-
-.empty {
-  padding: 0 26px;
-  color: $gray-600;
-  font-size: 14px;
+  gap: 16px;
 }
