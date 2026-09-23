@@ -1,18 +1,17 @@
-.container {
+@use '../../vars' as *;
+
+.mainContent {
   display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
-  height: 100vh;
+.content {
+  @include page-content;
+}
 
-  .mainContent {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-
-    .healthUnitSection {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 12px;
-      padding: 26px;
-    }
-  }
+.healthUnitSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
 }

@@ -1,27 +1,16 @@
 @use '../../../../../../vars' as *;
 
-.twoColumns,
-.addressRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.addressRow {
-  grid-template-columns: minmax(0, 2fr) minmax(88px, 0.95fr);
-}
-
 .fieldset {
   display: grid;
   gap: 12px;
   margin: 0;
-  padding: 14px 10px 2px;
+  padding: 14px 0 2px;
   border: 0;
   border-top: 1px solid $gray-200;
 }
 
 .fieldset legend {
-  padding: 0;
+  padding-right: 8px;
   color: $gray-550;
   font-size: 11px;
   font-weight: 700;
@@ -29,50 +18,19 @@
 
 .addressRow {
   display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(88px, 0.95fr);
+  gap: 10px;
+}
+
+.twoColumns {
+  display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
-.addressRow {
-  grid-template-columns: minmax(0, 2fr) minmax(88px, 0.95fr);
-}
-
-.field input,
-.field textarea {
-  box-sizing: border-box;
-  width: 100%;
-  border: 1px solid $gray-200;
-  border-radius: 15px;
-  outline: none;
-  background: $surface;
-  color: $text-primary;
-  font: inherit;
-  font-size: 13px;
-  padding: 10px 13px;
-  transition:
-    border-color 0.15s,
-    box-shadow 0.15s;
-}
-.field textarea {
-  resize: vertical;
-  min-height: 74px;
-}
-.field input:focus,
-.field textarea:focus {
-  border-color: $primary;
-  box-shadow: 0 0 0 3px rgba(8, 119, 122, 0.12);
-}
-.field input::placeholder {
-  color: $gray-450;
-}
-.error {
-  color: $danger;
-  font-size: 10px;
-  font-weight: 500;
-}
-
-.addressRow {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(88px, 0.95fr);
-  gap: 10px;
+@media (max-width: 560px) {
+  .addressRow,
+  .twoColumns {
+    grid-template-columns: 1fr;
+  }
 }

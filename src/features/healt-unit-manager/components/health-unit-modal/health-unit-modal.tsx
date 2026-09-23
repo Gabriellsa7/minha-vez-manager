@@ -3,14 +3,12 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
 import style from './health-unit-modal.module.scss';
 import {
   healthUnitModalSchema,
   type HealthUnitModalFormData,
 } from './entities/health-unit-modal.schema';
 import { usePostHealthUnit } from './api/post-health-unit';
-import { GET_HEALTH_UNITS_BY_USER_ID_KEY } from '../../../../config/api/get-health-units-by-user-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import { useCurrentUser } from '../../../../config/api/get-current-user';
 import {
@@ -22,6 +20,7 @@ import { Field } from '../../../../components/field/field';
 import { AddressSection } from './components/address-section/address-section';
 import { ServicesSection } from './components/services-section/services-section';
 import { OpeningHoursSection } from './components/opening-hours-section/opening-hours-section';
+import { Select } from '../../../../components/select/select';
 
 interface CreateHealthUnitModalProps {
   open: boolean;
@@ -57,7 +56,6 @@ const defaultValues: HealthUnitModalFormData = {
 };
 
 function HealthUnitModal({ onClose, open }: CreateHealthUnitModalProps) {
-  const queryClient = useQueryClient();
   const { data: currentUser } = useCurrentUser({ enabled: open });
   const userId = currentUser?._id;
   const { mutateAsync, isPending } = usePostHealthUnit();
@@ -117,9 +115,6 @@ function HealthUnitModal({ onClose, open }: CreateHealthUnitModalProps) {
           description: service.description || undefined,
         })),
       });
-      await queryClient.invalidateQueries({
-        queryKey: [GET_HEALTH_UNITS_BY_USER_ID_KEY, userId],
-      });
       toast.success('Unidade de saúde cadastrada com sucesso.');
       closeModal();
     } catch (error) {
@@ -155,13 +150,13 @@ function HealthUnitModal({ onClose, open }: CreateHealthUnitModalProps) {
             <input {...register('name')} autoFocus />
           </Field>
           <Field label="Tipo de unidade" error={errors.unitType?.message}>
-            <select {...register('unitType')} defaultValue="">
+            <Select {...register('unitType')} defaultValue="">
               <option value="" disabled>
                 Selecione o tipo da unidade
               </option>
               <option value={EHealthUnitType.PUBLIC}>Pública</option>
               <option value={EHealthUnitType.PRIVATE}>Privada</option>
-            </select>
+            </Select>
           </Field>
           <div className={style.twoColumns}>
             <Field label="Telefone" error={errors.phone?.message}>

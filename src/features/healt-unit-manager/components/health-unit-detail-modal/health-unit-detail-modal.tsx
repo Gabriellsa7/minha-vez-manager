@@ -3,14 +3,16 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MapPin, Pencil, Trash2, X } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
 import style from './health-unit-detail-modal.module.scss';
 import type { IHealthUnit } from '../../../../config/entities/health-unit/health-unit.entity';
 import { useUpdateHealthUnit } from '../../../../config/api/update-health-unit';
 import { useDeleteHealthUnit } from '../../../../config/api/delete-health-unit';
-import { GET_HEALTH_UNITS_BY_USER_ID_KEY } from '../../../../config/api/get-health-units-by-user-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
-import { formatPhone, formatZipCode, normalizeEmail } from '../../../../config/utils';
+import {
+  formatPhone,
+  formatZipCode,
+  normalizeEmail,
+} from '../../../../config/utils';
 import { Field } from '../../../../components/field/field';
 import { ConfirmDeleteModal } from '../../../../components/confirm-delete-modal/confirm-delete-modal';
 import {
@@ -48,7 +50,6 @@ function HealthUnitDetailModal({
   healthUnit,
   onClose,
 }: HealthUnitDetailModalProps) {
-  const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
@@ -110,9 +111,6 @@ function HealthUnitDetailModal({
       },
       {
         onSuccess: async () => {
-          await queryClient.invalidateQueries({
-            queryKey: [GET_HEALTH_UNITS_BY_USER_ID_KEY, healthUnit.userId],
-          });
           toast.success('Unidade de saúde atualizada com sucesso.');
           setIsEditing(false);
         },
@@ -124,9 +122,6 @@ function HealthUnitDetailModal({
   const handleConfirmDelete = () => {
     deleteHealthUnit(healthUnit._id, {
       onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: [GET_HEALTH_UNITS_BY_USER_ID_KEY, healthUnit.userId],
-        });
         toast.success('Unidade de saúde excluída com sucesso.');
         setIsConfirmDeleteOpen(false);
         onClose();
@@ -181,9 +176,7 @@ function HealthUnitDetailModal({
                   <input
                     {...register('email', {
                       onChange: (event) => {
-                        event.target.value = normalizeEmail(
-                          event.target.value
-                        );
+                        event.target.value = normalizeEmail(event.target.value);
                       },
                     })}
                     type="email"
@@ -198,10 +191,7 @@ function HealthUnitDetailModal({
                   <Field label="Rua" error={errors.address?.street?.message}>
                     <input {...register('address.street')} />
                   </Field>
-                  <Field
-                    label="Número"
-                    error={errors.address?.number?.message}
-                  >
+                  <Field label="Número" error={errors.address?.number?.message}>
                     <input {...register('address.number')} />
                   </Field>
                 </div>
@@ -218,10 +208,7 @@ function HealthUnitDetailModal({
                   >
                     <input {...register('address.neighborhood')} />
                   </Field>
-                  <Field
-                    label="CEP"
-                    error={errors.address?.zipCode?.message}
-                  >
+                  <Field label="CEP" error={errors.address?.zipCode?.message}>
                     <input
                       {...register('address.zipCode', {
                         onChange: (event) => {
@@ -240,10 +227,7 @@ function HealthUnitDetailModal({
                   <Field label="Cidade" error={errors.address?.city?.message}>
                     <input {...register('address.city')} />
                   </Field>
-                  <Field
-                    label="Estado"
-                    error={errors.address?.state?.message}
-                  >
+                  <Field label="Estado" error={errors.address?.state?.message}>
                     <input
                       {...register('address.state')}
                       maxLength={2}
