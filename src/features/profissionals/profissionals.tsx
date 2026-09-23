@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { useCurrentUser } from '../../config/api/get-current-user';
-import { SIDEBAR_MANAGER_ITEMS } from '../healt-unit-manager/constants';
 import { HealthProfessionalModal } from './components/health-professional-modal/health-professional-modal';
 import style from './profissionals.module.scss';
 import { useHealthProfessionalsByUserId } from '../../config/api/get-health-professionals-by-user-id';
 import { HealthProfessionalCard } from './components/health-professional-card/health-professional-card';
 import { HealthProfessionalDetailModal } from './components/health-professional-detail-modal/health-professional-detail-modal';
+import { EmptyState } from '../../components/empty-state/empty-state';
+import { Stethoscope } from 'lucide-react';
 
 function Professionals() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,9 +16,8 @@ function Professionals() {
   >(null);
   const { data: user } = useCurrentUser();
 
-  const { data: healthProfessionals } = useHealthProfessionalsByUserId(
-    user?._id
-  );
+  const { data: healthProfessionals, isLoading } =
+    useHealthProfessionalsByUserId(user?._id);
   const selectedProfessional =
     healthProfessionals?.find(
       (professional) => professional._id === selectedProfessionalId
@@ -26,28 +25,33 @@ function Professionals() {
 
   return (
     <>
-      <div className={style.container}>
-        <SideBar
-          items={SIDEBAR_MANAGER_ITEMS}
-          pageTitle="Painel Manager"
-          user={user}
+      <div className={style.mainContent}>
+        <HeaderManager
+          title="Profissionais"
+          subtitle="Gerencie os profissionais das suas unidades"
+          buttonText="Novo profissional"
+          onButtonClick={() => setIsModalOpen(true)}
         />
-        <div className={style.mainContent}>
-          <HeaderManager
-            title="Profissionais"
-            subtitle="Gerencie os profissionais das suas unidades"
-            buttonText="Novo profissional"
-            onButtonClick={() => setIsModalOpen(true)}
-          />
-          <div className={style.professionalsSection}>
-            {healthProfessionals?.map((professionals) => (
-              <HealthProfessionalCard
-                key={professionals._id}
-                healthProfessional={professionals}
-                onClick={() => setSelectedProfessionalId(professionals._id)}
+        <div className={style.content}>
+          {healthProfessionals?.length ? (
+            <div className={style.professionalsSection}>
+              {healthProfessionals.map((professional) => (
+                <HealthProfessionalCard
+                  key={professional._id}
+                  healthProfessional={professional}
+                  onClick={() => setSelectedProfessionalId(professional._id)}
+                />
+              ))}
+            </div>
+          ) : (
+            !isLoading && (
+              <EmptyState
+                icon={Stethoscope}
+                title="Nenhum profissional cadastrado"
+                description="Adicione médicos e profissionais de exame para que eles possam atender pelas filas."
               />
-            ))}
-          </div>
+            )
+          )}
         </div>
       </div>
       <HealthProfessionalModal
@@ -58,7 +62,6 @@ function Professionals() {
         <HealthProfessionalDetailModal
           key={selectedProfessional._id}
           healthProfessional={selectedProfessional}
-          userId={user?._id}
           onClose={() => setSelectedProfessionalId(null)}
         />
       )}

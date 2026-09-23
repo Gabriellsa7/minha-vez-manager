@@ -1,15 +1,13 @@
 @use '../../vars' as *;
 
-.container {
+.mainContent {
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  width: 100%;
+}
 
-  .mainContent {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    overflow-y: auto;
-  }
+.page {
+  @include page-content;
 }
 
 .content {
@@ -17,11 +15,9 @@
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 32px;
-  padding: 26px;
-
-  background: $surface;
-  margin: 26px;
-  border-radius: 20px;
+  padding: 28px;
   border: 1px solid $slate-050;
+  border-radius: 20px;
+  background: $surface;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }

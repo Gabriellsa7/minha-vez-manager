@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
 import { Field } from '../../../../components/field/field';
 import { useUpdateHealthProfessional } from '../../../../config/api/update-health-professional';
-import { GET_HEALTH_PROFESSIONALS_BY_USER_ID } from '../../../../config/api/get-health-professional-by-id';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
 import type { IHealthProfessional } from '../../../../config/entities/health-profissional/health-professional.entity';
-import { profileFormSchema, type ProfileFormData } from './entities/profile-form.schema';
+import {
+  profileFormSchema,
+  type ProfileFormData,
+} from './entities/profile-form.schema';
 import style from './profile-form.module.scss';
 
 interface ProfileFormProps {
@@ -16,8 +17,6 @@ interface ProfileFormProps {
 }
 
 function ProfileForm({ professional }: ProfileFormProps) {
-  const queryClient = useQueryClient();
-
   const {
     register,
     handleSubmit,
@@ -45,10 +44,6 @@ function ProfileForm({ professional }: ProfileFormProps) {
   const onSubmit = async (data: ProfileFormData) => {
     try {
       await mutateAsync({ id: professional._id, data });
-
-      await queryClient.invalidateQueries({
-        queryKey: [GET_HEALTH_PROFESSIONALS_BY_USER_ID, professional._id],
-      });
 
       toast.success('Perfil atualizado com sucesso.');
     } catch (error) {
@@ -92,7 +87,7 @@ function ProfileForm({ professional }: ProfileFormProps) {
 
         <div>
           <span className={style.label}>Registro profissional</span>
-          <strong>{professional.professionalLicense}</strong>
+          <strong>{professional.professionalLicense || '—'}</strong>
         </div>
 
         <div>

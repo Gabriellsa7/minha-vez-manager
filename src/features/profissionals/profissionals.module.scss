@@ -1,18 +1,17 @@
-.container {
-  display: flex;
-  height: 100vh;
-}
-.container {
-  display: flex;
-  min-height: 100vh;
-}
+@use '../../vars' as *;
+
 .mainContent {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+}
+
+.content {
+  @include page-content;
 }
 
 .professionalsSection {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 12px;
-  padding: 26px;
+  gap: 16px;
 }
