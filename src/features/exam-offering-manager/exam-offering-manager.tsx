@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { SideBar } from '../../components/side-bar/side-bar-manager';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { HealthUnitSelect } from '../../components/health-unit-select/health-unit-select';
 import { useCurrentUser } from '../../config/api/get-current-user';
 import { useHealthUnitsByUserId } from '../../config/api/get-health-units-by-user-id';
 import { useGetExamOfferingsByHealthUnitId } from '../../config/api/get-exam-offerings-by-health-unit-id';
-import { SIDEBAR_MANAGER_ITEMS } from '../healt-unit-manager/constants';
 import { ExamOfferingModal } from './components/exam-offering-modal/exam-offering-modal';
 import { ExamOfferingDetailModal } from './components/exam-offering-detail-modal/exam-offering-detail-modal';
 import { ExamOfferingCard } from './components/exam-offering-card/exam-offering-card';
 import style from './exam-offering-manager.module.scss';
 import type { IExamOffering } from '../../config/entities/exam-offering/exam-offering.entity';
+import { EmptyState } from '../../components/empty-state/empty-state';
+import { FlaskConical } from 'lucide-react';
 
 function ExamOfferingManager() {
   const [openModal, setOpenModal] = useState(false);
@@ -43,39 +43,38 @@ function ExamOfferingManager() {
 
   return (
     <>
-      <div className={style.container}>
-        <SideBar
-          items={SIDEBAR_MANAGER_ITEMS}
-          pageTitle="Painel Manager"
+      <div className={style.mainContent}>
+        <HeaderManager
+          title="Exames Disponíveis"
+          subtitle="Cadastre os exames que sua unidade realiza"
+          buttonText="Novo Exame"
+          onButtonClick={openCreateModal}
           user={user}
         />
-        <div className={style.mainContent}>
-          <HeaderManager
-            title="Exames Disponíveis"
-            subtitle="Cadastre os exames que sua unidade realiza"
-            buttonText="Novo Exame"
-            onButtonClick={openCreateModal}
-            user={user}
-          />
-          <HealthUnitSelect
-            healthUnits={healthUnits}
-            value={healthUnitId}
-            onChange={setSelectedHealthUnitId}
-          />
-          <div className={style.examOfferingSection}>
-            {examOfferings?.length ? (
-              examOfferings.map((examOffering) => (
+        <HealthUnitSelect
+          healthUnits={healthUnits}
+          value={healthUnitId}
+          onChange={setSelectedHealthUnitId}
+        />
+        <div className={style.content}>
+          {examOfferings?.length ? (
+            <div className={style.examOfferingSection}>
+              {examOfferings.map((examOffering) => (
                 <ExamOfferingCard
                   key={examOffering._id}
                   examOffering={examOffering}
                   onView={() => setViewingOffering(examOffering)}
                   onEdit={() => openEditModal(examOffering)}
                 />
-              ))
-            ) : (
-              <p className={style.empty}>Nenhum exame cadastrado ainda.</p>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              icon={FlaskConical}
+              title="Nenhum exame disponível"
+              description="Cadastre os exames que a unidade realiza para liberar o agendamento pelo app e pela recepção."
+            />
+          )}
         </div>
       </div>
       <ExamOfferingModal

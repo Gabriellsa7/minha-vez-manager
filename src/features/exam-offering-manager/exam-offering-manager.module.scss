@@ -1,26 +1,17 @@
 @use '../../vars' as *;
 
-.container {
+.mainContent {
   display: flex;
-
-  height: 100vh;
-
-  .mainContent {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    gap: 20px;
-
-    .examOfferingSection {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 12px;
-      padding: 26px;
-    }
-  }
+  flex-direction: column;
+  width: 100%;
 }
 
-.empty {
-  color: $slate-400;
-  font-size: 14px;
+.content {
+  @include page-content;
+}
+
+.examOfferingSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
 }

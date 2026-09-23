@@ -3,12 +3,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Search } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { useQueryClient } from '@tanstack/react-query';
 import { Field } from '../../../../components/field/field';
 import { useCurrentUser } from '../../../../config/api/get-current-user';
 import { useHealthUnitsByUserId } from '../../../../config/api/get-health-units-by-user-id';
 import { useGetPatientByCpf } from '../../../../config/api/get-patient-by-cpf';
-import { GET_EXAMS_BY_HEALTH_UNIT_ID_KEY } from '../../../../config/api/get-exams-by-health-unit-id';
 import { useGetExamBookingsByPatientId } from '../../../../config/api/get-exam-bookings-by-patient-id';
 import { examBookingStatus } from '../../../../config/entities/exam-booking/exam-booking.entity';
 import { handleApiError } from '../../../../config/utils/handle-api-error';
@@ -19,6 +17,7 @@ import {
   type ExamRegistrationFormData,
 } from './entities/exam-registration-form.schema';
 import style from './exam-registration-form.module.scss';
+import { Select } from '../../../../components/select/select';
 
 const ALLOWED_MIME_TYPE = 'application/pdf';
 
@@ -40,7 +39,6 @@ function readFileAsBase64(file: File): Promise<string> {
 }
 
 function ExamRegistrationForm() {
-  const queryClient = useQueryClient();
   const { data: currentUser } = useCurrentUser();
   const { data: healthUnits, isLoading: isLoadingUnits } =
     useHealthUnitsByUserId(currentUser?._id);
@@ -60,12 +58,12 @@ function ExamRegistrationForm() {
 
   const { data: patientBookings } = useGetExamBookingsByPatientId(
     patient?._id,
-    { enabled: Boolean(confirmedCpf && patient?._id) },
+    { enabled: Boolean(confirmedCpf && patient?._id) }
   );
 
   const linkableBookings = (patientBookings ?? []).filter(
     (booking) =>
-      booking.status === examBookingStatus.COMPLETED && !booking.resultExamId,
+      booking.status === examBookingStatus.COMPLETED && !booking.resultExamId
   );
 
   const { mutateAsync, isPending } = usePostExam();
@@ -143,10 +141,6 @@ function ExamRegistrationForm() {
         examBookingId: selectedBookingId || undefined,
       });
 
-      await queryClient.invalidateQueries({
-        queryKey: [GET_EXAMS_BY_HEALTH_UNIT_ID_KEY, data.healthUnitId],
-      });
-
       toast.success('Exame cadastrado com sucesso.');
       resetForm();
     } catch (error) {
@@ -198,7 +192,7 @@ function ExamRegistrationForm() {
         <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
           {linkableBookings.length > 0 && (
             <Field label="Vincular a um agendamento (opcional)">
-              <select
+              <Select
                 value={selectedBookingId}
                 onChange={(event) => setSelectedBookingId(event.target.value)}
               >
@@ -211,7 +205,7 @@ function ExamRegistrationForm() {
                     })}
                   </option>
                 ))}
-              </select>
+              </Select>
             </Field>
           )}
 
@@ -220,14 +214,14 @@ function ExamRegistrationForm() {
               label="Unidade de saúde"
               error={errors.healthUnitId?.message}
             >
-              <select {...register('healthUnitId')} disabled={isLoadingUnits}>
+              <Select {...register('healthUnitId')} disabled={isLoadingUnits}>
                 <option value="">Selecione uma unidade</option>
                 {healthUnits.map((unit) => (
                   <option key={unit._id} value={unit._id}>
                     {unit.name}
                   </option>
                 ))}
-              </select>
+              </Select>
             </Field>
           )}
 

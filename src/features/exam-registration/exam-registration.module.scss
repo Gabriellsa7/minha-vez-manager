@@ -1,31 +1,28 @@
 @use '../../vars' as *;
 
-.container {
+.mainContent {
   display: flex;
-  height: 100vh;
-
-  .mainContent {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    overflow-y: auto;
-  }
+  flex-direction: column;
+  width: 100%;
 }
 
 .content {
-  display: flex;
+  @include page-content;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 24px;
-  padding: 26px;
+  align-items: flex-start;
 }
 
 .examListSection {
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  gap: 14px;
   min-width: 320px;
 }
 
 .examListSection h2 {
-  margin: 0 0 14px;
+  padding-top: 4px;
   color: $text-primary;
   font-size: 18px;
   font-weight: 700;
@@ -35,9 +32,4 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 12px;
-}
-
-.empty {
-  color: $slate-400;
-  font-size: 14px;
 }
