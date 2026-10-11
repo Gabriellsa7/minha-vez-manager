@@ -1,4 +1,8 @@
 import { BASE_WS_URL } from '../../config/envs';
+import { authStorage } from '../../hooks/auth-storage';
+
+// Sent by the backend when the access token used in the handshake expires.
+const TOKEN_EXPIRED_CLOSE_CODE = 4401;
 
 type QueueSocketSubscriber = (payload: Record<string, unknown>) => void;
 
@@ -34,7 +38,16 @@ export class QueueSocketService {
       return;
     }
 
-    const socket = new WebSocket(BASE_WS_URL);
+    const token = authStorage.getAccessToken();
+    if (!token) {
+      console.warn('[socket] skipped: no access token');
+      return;
+    }
+
+    const separator = BASE_WS_URL.includes('?') ? '&' : '?';
+    const socket = new WebSocket(
+      `${BASE_WS_URL}${separator}token=${encodeURIComponent(token)}`
+    );
     this.socket = socket;
 
     socket.addEventListener('open', () =>
@@ -51,12 +64,16 @@ export class QueueSocketService {
         console.error('[socket] invalid message', { error, raw: event.data });
       }
     });
-    socket.addEventListener('close', () => {
+    socket.addEventListener('close', (event) => {
       if (this.socket === socket) {
         this.socket = null;
       }
 
       if (!this.shouldReconnect) return;
+      if (event.code === TOKEN_EXPIRED_CLOSE_CODE) {
+        console.warn('[socket] session expired, not reconnecting');
+        return;
+      }
 
       this.reconnectTimer = setTimeout(() => {
         this.connect();
