@@ -1,5 +1,6 @@
 import type { IQueueManagement } from '../../../../config/entities/queue-management/queue-management.entity';
 import style from './awating-queue-card.module.scss';
+import { PRIORITY_LABEL } from '../../../health-professional-history/constants';
 
 interface AwaitingQueueCardProps {
   queueManagement?: IQueueManagement;
@@ -74,7 +75,8 @@ function AwaitingQueueCard({
                       style[item.patient.priority.toLowerCase()]
                     }`}
                   >
-                    {item.patient.priority}
+                    {PRIORITY_LABEL[item.patient.priority] ??
+                      item.patient.priority}
                   </span>
                 </div>
 
