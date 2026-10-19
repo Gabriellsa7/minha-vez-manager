@@ -6,7 +6,6 @@ import { HeaderManager } from '../../components/header-manager/header-manager';
 import { useCurrentUser } from '../../config/api/get-current-user';
 import { useHealthProfessionalById } from '../../config/api/get-health-professional-by-id';
 import { queueStatus } from '../../config/entities/queue/queue.entity';
-import { useGetPrescriptionsByPatientId } from '../health-professional-prescription/api/get-prescriptions-by-patient-id';
 import { PrescriptionModal } from '../health-professional-prescription/components/prescription-modal/prescription-modal';
 import { AwaitingQueueCard } from './components/awating-queue-card/awating-queue-card';
 import { MarkReturnModal } from './components/mark-return-modal/mark-return-modal';
@@ -25,16 +24,6 @@ function HealthProfessionalManager() {
   const queue = useQueueManagement(user?._id);
 
   const currentItem = queue.queueManagement?.currentItem;
-
-  const { data: currentPatientPrescriptions } = useGetPrescriptionsByPatientId(
-    currentItem?.patient._id
-  );
-  const hasPrescriptionForCurrentItem = Boolean(
-    currentItem &&
-    currentPatientPrescriptions?.some(
-      (prescription) => prescription.queueItemId === currentItem.queueItem._id
-    )
-  );
 
   const today = new Date();
   const hasOpenQueue = Boolean(queue.queueManagement?.queue);
@@ -74,7 +63,6 @@ function HealthProfessionalManager() {
                           <NowQueueCard
                             queue={queue.queueManagement.queue}
                             currentItem={currentItem}
-                            hasPrescription={hasPrescriptionForCurrentItem}
                             onFinish={queue.finishCurrentItem}
                             onAbsent={queue.markCurrentItemAbsent}
                             onMarkReturn={() => setMarkReturnModalOpen(true)}
