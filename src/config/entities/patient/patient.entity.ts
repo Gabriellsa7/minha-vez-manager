@@ -14,7 +14,6 @@ export const patientPriority = {
   ELDERLY: 'ELDERLY',
   PREGNANT: 'PREGNANT',
   DISABLED: 'DISABLED',
-  CHRONIC_CONDITION: 'CHRONIC_CONDITION',
 } as const;
 
 export type EPatientPriority =
@@ -25,14 +24,12 @@ export const PRIORITY_LABEL: Record<EPatientPriority, string> = {
   [patientPriority.ELDERLY]: 'Idoso (60+)',
   [patientPriority.PREGNANT]: 'Gestante',
   [patientPriority.DISABLED]: 'Pessoa com deficiência (PCD)',
-  [patientPriority.CHRONIC_CONDITION]: 'Doença crônica ou condição de saúde',
 };
 
 export const PRIORITY_REASON_OPTIONS = [
   patientPriority.NORMAL,
   patientPriority.PREGNANT,
   patientPriority.DISABLED,
-  patientPriority.CHRONIC_CONDITION,
 ] as const;
 
 export const ELDERLY_AGE_THRESHOLD = 60;
