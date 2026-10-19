@@ -23,7 +23,6 @@ export const patientRegistrationModalSchema = z.object({
     patientPriority.NORMAL,
     patientPriority.PREGNANT,
     patientPriority.DISABLED,
-    patientPriority.CHRONIC_CONDITION,
   ]),
 });
 
