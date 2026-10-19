@@ -83,6 +83,7 @@ function HealthProfessionalManager() {
                         )}
                         <AwaitingQueueCard
                           onCall={queue.callQueueItem}
+                          isCalling={queue.isCallingQueueItem}
                           queueManagement={queue.queueManagement}
                         />
                       </div>

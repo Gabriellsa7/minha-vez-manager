@@ -4,11 +4,13 @@ import style from './awating-queue-card.module.scss';
 interface AwaitingQueueCardProps {
   queueManagement?: IQueueManagement;
   onCall: (item: string) => void;
+  isCalling?: boolean;
 }
 
 function AwaitingQueueCard({
   queueManagement,
   onCall,
+  isCalling = false,
 }: AwaitingQueueCardProps) {
   const nextQueueItemId = queueManagement?.nextQueueItemId;
 
@@ -94,9 +96,10 @@ function AwaitingQueueCard({
                 {canCall && isNext && (
                   <button
                     className={style.callButton}
+                    disabled={isCalling}
                     onClick={() => onCall(item.queueItem._id)}
                   >
-                    Chamar paciente
+                    {isCalling ? 'Chamando...' : 'Chamar paciente'}
                   </button>
                 )}
               </div>
