@@ -6,7 +6,6 @@ import style from './now-queue-card.module.scss';
 interface INowQueueCardProps {
   queue: IQueue;
   currentItem: IQueueManagementItem | null;
-  hasPrescription: boolean;
   onFinish?: () => void;
   onAbsent?: () => void;
   onMarkReturn?: () => void;
@@ -15,7 +14,6 @@ interface INowQueueCardProps {
 
 function NowQueueCard({
   currentItem,
-  hasPrescription,
   onFinish,
   onAbsent,
   onMarkReturn,
@@ -24,16 +22,11 @@ function NowQueueCard({
   if (!currentItem) return null;
 
   const hasReturnHandled = currentItem.isReturn || currentItem.returnScheduled;
-  const canFinish = hasReturnHandled && hasPrescription;
+  const canFinish = hasReturnHandled;
 
-  const missingSteps = [
-    !hasReturnHandled && 'marque o retorno do paciente',
-    !hasPrescription && 'registre uma receita',
-  ].filter((step): step is string => Boolean(step));
-
-  const finishHint = missingSteps.length
-    ? `${missingSteps.join(' e ').replace(/^./, (char) => char.toUpperCase())} antes de concluir o atendimento.`
-    : undefined;
+  const finishHint = hasReturnHandled
+    ? undefined
+    : 'Marque o retorno do paciente antes de concluir o atendimento.';
 
   return (
     <div className={style.container}>
