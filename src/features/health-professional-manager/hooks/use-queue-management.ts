@@ -59,7 +59,8 @@ export function useQueueManagement(professionalId?: string) {
   const { mutate: finishQueueItem } = useFinishQueueItem(mutationOptions);
   const { mutate: markQueueItemAsAbsent } =
     useMarkQueueItemAsAbsent(mutationOptions);
-  const { mutate: callQueueItem } = useCallQueueItem(mutationOptions);
+  const { mutate: callQueueItem, isPending: isCallingQueueItem } =
+    useCallQueueItem(mutationOptions);
   const {
     mutate: openQueue,
     isPending: isOpeningQueue,
@@ -107,6 +108,7 @@ export function useQueueManagement(professionalId?: string) {
     openQueue: (queueId: string) => openQueue(queueId),
     requestCloseQueue,
     confirmCloseWithReason,
+    isCallingQueueItem,
     callQueueItem: (queueItemId: string) => callQueueItem(queueItemId),
     finishCurrentItem: () => currentItemId && finishQueueItem(currentItemId),
     markCurrentItemAbsent: () =>
