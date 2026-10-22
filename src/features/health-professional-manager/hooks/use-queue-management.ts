@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useCloseQueue } from '../../../config/api/close-queue';
 import {
   GET_QUEUE_ITEM_BY_QUEUE_ID,
@@ -56,9 +57,26 @@ export function useQueueManagement(professionalId?: string) {
     onError: handleApiError,
   };
 
-  const { mutate: finishQueueItem } = useFinishQueueItem(mutationOptions);
-  const { mutate: markQueueItemAsAbsent } =
-    useMarkQueueItemAsAbsent(mutationOptions);
+  const { mutate: finishQueueItem, isPending: isFinishingQueueItem } =
+    useFinishQueueItem({
+      ...mutationOptions,
+      onSuccess: () => {
+        toast.success('Atendimento concluído.');
+        invalidateQueues();
+      },
+    });
+  const { mutate: markQueueItemAsAbsent, isPending: isMarkingAbsent } =
+    useMarkQueueItemAsAbsent({
+      ...mutationOptions,
+      onSuccess: (queueItem) => {
+        toast.success(
+          queueItem.status === QueueItemStatus.ABSENT
+            ? 'Segunda ausência registrada. A consulta foi cancelada e o paciente foi avisado.'
+            : 'Ausência registrada. O paciente voltou para o final da fila.'
+        );
+        invalidateQueues();
+      },
+    });
   const { mutate: callQueueItem, isPending: isCallingQueueItem } =
     useCallQueueItem(mutationOptions);
   const {
@@ -110,8 +128,10 @@ export function useQueueManagement(professionalId?: string) {
     confirmCloseWithReason,
     isCallingQueueItem,
     callQueueItem: (queueItemId: string) => callQueueItem(queueItemId),
+    isFinishingQueueItem,
+    isMarkingAbsent,
     finishCurrentItem: () => currentItemId && finishQueueItem(currentItemId),
-    markCurrentItemAbsent: () =>
-      currentItemId && markQueueItemAsAbsent(currentItemId),
+    markCurrentItemAbsent: (options?: { onSuccess?: () => void }) =>
+      currentItemId && markQueueItemAsAbsent(currentItemId, options),
   };
 }

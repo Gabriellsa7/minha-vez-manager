@@ -7,6 +7,8 @@ interface ConfirmDeleteModalProps {
   title: string;
   description: string;
   isDeleting?: boolean;
+  confirmLabel?: string;
+  pendingLabel?: string;
   onCancel: () => void;
   onConfirm: () => void;
 }
@@ -16,6 +18,8 @@ function ConfirmDeleteModal({
   title,
   description,
   isDeleting,
+  confirmLabel = 'Confirmar exclusão',
+  pendingLabel = 'Excluindo...',
   onCancel,
   onConfirm,
 }: ConfirmDeleteModalProps) {
@@ -70,7 +74,7 @@ function ConfirmDeleteModal({
             onClick={onConfirm}
             disabled={isDeleting}
           >
-            {isDeleting ? 'Excluindo...' : 'Confirmar exclusão'}
+            {isDeleting ? pendingLabel : confirmLabel}
           </button>
         </div>
       </div>

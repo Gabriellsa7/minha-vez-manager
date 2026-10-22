@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ListX } from 'lucide-react';
 import { CloseQueueReasonModal } from '../../components/close-queue-reason-modal/close-queue-reason-modal';
+import { ConfirmDeleteModal } from '../../components/confirm-delete-modal/confirm-delete-modal';
 import { EmptyState } from '../../components/empty-state/empty-state';
 import { HeaderManager } from '../../components/header-manager/header-manager';
 import { useCurrentUser } from '../../config/api/get-current-user';
@@ -18,12 +19,14 @@ import { hasShiftStarted, isSameDay } from './utils/queue-schedule';
 function HealthProfessionalManager() {
   const [isMarkReturnModalOpen, setMarkReturnModalOpen] = useState(false);
   const [isPrescriptionModalOpen, setPrescriptionModalOpen] = useState(false);
+  const [isAbsentConfirmOpen, setAbsentConfirmOpen] = useState(false);
 
   const { data: user } = useCurrentUser();
   const { data: professional } = useHealthProfessionalById(user?._id);
   const queue = useQueueManagement(user?._id);
 
   const currentItem = queue.queueManagement?.currentItem;
+  const isSecondAbsence = (currentItem?.queueItem.missedCalls ?? 0) > 0;
 
   const today = new Date();
   const hasOpenQueue = Boolean(queue.queueManagement?.queue);
@@ -64,7 +67,9 @@ function HealthProfessionalManager() {
                             queue={queue.queueManagement.queue}
                             currentItem={currentItem}
                             onFinish={queue.finishCurrentItem}
-                            onAbsent={queue.markCurrentItemAbsent}
+                            onAbsent={() => setAbsentConfirmOpen(true)}
+                            isFinishing={queue.isFinishingQueueItem}
+                            isMarkingAbsent={queue.isMarkingAbsent}
                             onMarkReturn={() => setMarkReturnModalOpen(true)}
                             onPrescribe={() => setPrescriptionModalOpen(true)}
                           />
@@ -108,6 +113,25 @@ function HealthProfessionalManager() {
           queueItemId={currentItem.queueItem._id}
         />
       )}
+
+      <ConfirmDeleteModal
+        open={isAbsentConfirmOpen && Boolean(currentItem)}
+        title="Registrar ausência?"
+        description={
+          isSecondAbsence
+            ? `Esta é a segunda ausência de ${currentItem?.user.name}. A consulta será cancelada e o paciente será avisado pelo app.`
+            : `${currentItem?.user.name} voltará para o final da fila e será chamado de novo. Na segunda ausência, a consulta é cancelada.`
+        }
+        confirmLabel="Registrar ausência"
+        pendingLabel="Registrando..."
+        isDeleting={queue.isMarkingAbsent}
+        onCancel={() => setAbsentConfirmOpen(false)}
+        onConfirm={() =>
+          queue.markCurrentItemAbsent({
+            onSuccess: () => setAbsentConfirmOpen(false),
+          })
+        }
+      />
 
       {queue.closeReasonQueueId && (
         <CloseQueueReasonModal

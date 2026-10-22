@@ -8,6 +8,8 @@ interface INowQueueCardProps {
   currentItem: IQueueManagementItem | null;
   onFinish?: () => void;
   onAbsent?: () => void;
+  isFinishing?: boolean;
+  isMarkingAbsent?: boolean;
   onMarkReturn?: () => void;
   onPrescribe?: () => void;
 }
@@ -16,6 +18,8 @@ function NowQueueCard({
   currentItem,
   onFinish,
   onAbsent,
+  isFinishing,
+  isMarkingAbsent,
   onMarkReturn,
   onPrescribe,
 }: INowQueueCardProps) {
@@ -23,6 +27,7 @@ function NowQueueCard({
 
   const hasReturnHandled = currentItem.isReturn || currentItem.returnScheduled;
   const canFinish = hasReturnHandled;
+  const isBusy = Boolean(isFinishing || isMarkingAbsent);
 
   const finishHint = hasReturnHandled
     ? undefined
@@ -51,13 +56,17 @@ function NowQueueCard({
           <button
             className={style.finishButton}
             onClick={onFinish}
-            disabled={!canFinish}
+            disabled={!canFinish || isBusy}
             title={finishHint}
           >
-            Concluir
+            {isFinishing ? 'Concluindo...' : 'Concluir'}
           </button>
-          <button className={style.absentButton} onClick={onAbsent}>
-            Ausente
+          <button
+            className={style.absentButton}
+            onClick={onAbsent}
+            disabled={isBusy}
+          >
+            {isMarkingAbsent ? 'Registrando...' : 'Ausente'}
           </button>
           {!hasReturnHandled && (
             <button className={style.returnButton} onClick={onMarkReturn}>

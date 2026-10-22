@@ -6,6 +6,7 @@ export interface IQueueItem {
   position: number | null;
   priority: EQueueItemPriority;
   status: EQueueItemStatus;
+  missedCalls?: number;
   scheduledDateTime?: Date;
   isWalkIn?: boolean;
   checkInTime?: Date;
