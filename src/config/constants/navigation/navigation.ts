@@ -10,6 +10,7 @@ import {
   Hospital,
   ListChecks,
   MonitorCog,
+  ShieldUser,
   Stethoscope,
   Upload,
   UserPlus,
@@ -48,6 +49,17 @@ export const ADMIN_NAVIGATION: DashboardNavigation = {
       path: '/exam-availability',
     },
     { title: 'Agenda de Exames', icon: ListChecks, path: '/exam-bookings' },
+  ],
+};
+
+export const SUPER_ADMIN_NAVIGATION: DashboardNavigation = {
+  title: 'Administração da Rede',
+  items: [
+    {
+      title: 'Administradores das clínicas',
+      icon: ShieldUser,
+      path: '/admins',
+    },
   ],
 };
 
@@ -112,6 +124,7 @@ export function resolveNavigation(user?: IUser): DashboardNavigation | null {
       : HEALTH_PROFESSIONAL_NAVIGATION;
   }
 
+  if (user.role === UserRole.SUPER_ADMIN) return SUPER_ADMIN_NAVIGATION;
   if (user.role === UserRole.ADMIN) return ADMIN_NAVIGATION;
 
   return null;

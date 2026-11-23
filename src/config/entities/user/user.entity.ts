@@ -13,7 +13,10 @@ export interface IUser {
   createdAt?: Date;
 }
 
+// SUPER_ADMIN: network administrator, creates the clinic administrators.
+// ADMIN: clinic administrator, manages its own health units.
 export const UserRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
   USER: 'USER',
 } as const;

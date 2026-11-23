@@ -67,6 +67,10 @@ function Login() {
       }
 
       switch (response.principal.role) {
+        case UserRole.SUPER_ADMIN:
+          navigate('/admins');
+          break;
+
         case UserRole.ADMIN:
           navigate('/');
           break;

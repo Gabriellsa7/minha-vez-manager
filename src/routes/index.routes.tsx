@@ -34,6 +34,7 @@ import { ReceptionAppointments } from '../features/reception/appointments/recept
 import { ReceptionExams } from '../features/reception/exams/reception-exams';
 import { ReceptionProfile } from '../features/reception/profile/reception-profile';
 import { ReceptionCheckIn } from '../features/reception/check-in/reception-check-in';
+import { ClinicAdmins } from '../features/clinic-admins/clinic-admins';
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +51,17 @@ export const router = createBrowserRouter([
           {
             element: <AppLayout />,
             children: [
+              {
+                element: (
+                  <AuthorizationOutlet allowedRoles={[UserRole.SUPER_ADMIN]} />
+                ),
+                children: [
+                  {
+                    path: '/admins',
+                    element: <ClinicAdmins />,
+                  },
+                ],
+              },
               {
                 element: (
                   <AuthorizationOutlet allowedRoles={[UserRole.ADMIN]} />
