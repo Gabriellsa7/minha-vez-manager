@@ -3,6 +3,7 @@ import { apiClient } from '../../services/axios';
 import type { IAppointment } from '../entities/appointments/appointment.entity';
 import { withInvalidation } from '../../services/react-query';
 import { GET_AVAILABLE_SLOTS_KEY } from './get-available-slots';
+import { GET_PATIENT_BY_CPF_KEY } from './get-patient-by-cpf';
 
 export interface CreateAppointmentParams {
   patientId: string;
@@ -26,5 +27,8 @@ export const usePostAppointment = (
 ) =>
   useMutation({
     mutationFn: postAppointment,
-    ...withInvalidation([GET_AVAILABLE_SLOTS_KEY], options),
+    ...withInvalidation(
+      [GET_AVAILABLE_SLOTS_KEY, GET_PATIENT_BY_CPF_KEY],
+      options
+    ),
   });

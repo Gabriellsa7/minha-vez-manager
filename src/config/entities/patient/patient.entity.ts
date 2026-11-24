@@ -7,6 +7,17 @@ export interface IPatient {
   phone: string;
   createdAt: Date;
   updatedAt: Date;
+  // Only sent by the CPF search: the next scheduled or in-progress appointment
+  // from today on. Staff of another unit get only its date.
+  upcomingAppointment?: IUpcomingAppointment | null;
+}
+
+export interface IUpcomingAppointment {
+  _id?: string;
+  dateTime: string;
+  status?: 'SCHEDULED' | 'IN_PROGRESS';
+  professionalId?: string;
+  healthUnitId?: string;
 }
 
 export const patientPriority = {
